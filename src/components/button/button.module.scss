@@ -1,0 +1,53 @@
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  &_bold {
+    font-weight: 700;
+  }
+  &_extraBold {
+    font-weight: 800;
+  }
+  &_primary {
+    padding: 10px 30px;
+    border: 2px solid var(--foreground);
+    border-radius: 20px;
+    font-size: 14px;
+    line-height: 16px;
+    background-color: var(--foreground);
+    color: var(--background);
+  }
+  &_secondary {
+    padding: 10px 30px;
+    border: 2px solid var(--foreground);
+    border-radius: 20px;
+    font-size: 14px;
+    line-height: 16px;
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+  &_large {
+    border-width: 3px;
+    padding: 16px 60px;
+    border-radius: 30px;
+    font-size: 16px;
+    line-height: 22px;
+    text-transform: uppercase;
+  }
+  &_big {
+    padding: 18px 30px;
+    border-radius: 42px;
+    font-size: 24px;
+    line-height: 36px;
+    text-transform: uppercase;
+  }
+}
