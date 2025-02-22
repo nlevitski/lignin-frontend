@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 0;
+  >p {
+    margin-bottom: 8px;
+  }
+}
+.articles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.title {
+  margin-bottom: 8px;
+  padding: 8px 0;
+}
+.aboutUsList {
+  margin-bottom: 8px;
+  >li {
+    list-style: disc;
+  }
+}
+.subtitle {
+  padding: 12px 0;
+  font-weight: 400;
+}
+.upper {
+  text-transform: uppercase;
+}

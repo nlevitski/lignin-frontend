@@ -10,6 +10,9 @@ type ButtonProps = {
 	large?: boolean;
 	big?: boolean;
 	href?: string;
+	onClick?: (
+		e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+	) => void;
 };
 
 export const Button = ({
@@ -20,6 +23,7 @@ export const Button = ({
 	large = false,
 	big = false,
 	extraBold = false,
+	onClick,
 }: ButtonProps) => {
 	const resultCx = cx('button', `button_${type}`, {
 		button_bold: bold,
@@ -28,10 +32,12 @@ export const Button = ({
 		button_large: large,
 	});
 	return href ? (
-		<a href={href} className={resultCx}>
+		<a href={href} className={resultCx} onClick={onClick}>
 			{value}
 		</a>
 	) : (
-		<button className={resultCx}>{value}</button>
+		<button className={resultCx} onClick={onClick}>
+			{value}
+		</button>
 	);
 };

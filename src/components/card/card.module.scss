@@ -1,0 +1,15 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 0;
+}
+
+.caption {
+    font-size: 10px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--foreground);
+    text-transform: uppercase;
+  }

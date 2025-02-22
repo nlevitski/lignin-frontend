@@ -1,0 +1,24 @@
+.panel {
+  display: flex;
+  justify-content: space-around;
+  align-items: start;
+  padding: 40px 0;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.img {
+  aspect-ratio: 1;
+  flex: 1 1 0;
+  margin: 32px auto;
+  max-width: 300px;
+  border-radius: 50%;
+}
+
+.caption {
+  font-size: 18px;
+  line-height: 1.5;
+}
