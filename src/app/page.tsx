@@ -1,11 +1,13 @@
 // import Image from "next/image";
+import { Brief } from '@/components/brief/Brief';
 import styles from './page.module.scss';
-import { Button } from '@/components/button/Button';
 import { Card } from '@/components/card/Card';
 import { Feedback } from '@/components/feedback/Feedback';
+import { Hero } from '@/components/hero/Hero';
 import { Samples } from '@/components/samples/Samples';
 import { Widget } from '@/components/widget/Widget';
-const phoneNumber = '+375297290243';
+import { Button } from '@/components/button/Button';
+// const phoneNumber = '+375297290243';
 type Feature = {
 	imgUrl: string;
 	imgAlt: string;
@@ -44,6 +46,7 @@ const articles = [
 			'Лигнин в качестве удобрения. Повышение урожайности и качества почвы',
 		subtitle: 'Лигнин – субстрат для выращивания овощей',
 		bgImgUrl: '/images/webp/articles/000_fertilizer.webp',
+		articleUrl: '/articles/#',
 	},
 	{
 		title:
@@ -51,34 +54,32 @@ const articles = [
 		subtitle:
 			'Лигнин можно применять в производстве кирпича в качестве выгорающей добавки',
 		bgImgUrl: '/images/webp/articles/001_burnoutagent.webp',
+		articleUrl: '/articles/#',
 	},
 	{
 		title: 'Вторая жизнь лигнина. Удобрение. Плодородие и улучшение почвы',
 		subtitle: 'Лигнин в качестве органической добавки предпринимались давно',
 		bgImgUrl: '/images/webp/articles/002_soil.webp',
+		articleUrl: '/articles/#',
 	},
 	{
 		title: 'Применение лигнин для производства асфальта',
 		subtitle: 'Лигнин - связующее вещество для асфальтирования дорог',
 		bgImgUrl: '/images/webp/articles/003_asphalt.webp',
+		articleUrl: '/articles/#',
 	},
 ];
 export default function Home() {
 	return (
 		<div>
-			<Button
-				href={`tel:${phoneNumber}`}
-				value={false ? '+375 29 729 02 43' : 'Оставить заявку'}
-				bold
-				big
-				extraBold
-			/>
-			<Button
-				href={`tel:${phoneNumber}`}
-				value={false ? '+375 29 729 02 43' : 'Читать далее'}
-				type={'secondary'}
-				bold
-				large
+			<Hero />
+			<Brief
+				title={'Лигнин, что это?'}
+				content={['some', 'any', 'every']}
+				readMoreUrl={'/articles'}
+				imgUrl={'/images/webp/articles/000_fertilizer.webp'}
+				bgUrl={'/images/backgrounds/'}
+				imgCaption={'fertilizer'}
 			/>
 			<div className={styles.container}>
 				<div className={styles.widgets}>
@@ -88,13 +89,21 @@ export default function Home() {
 							title={a.title}
 							subtitle={a.subtitle}
 							bgImgUrl={a.bgImgUrl}
+							articleUrl={a.articleUrl}
 						/>
 					))}
 				</div>
+				<Button
+					href={`/articles`}
+					value={'Читать другие статьи'}
+					type={'secondary'}
+					bold
+					large
+				/>
 			</div>
 			<div className={styles.container}>
 				<h2 className={`${styles.title} ${styles.upper}`}>О нас</h2>
-				<p>
+				<p className={styles.center}>
 					Компания в 2018 году занялась переработкой и высокой очисткой
 					гидролизного лигнина, чистота которого позволяет широко использовать
 					его в различных сферах.
@@ -120,7 +129,7 @@ export default function Home() {
 						биг-бэги. Самовывоз или доставка.
 					</li>
 				</ul>
-				<p>
+				<p className={styles.center}>
 					Работаем с компаниями из Беларуси, России, Украины, Узбекистана,
 					Казахстана, Польши, Литвы, Латвии и другими странами.
 				</p>
@@ -131,7 +140,7 @@ export default function Home() {
 				<Samples />
 			</div>
 			<Feedback />
-			<div>
+			<div className={styles.features}>
 				{features.map((f) => (
 					<Card
 						key={f.caption}

@@ -1,5 +1,6 @@
 import styles from './button.module.scss';
 import classNames from 'classnames/bind';
+import Link from 'next/link';
 
 const cx = classNames.bind(styles);
 type ButtonProps = {
@@ -32,9 +33,9 @@ export const Button = ({
 		button_large: large,
 	});
 	return href ? (
-		<a href={href} className={resultCx} onClick={onClick}>
+		<Link href={href} className={resultCx} onClick={onClick}>
 			{value}
-		</a>
+		</Link>
 	) : (
 		<button className={resultCx} onClick={onClick}>
 			{value}
