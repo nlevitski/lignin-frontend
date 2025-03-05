@@ -11,6 +11,9 @@
   color: inherit;
   cursor: pointer;
   outline: none;
+  &_semibold {
+    font-weight: 600;
+  }
   &_bold {
     font-weight: 700;
   }

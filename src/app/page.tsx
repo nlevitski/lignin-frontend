@@ -7,7 +7,18 @@ import { Hero } from '@/components/hero/Hero';
 import { Samples } from '@/components/samples/Samples';
 import { Widget } from '@/components/widget/Widget';
 import { Button } from '@/components/button/Button';
+import { getArticles } from '@/dal/articles';
+import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 // const phoneNumber = '+375297290243';
+type Pagination = {
+	page: number;
+	pageSize: number;
+	pageCount: number;
+	total: number;
+};
+export type ArticlesMeta = {
+	pagination: Pagination;
+};
 type Feature = {
 	imgUrl: string;
 	imgAlt: string;
@@ -69,30 +80,37 @@ const articles = [
 		articleUrl: '/articles/#',
 	},
 ];
-export default function Home() {
+export default async function Home() {
+	const { data } = await getArticles();
+
 	return (
 		<div>
 			<Hero />
 			<Brief
 				title={'Лигнин, что это?'}
-				content={['some', 'any', 'every']}
 				readMoreUrl={'/articles'}
 				imgUrl={'/images/webp/articles/000_fertilizer.webp'}
 				bgUrl={'/images/backgrounds/'}
 				imgCaption={'fertilizer'}
-			/>
+			>
+				{['some', 'any', 'every'].map((unit, i) => (
+					<p key={i}>{unit}</p>
+				))}
+			</Brief>
+			<BlocksRenderer content={data[21].content.slice(0, 5)} />
 			<div className={styles.container}>
-				<div className={styles.widgets}>
+				<ul className={styles.widgets}>
 					{articles.map((a, i) => (
-						<Widget
-							key={i}
-							title={a.title}
-							subtitle={a.subtitle}
-							bgImgUrl={a.bgImgUrl}
-							articleUrl={a.articleUrl}
-						/>
+						<li className={styles.widgetItem} key={i}>
+							<Widget
+								title={a.title}
+								subtitle={a.subtitle}
+								bgImgUrl={a.bgImgUrl}
+								articleUrl={a.articleUrl}
+							/>
+						</li>
 					))}
-				</div>
+				</ul>
 				<Button
 					href={`/articles`}
 					value={'Читать другие статьи'}

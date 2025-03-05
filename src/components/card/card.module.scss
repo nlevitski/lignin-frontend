@@ -5,15 +5,23 @@
   align-items: center;
   flex-grow: 1;
   flex-shrink: 1;
-  flex-basis: 0;
-  max-width: calc(33.33% - 32px);
+  flex-basis: auto;
+  
+  overflow: hidden;
 }
 
 .caption {
-    font-size: 10px;
-    line-height: 1.2;
-    font-weight: 700;
-    color: var(--foreground);
-    text-transform: uppercase;
-    text-align: center;
+  max-width: 96px;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--foreground);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+@media (min-width: 961px) {
+  .card {
+    max-width: calc(20% - 16px);
   }
+}

@@ -8,10 +8,19 @@
     margin-bottom: 8px;
   }
 }
+.widgets {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+  list-style: none;
+  padding: 16px;
+}
+
 .features {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: start;
   gap: 16px;
 }
@@ -41,4 +50,18 @@
 }
 .upper {
   text-transform: uppercase;
+}
+
+@media (min-width: 961px) {
+  .widgets {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .widgetItem {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    max-width: calc(33.33% - 12px);
+  }
 }

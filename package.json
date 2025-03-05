@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@strapi/blocks-react-renderer": "^1.0.2",
     "classnames": "^2.5.1",
     "next": "15.1.7",
     "normalize.css": "^8.0.1",

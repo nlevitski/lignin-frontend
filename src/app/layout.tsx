@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import './globals.css';
 import { Footer } from '@/components/footer/Footer';
+import { Menu } from '@/components/menu/Menu';
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -23,6 +24,7 @@ export default function RootLayout({
 	return (
 		<html lang='ru'>
 			<body className={`${montserrat.variable}`}>
+				<Menu />
 				{children}
 				<Footer />
 			</body>

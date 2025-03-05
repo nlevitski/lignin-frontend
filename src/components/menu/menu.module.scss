@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 32px;
+  overflow: hidden;
+  z-index: 1;
+}
+.navMenu {
+  display: flex;
+  flex-direction: column;
+  order: 0;
+  white-space: nowrap;
+}
+.navItem {
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--foreground);
+  list-style: none;
+}
