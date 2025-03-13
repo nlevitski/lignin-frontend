@@ -4,4 +4,10 @@
   align-items: center;
   height: auto;
   width: 129px;
+  -webkit-align-items: center;
+  svg {
+    width: 100%;
+    height: auto;
+    color: inherit;
+  }
 }

@@ -10,7 +10,7 @@ export const Feedback = () => {
 		console.log('---->');
 	};
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} id='feedback-section'>
 			<h2 className={`${styles.title} ${styles.upper}`}>
 				Получить коммерческое предложение по email
 			</h2>

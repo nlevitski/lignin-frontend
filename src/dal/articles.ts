@@ -6,12 +6,14 @@ type Pagination = {
 	pageCount: number;
 	total: number;
 };
-export type ArticlesResponse = {
-	data: ArticleItem[];
-	meta: {
-		pagination: Pagination;
-	};
+export type ArticlesResponse<T> = {
+	data: T;
+	meta: Meta;
 };
+type Meta = {
+	pagination: Pagination;
+};
+
 export type ArticleItem = {
 	id: number;
 	documentId: string;
@@ -61,9 +63,21 @@ type Cover = {
 	publishedAt: string;
 };
 
-export async function getArticles(): Promise<ArticlesResponse> {
+export async function getArticles(): Promise<ArticlesResponse<ArticleItem[]>> {
 	return fetch('http://localhost:1337/api/articles?populate=cover', {
-		cache: 'no-cache',
+		cache: 'force-cache',
 		next: { revalidate: 3600 },
 	}).then((res) => res.json());
+}
+
+export async function getArticleByDocumentId(
+	documentId: string
+): Promise<ArticlesResponse<ArticleItem>> {
+	return fetch(
+		`http://localhost:1337/api/articles/${documentId}?populate=cover`,
+		{
+			cache: 'force-cache',
+			next: { revalidate: 3600 },
+		}
+	).then((res) => res.json());
 }

@@ -11,7 +11,10 @@ type ButtonProps = {
 	extraBold?: boolean;
 	large?: boolean;
 	big?: boolean;
+	reducePaddingH?: boolean;
+	alpha50?: boolean;
 	href?: string;
+
 	onClick?: (
 		e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
 	) => void;
@@ -26,6 +29,8 @@ export const Button = ({
 	large = false,
 	big = false,
 	extraBold = false,
+	reducePaddingH = false,
+	alpha50 = false,
 	onClick,
 }: ButtonProps) => {
 	const resultCx = cx('button', `button_${type}`, {
@@ -34,6 +39,8 @@ export const Button = ({
 		button_big: big,
 		button_extraBold: extraBold,
 		button_large: large,
+		button_reducePaddingH: reducePaddingH,
+		button_alpha50: alpha50,
 	});
 	return href ? (
 		<Link href={href} className={resultCx} onClick={onClick}>

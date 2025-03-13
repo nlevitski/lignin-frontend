@@ -32,6 +32,17 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.no-scroll {
+  overflow-y: hidden;
+  height: 100vh;
+  
+}
+@media (min-width: 961px) {
+  .no-scroll {
+    overflow-y: auto;
+    height: auto;
+  }
+}
 
 /* @media (prefers-color-scheme: dark) {
   :root {

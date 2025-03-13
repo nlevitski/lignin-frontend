@@ -2,7 +2,6 @@
 import { Brief } from '@/components/brief/Brief';
 import styles from './page.module.scss';
 import { Card } from '@/components/card/Card';
-import { Feedback } from '@/components/feedback/Feedback';
 import { Hero } from '@/components/hero/Hero';
 import { Samples } from '@/components/samples/Samples';
 import { Widget } from '@/components/widget/Widget';
@@ -97,6 +96,16 @@ export default async function Home() {
 					<p key={i}>{unit}</p>
 				))}
 			</Brief>
+			<div className={styles.features}>
+				{features.map((f) => (
+					<Card
+						key={f.caption}
+						imgUrl={f.imgUrl}
+						imgAlt={f.imgAlt}
+						caption={f.caption}
+					/>
+				))}
+			</div>
 			<BlocksRenderer content={data[21].content.slice(0, 5)} />
 			<div className={styles.container}>
 				<ul className={styles.widgets}>
@@ -119,7 +128,7 @@ export default async function Home() {
 					large
 				/>
 			</div>
-			<div className={styles.container}>
+			<div className={styles.container} id='about-us-section'>
 				<h2 className={`${styles.title} ${styles.upper}`}>О нас</h2>
 				<p className={styles.center}>
 					Компания в 2018 году занялась переработкой и высокой очисткой
@@ -156,17 +165,6 @@ export default async function Home() {
 					производства
 				</h3>
 				<Samples />
-			</div>
-			<Feedback />
-			<div className={styles.features}>
-				{features.map((f) => (
-					<Card
-						key={f.caption}
-						imgUrl={f.imgUrl}
-						imgAlt={f.imgAlt}
-						caption={f.caption}
-					/>
-				))}
 			</div>
 		</div>
 	);

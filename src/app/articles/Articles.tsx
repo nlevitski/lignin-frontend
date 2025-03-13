@@ -1,11 +1,10 @@
 import styles from './articles.module.scss';
-// import { ArticlesMeta } from '../page';
 import Image from 'next/image';
-import { ArticlesResponse } from '@/dal/articles';
-import { Feedback } from '@/components/feedback/Feedback';
+import { ArticleItem, ArticlesResponse } from '@/dal/articles';
+import Link from 'next/link';
 
 type ArticlesProps = {
-	articles: ArticlesResponse;
+	articles: ArticlesResponse<ArticleItem[]>;
 };
 
 export const Articles = ({ articles }: ArticlesProps) => {
@@ -40,12 +39,12 @@ export const Articles = ({ articles }: ArticlesProps) => {
 									</p>
 									<p className={styles.articleAnnotation}>{article.subtitle}</p>
 								</div>
+								<Link href={`articles/${article.documentId}`}>{'Читать'}</Link>
 							</li>
 						);
 					})}
 				</ul>
 			</div>
-			<Feedback />
 		</div>
 	);
 };

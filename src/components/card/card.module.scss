@@ -5,8 +5,8 @@
   align-items: center;
   flex-grow: 1;
   flex-shrink: 1;
-  flex-basis: auto;
-  
+  flex-basis: calc(33.33% - 10.66px);
+  max-width: calc(33.33% - 10.66px);
   overflow: hidden;
 }
 
@@ -20,8 +20,15 @@
   text-align: center;
 }
 
+@media (min-width: 641px) {
+  .card {
+    flex-basis: calc(20% - 12.80px);
+    max-width: calc(20% - 12.80px);
+  }
+}
 @media (min-width: 961px) {
   .card {
-    max-width: calc(20% - 16px);
+    flex-basis: auto;
+    max-width: 172px;
   }
 }
