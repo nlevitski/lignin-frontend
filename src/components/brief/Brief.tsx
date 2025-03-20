@@ -1,30 +1,54 @@
 import Image from 'next/image';
 import styles from './brief.module.scss';
 import { Button } from '../button/Button';
+import { Teaser } from '@/dal/articles';
+import RichTextRenderer from '@/utils/RichTextRenderer';
+import { CSSProperties } from 'react';
 type BriefProps = {
 	title: string;
 	imgUrl: string;
 	readMoreUrl: string;
 	bgUrl: string;
-	imgCaption: string;
-	children: React.ReactNode;
+	imgAlt: string;
+	teaser: Teaser[];
+	aspectRatio?: CSSProperties;
+	style?: CSSProperties;
+	id?: string;
 };
 export const Brief = ({
 	title,
-	imgCaption,
+	imgAlt,
 	imgUrl,
 	readMoreUrl,
-	children,
+	teaser,
+	id = '',
+	aspectRatio = {},
+	style = {},
 }: BriefProps) => {
 	return (
-		<div className={styles.container}>
-			<h2 className={`${styles.title} ${styles.upper}`}>{title}</h2>
-			<div className={styles.box}>
-				<Image src={imgUrl} alt={imgCaption} width={320} height={320} />
-				<div className={styles.content}>{children}</div>
+		<div className={styles.container} id={id}>
+			<div className={styles.holder}>
+				<div className={styles.imgWrapper}>
+					<div
+						className={styles.imgBox}
+						style={{ aspectRatio: 1, ...aspectRatio }}
+					>
+						<Image
+							src={imgUrl}
+							alt={imgAlt}
+							sizes='100vw'
+							fill
+							style={{ objectFit: 'cover', ...style }}
+						/>
+					</div>
+				</div>
+				<h2 className={`${styles.title} ${styles.upper}`}>{title}</h2>
+				<div className={styles.contentBox}>
+					<RichTextRenderer content={teaser} />
+				</div>
 			</div>
 			<Button
-				href={`${readMoreUrl}`}
+				href={`/articles${readMoreUrl}`}
 				value={'Читать полностью'}
 				type={'secondary'}
 				bold

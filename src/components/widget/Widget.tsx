@@ -4,12 +4,14 @@ import styles from './widget.module.scss';
 type WidgetProps = {
 	title: string;
 	subtitle: string;
+	summary: string;
 	bgImgUrl: string;
 	articleUrl: string;
 };
 export const Widget = ({
 	title,
-	subtitle,
+	// subtitle,
+	summary,
 	bgImgUrl,
 	articleUrl,
 }: WidgetProps) => {
@@ -28,7 +30,7 @@ export const Widget = ({
 					<Arrow />
 				</div>
 			</div>
-			<p className={styles.subtitle}>{subtitle}</p>
+			<p className={styles.subtitle}>{summary}</p>
 		</Link>
 	);
 };

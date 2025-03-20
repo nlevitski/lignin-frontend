@@ -1,21 +1,25 @@
-'use client';
 import { Button } from '@/components/button/Button';
 import { ArticleItem } from '@/dal/articles';
-import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import styles from './articlePage.module.scss';
-import { JSX } from 'react';
-import classNames from 'classnames/bind';
-import Link from 'next/link';
+
+import RichTextRenderer, { RichTextContent } from '@/utils/RichTextRenderer';
+
 // import { Typography } from '@/components/typography/Typography';
 type ArticleProps = {
 	article: ArticleItem;
 };
-const cx = classNames.bind(styles);
+// const cx = classNames.bind(styles);
 
 export const Article = ({ article }: ArticleProps) => {
 	return (
 		<div className={styles.container}>
-			<BlocksRenderer
+			{<div>{article.path}</div>}
+			<RichTextRenderer
+				content={(article.content as RichTextContent) || []}
+				styles={styles}
+				imageSizes='(max-width: 768px) 100vw, 768px'
+			/>
+			{/* <BlocksRenderer
 				content={article.content}
 				blocks={{
 					paragraph: ({ children }) => (
@@ -30,9 +34,11 @@ export const Article = ({ article }: ArticleProps) => {
 						);
 					},
 					link: ({ children, url }) => <a href={url}>{children}</a>,
-					image: ({ image }) => <img src={image.url} alt={image.caption} />,
+					image: ({ image }) => (
+						<img src={image?.url ?? ''} alt={image?.caption ?? ''} />
+					),
 				}}
-			/>
+			/> */}
 			<Button
 				href='/'
 				type={'secondary'}

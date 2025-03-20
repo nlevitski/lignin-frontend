@@ -55,7 +55,17 @@
     }
   }
 }
+@media (min-width: 769px) {
+  .subtitle {
+    br {
+      display: inline;
+    }
+  }
+}
 @media (min-width: 961px) {
+  .container {
+    margin-top: -214px;
+  }
   .title {
     font-size: 60px;
     letter-spacing: -1px;
@@ -64,8 +74,8 @@
   .subtitle {
     font-size: 22px;
     letter-spacing: -1px;
-    br {
-      display: inline;
-    }
+    // br {
+    //   display: inline;
+    // }
   }
 }

@@ -6,49 +6,60 @@ import { useEffect, useRef, useState } from 'react';
 import { Burger } from '../icons/burger/Burger';
 import styles from './menu.module.scss';
 import classNames from 'classnames/bind';
+import { ArticleShort, Bigboard } from '@/dal/articles';
+
+type MenuProps = {
+	bigboards: Bigboard<ArticleShort>[];
+};
 const cx = classNames.bind(styles);
 type MenuItem = {
 	title: string;
 	href: string;
 };
 const menuItems: MenuItem[] = [
-	{
-		title: 'Лигнин',
-		href: '/',
-	},
-	{
-		title: 'Сельское хозяйство',
-		href: '#',
-	},
-	{
-		title: 'Фармацевтика',
-		href: '#',
-	},
-	{
-		title: 'Сорбент ЛАРН',
-		href: '#',
-	},
-	{
-		title: 'Топливо',
-		href: '#',
-	},
+	// {
+	// 	title: 'Сельское хозяйство',
+	// 	href: '#',
+	// },
+	// {
+	// 	title: 'Фармацевтика',
+	// 	href: '#',
+	// },
+	// {
+	// 	title: 'Сорбент ЛАРН',
+	// 	href: '#',
+	// },
+	// {
+	// 	title: 'Топливо',
+	// 	href: '#',
+	// },
 	{
 		title: 'Статьи',
 		href: '/articles',
 	},
 	{
 		title: 'О Нас',
-		href: '#about-us-section',
+		href: '/#about-us-section',
 	},
 	{
 		title: 'Контакты',
-		href: '#footer-section',
+		href: '/#footer-section',
 	},
 ];
 // const phoneNumber = '+375297290243';
 // const phoneValue = '+375 29 729 02 43';
 const phoneNumberRus = '+7 999 718 19 66';
-export const Menu = () => {
+export const Menu = ({ bigboards }: MenuProps) => {
+	const sortedBigboards = bigboards.sort((a, b) =>
+		a.menuOrder > b.menuOrder ? 1 : -1
+	);
+
+	const menuItemsDynamic = sortedBigboards.map((bigboard) => ({
+		title: bigboard.menuName,
+		href: `/#${bigboard.article.path}`,
+	}));
+
+	const currentMenu = [...menuItemsDynamic, ...menuItems];
 	const { 0: isOpen, 1: setIsOpen } = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
 	const toggleMenu = () => {
@@ -83,7 +94,7 @@ export const Menu = () => {
 				</Link>
 
 				<ul className={styles.navMenu}>
-					{menuItems.map((item) => (
+					{currentMenu.map((item) => (
 						<li key={item.title} className={styles.navItem}>
 							<Link href={item.href} className={styles.navLink}>
 								{item.title}

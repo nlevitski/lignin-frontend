@@ -1,10 +1,8 @@
 import { Button } from '../button/Button';
-import { Menu } from '../menu/Menu';
 import styles from './hero.module.scss';
 export const Hero = () => {
 	return (
 		<div className={styles.container}>
-			<Menu />
 			<h1 className={styles.title}>
 				<span className={styles.upper}>Лигнин гидролизный </span>
 				<br />

@@ -23,13 +23,15 @@ export const Samples = () => {
 			{cards.map((card, i) => {
 				return (
 					<div className={styles.card} key={i}>
-						<Image
-							className={styles.img}
-							alt={card.title}
-							width={300}
-							height={300}
-							src={card.href}
-						/>
+						<div className={styles.imgBox}>
+							<Image
+								className={styles.img}
+								alt={card.title}
+								fill
+								sizes='100vw'
+								src={card.href}
+							/>
+						</div>
 						<div className={styles.caption}>{card.caption}</div>
 					</div>
 				);

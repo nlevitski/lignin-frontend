@@ -12,14 +12,15 @@
   padding: 100px 0;
 }
 .title {
-  font-size: 42px;
+  font-size: 28px;
   line-height: 1.5;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 45px;
+  letter-spacing: -0.5px;
 }
 .entity {
-  margin-bottom: 45px;
-  font-size: 32px;
+  margin-bottom: 15px;
+  font-size: 20px;
   line-height: 1.5;
   font-weight: 700;
   text-transform: uppercase;
@@ -31,8 +32,8 @@
   flex-wrap: wrap;
   margin-bottom: 45px;
   font-size: 20px;
-  line-height: 36px;
-  font-weight: 200;
+  line-height: 32px;
+  font-weight: 300;
   >dt, >dd {
     
     flex-basis: 100%;

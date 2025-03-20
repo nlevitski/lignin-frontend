@@ -3,11 +3,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
+  flex-grow: 2;
   flex-shrink: 1;
-  flex-basis: calc(33.33% - 10.66px);
-  max-width: calc(33.33% - 10.66px);
+  flex-basis: calc(33.33% - 5.33px);
+  max-width: calc(33.33% - 5.33px);
   overflow: hidden;
+}
+
+.imgBox {
+  position: relative;
+  max-width: 110px;
+  aspect-ratio: 1;
+  width: 100%;
 }
 
 .caption {
@@ -25,10 +32,16 @@
     flex-basis: calc(20% - 12.80px);
     max-width: calc(20% - 12.80px);
   }
+  .imgBox {
+    max-width: 160px;
+  }
 }
 @media (min-width: 961px) {
   .card {
     flex-basis: auto;
-    max-width: 172px;
+    max-width: 220px;
+  }
+  .imgBox {
+    max-width: 220px;
   }
 }

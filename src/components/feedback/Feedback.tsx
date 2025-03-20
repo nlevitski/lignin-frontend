@@ -1,26 +1,27 @@
-'use client';
+import Form from 'next/form';
 import { Button } from '../button/Button';
 import styles from './feedback.module.scss';
+import { submitFeedback } from './actions';
 export const Feedback = () => {
-	const handleClick = (
-		e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-	) => {
-		e.preventDefault();
-		e.stopPropagation();
-		console.log('---->');
-	};
+	// const handleClick = (
+	// 	e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+	// ) => {
+	// 	e.preventDefault();
+	// 	e.stopPropagation();
+	// 	console.log('---->');
+	// };
 	return (
 		<div className={styles.container} id='feedback-section'>
 			<h2 className={`${styles.title} ${styles.upper}`}>
 				Получить коммерческое предложение по email
 			</h2>
-			<form
+			<Form
 				className={styles.form}
 				id='feedback-form'
-				action='/submit'
-				method='POST'
-				noValidate
-				aria-label='Форма обратной связи'
+				action={submitFeedback}
+				// method='POST'
+				// noValidate
+				// aria-label='Форма обратной связи'
 			>
 				<input
 					className={styles.inputText}
@@ -53,10 +54,10 @@ export const Feedback = () => {
 				<Button
 					type={'tertiary'}
 					value={'Отправить'}
-					onClick={handleClick}
+					// onClick={handleClick}
 					bold
 				/>
-			</form>
+			</Form>
 		</div>
 	);
 };

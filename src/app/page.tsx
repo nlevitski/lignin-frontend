@@ -6,15 +6,20 @@ import { Hero } from '@/components/hero/Hero';
 import { Samples } from '@/components/samples/Samples';
 import { Widget } from '@/components/widget/Widget';
 import { Button } from '@/components/button/Button';
-import { getArticles } from '@/dal/articles';
-import { BlocksRenderer } from '@strapi/blocks-react-renderer';
-// const phoneNumber = '+375297290243';
+import {
+	getArticleWithWidgetOrder,
+	getBigboardsWithTeasers,
+} from '@/dal/articles';
+import { pickImgSize } from '@/utils/pickImgSizes';
+import { Features } from '@/components/features/Features';
+
 type Pagination = {
 	page: number;
 	pageSize: number;
 	pageCount: number;
 	total: number;
 };
+
 export type ArticlesMeta = {
 	pagination: Pagination;
 };
@@ -23,6 +28,7 @@ type Feature = {
 	imgAlt: string;
 	caption: string;
 };
+
 const features: Feature[] = [
 	{
 		imgUrl: '/images/webp/feature-feed.webp',
@@ -50,53 +56,44 @@ const features: Feature[] = [
 		caption: 'Сорбент для ликвидации разливов нефти',
 	},
 ];
-const articles = [
-	{
-		title:
-			'Лигнин в качестве удобрения. Повышение урожайности и качества почвы',
-		subtitle: 'Лигнин – субстрат для выращивания овощей',
-		bgImgUrl: '/images/webp/articles/000_fertilizer.webp',
-		articleUrl: '/articles/#',
-	},
-	{
-		title:
-			'Применение лигнина в качестве выгорающей добавки для производства кирпича',
-		subtitle:
-			'Лигнин можно применять в производстве кирпича в качестве выгорающей добавки',
-		bgImgUrl: '/images/webp/articles/001_burnoutagent.webp',
-		articleUrl: '/articles/#',
-	},
-	{
-		title: 'Вторая жизнь лигнина. Удобрение. Плодородие и улучшение почвы',
-		subtitle: 'Лигнин в качестве органической добавки предпринимались давно',
-		bgImgUrl: '/images/webp/articles/002_soil.webp',
-		articleUrl: '/articles/#',
-	},
-	{
-		title: 'Применение лигнин для производства асфальта',
-		subtitle: 'Лигнин - связующее вещество для асфальтирования дорог',
-		bgImgUrl: '/images/webp/articles/003_asphalt.webp',
-		articleUrl: '/articles/#',
-	},
-];
+
+const bigboardArticleDocumentId = 'r82tukj30x59ztiojp2d9yzp';
+
 export default async function Home() {
-	const { data } = await getArticles();
+	const {
+		0: { data: bigboardsData },
+		1: { data: articlesDataWithWidgetOrder },
+	} = await Promise.all([
+		getBigboardsWithTeasers(),
+		getArticleWithWidgetOrder(),
+	]);
+	const mainArticle = bigboardsData.find(
+		(bigboard) => bigboard.article.documentId === bigboardArticleDocumentId
+	)!;
+
+	const mainCover = pickImgSize(mainArticle.article.cover.formats);
+	const bigboardArticles = bigboardsData.filter(
+		(bigboard) => bigboard.article.documentId !== bigboardArticleDocumentId
+	);
+
+	const sortedArticleWidthWidgetorder = articlesDataWithWidgetOrder.sort(
+		(a, b) => (a.widgetOrder > b.widgetOrder ? 1 : -1)
+	);
 
 	return (
 		<div>
 			<Hero />
 			<Brief
-				title={'Лигнин, что это?'}
-				readMoreUrl={'/articles'}
-				imgUrl={'/images/webp/articles/000_fertilizer.webp'}
+				title={mainArticle.article.title}
+				readMoreUrl={`/${mainArticle.article.path}`}
+				imgUrl={mainCover.url}
+				imgAlt={mainCover.name}
 				bgUrl={'/images/backgrounds/'}
-				imgCaption={'fertilizer'}
-			>
-				{['some', 'any', 'every'].map((unit, i) => (
-					<p key={i}>{unit}</p>
-				))}
-			</Brief>
-			<div className={styles.features}>
+				teaser={mainArticle.article.teaser || []}
+				style={{ objectFit: 'initial' }}
+				aspectRatio={{ aspectRatio: '779 / 716' }}
+			/>
+			<Features>
 				{features.map((f) => (
 					<Card
 						key={f.caption}
@@ -105,17 +102,46 @@ export default async function Home() {
 						caption={f.caption}
 					/>
 				))}
-			</div>
-			<BlocksRenderer content={data[21].content.slice(0, 5)} />
+			</Features>
+
+			{bigboardArticles.map(({ article }) => {
+				const currentImg = pickImgSize(article.cover.formats);
+				return (
+					<Brief
+						id={article.path}
+						key={article.documentId}
+						title={article.title}
+						readMoreUrl={`/${article.path}`}
+						imgUrl={currentImg.url}
+						imgAlt={currentImg.name}
+						bgUrl={'/images/backgrounds/'}
+						teaser={article.teaser || []}
+						style={{ objectPosition: '75% 50%' }}
+					/>
+				);
+			})}
 			<div className={styles.container}>
 				<ul className={styles.widgets}>
-					{articles.map((a, i) => (
+					{/* {unitedArticles.map((a, i) => (
 						<li className={styles.widgetItem} key={i}>
 							<Widget
 								title={a.title}
 								subtitle={a.subtitle}
+								summary={a.summary}
 								bgImgUrl={a.bgImgUrl}
 								articleUrl={a.articleUrl}
+							/>
+							
+						</li>
+					))} */}
+					{sortedArticleWidthWidgetorder.map(({ article, widgetOrder }) => (
+						<li className={styles.widgetItem} key={widgetOrder}>
+							<Widget
+								title={article.titleSmall}
+								subtitle={article?.subtitle}
+								summary={article.summary}
+								bgImgUrl={article.cover.formats.small.url}
+								articleUrl={article.path}
 							/>
 						</li>
 					))}

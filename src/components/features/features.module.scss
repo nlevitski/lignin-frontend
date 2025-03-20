@@ -1,0 +1,19 @@
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 40px 0;
+}
+.title {
+  text-align: center;
+  text-transform: uppercase;
+}
+.featureList {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 8px;
+  
+}
