@@ -48,7 +48,7 @@ export const Brief = ({
 				</div>
 			</div>
 			<Button
-				href={`/articles${readMoreUrl}`}
+				href={readMoreUrl}
 				value={'Читать полностью'}
 				type={'secondary'}
 				bold

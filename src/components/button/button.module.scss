@@ -78,4 +78,7 @@
     color: var(--foreground);
     background-color: rgb(255, 255, 255);
   }
+  &_alignSelf {
+    align-self: center;
+  }
 }

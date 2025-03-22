@@ -22,8 +22,11 @@
   align-items: stretch;
   flex-wrap: wrap;
   list-style: none;
-  gap: 48px;
+  gap: 72px;
   padding: 0 20px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.2px;
   
 }
 .articleItem {
@@ -75,15 +78,25 @@
   line-height: 20px;
   font-weight: 600;
   text-transform: uppercase;
-  order: 1;
+  // order: 0;
+  margin-bottom: 12px;
+  
   letter-spacing: -0.2px;
 }
 .articleDate {
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 400;
-  color: var(--text-date);
+  order: -1;
   margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 2;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: var(--text-pale);
+  
+}
+
+.articleSummary {
+  margin-bottom: 8px;
+  color: var(--text-pale);
 }
 
 @media (min-width: 641px) {
@@ -92,7 +105,9 @@
   .title {
     font-size: 36px;
     font-weight: 600;
-
+  }
+  .articleList {
+    gap: 60px;
   }
   .articleItem {
     gap: 16px;
@@ -112,11 +127,14 @@
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 961px) {
   .title {
     margin: 50px 0;
     font-size: 46px;
     font-weight: 600;
+  }
+  .articleTitle {
+    
   }
   .articleList {
     gap: 36px;
@@ -126,21 +144,20 @@
     // flex-basis: calc(25%);
     flex: 0 2 calc(33.33% - 24px);
     
-
   }
   .articleLink {
     flex-direction: column;
     justify-content: flex-start;
   }
-  
-  .imgBox {
-    aspect-ratio: 3 / 3;
-  }
-  .textBox {
+  .imgBox, .textBox {
     padding: 0;
+    flex: 0 0 auto;
+  }
+  .imgBox {
+    aspect-ratio: 26 / 17;
   }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1281px) {
   .articleList {
     gap: 32px;
   }

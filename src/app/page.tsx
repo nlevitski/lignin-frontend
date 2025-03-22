@@ -141,7 +141,7 @@ export default async function Home() {
 								subtitle={article?.subtitle}
 								summary={article.summary}
 								bgImgUrl={article.cover.formats.small.url}
-								articleUrl={article.path}
+								articleUrl={`/${article.path}`}
 							/>
 						</li>
 					))}

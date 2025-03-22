@@ -1,6 +1,7 @@
 import styles from './button.module.scss';
 import classNames from 'classnames/bind';
 import Link from 'next/link';
+import { CSSProperties } from 'react';
 
 const cx = classNames.bind(styles);
 type ButtonProps = {
@@ -14,6 +15,8 @@ type ButtonProps = {
 	reducePaddingH?: boolean;
 	alpha50?: boolean;
 	href?: string;
+	alignSelf?: boolean;
+	style?: CSSProperties;
 
 	onClick?: (
 		e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
@@ -31,6 +34,8 @@ export const Button = ({
 	extraBold = false,
 	reducePaddingH = false,
 	alpha50 = false,
+	alignSelf = false,
+	style = {},
 	onClick,
 }: ButtonProps) => {
 	const resultCx = cx('button', `button_${type}`, {
@@ -41,13 +46,14 @@ export const Button = ({
 		button_large: large,
 		button_reducePaddingH: reducePaddingH,
 		button_alpha50: alpha50,
+		button_alignSelf: alignSelf,
 	});
 	return href ? (
-		<Link href={href} className={resultCx} onClick={onClick}>
+		<Link href={href} className={resultCx} onClick={onClick} style={style}>
 			{value}
 		</Link>
 	) : (
-		<button className={resultCx} onClick={onClick}>
+		<button className={resultCx} onClick={onClick} style={style}>
 			{value}
 		</button>
 	);

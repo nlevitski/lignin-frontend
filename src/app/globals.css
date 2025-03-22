@@ -5,7 +5,9 @@
   --foreground: #171717;
   --altbackground: #111111;
   --primary-text: #ffffff;
-  --text-date: #777777;
+  --text-accent: #ff8562;
+  --text-pale: #777777;
+  --text-danger: #FF0303;
 }
 
 html,

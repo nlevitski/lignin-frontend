@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Socials } from '../socials/Socials';
 import styles from './footer.module.scss';
 
@@ -20,7 +21,10 @@ export const Footer = () => {
 					<dt className={styles.emailDt}>Email:&nbsp;</dt>
 					<dd className={styles.emailDd}>alex.bizby@gmail.com</dd>
 				</dl>
-				<a href='#'>Карта сайта</a>
+				{/* <a href='#'>Карта сайта</a> */}
+				<Link className={styles.link} href='/sitemap'>
+					{'Карта сайта'}
+				</Link>
 				<Socials />
 			</div>
 		</footer>

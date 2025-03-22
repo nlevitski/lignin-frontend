@@ -13,7 +13,7 @@ export const Feedback = () => {
 	return (
 		<div className={styles.container} id='feedback-section'>
 			<h2 className={`${styles.title} ${styles.upper}`}>
-				Получить коммерческое предложение по email
+				Задать вопрос. Получить предложение
 			</h2>
 			<Form
 				className={styles.form}

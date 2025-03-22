@@ -204,6 +204,16 @@ const renderBlock = (
 ): ReactNode => {
 	switch (block.type) {
 		case 'paragraph':
+			// Check if paragraph is empty
+			if (
+				!block.children ||
+				block.children.length === 0 ||
+				(block.children.length === 1 &&
+					block.children[0].type === 'text' &&
+					(!block.children[0].text || block.children[0].text.trim() === ''))
+			) {
+				return <br key={key} />;
+			}
 			return (
 				<p
 					key={key}
@@ -349,7 +359,6 @@ const renderBlock = (
 	}
 };
 
-// Основной компонент рендерера
 const RichTextRenderer = ({
 	content,
 	styles,

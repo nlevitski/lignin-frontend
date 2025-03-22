@@ -1,3 +1,5 @@
+import { fetchJson } from '@/utils/fetchJson';
+
 type Pagination = {
 	page: number;
 	pageSize: number;
@@ -208,93 +210,49 @@ export type Article = {
 	cover: Cover;
 	coverPreview: CoverPreview;
 };
-const cache = 'force-cache';
+
 export function getArticles(): Promise<ArticlesResponse<ArticleItem[]>> {
-	return fetch(
-		'http://localhost:1337/api/articles?populate=cover&sort=updatedAt:desc',
-		{
-			cache,
-			// next: { revalidate: 5 },
-		}
-	)
-		.then((res) => res.json())
-		.catch((err) =>
-			console.error(
-				'---getArticles---->\nВОЗМОЖНО НЕ ЗАПУЩЕН СЕРВАК\n<-------',
-				err
-			)
-		);
+	return fetchJson(
+		'http://localhost:1337/api/articles?populate=cover&sort=updatedAt:desc'
+	);
 }
 
-export async function getArticleByDocumentId(
+export function getArticleByDocumentId(
 	documentId: string
 ): Promise<ArticlesResponse<ArticleItem>> {
-	return fetch(
-		`http://localhost:1337/api/articles/${documentId}?populate=cover`,
-		{
-			cache,
-			// next: { revalidate: 5 },
-		}
-	)
-		.then((res) => res.json())
-		.catch((err) =>
-			console.error('------->\nВОЗМОЖНО НЕ ЗАПУЩЕН СЕРВАК\n<-------', err)
-		);
+	return fetchJson(
+		`http://localhost:1337/api/articles/${documentId}?populate=cover`
+	);
 }
 
-export async function getArticleByPath(
+export function getArticleByPath(
 	path: string
 ): Promise<ArticlesResponse<ArticleItem>> {
 	const currentPath = `http://localhost:1337/api/articles/path/${path}`;
-	return fetch(currentPath, {
-		cache,
-		// next: { revalidate: 5 },
-	})
-		.then((res) => res.json())
-		.catch((err) =>
-			console.error('------->\nВОЗМОЖНО НЕ ЗАПУЩЕН СЕРВАК\n<-------', err)
-		);
+	return fetchJson(currentPath);
 }
 
-export async function getBigboards(): Promise<{
+export function getBigboards(): Promise<{
 	data: Bigboard<ArticleShort>[];
 	meta: Meta;
 }> {
-	return fetch(
-		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][populate][cover]=true',
-		{
-			cache,
-			// next: { revalidate: 5 },
-		}
-	)
-		.then((res) => res.json())
-		.catch((err) => console.error(err));
+	return fetchJson(
+		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][populate][cover]=true'
+	);
 }
-export async function getBigboardsWithTeasers(): Promise<{
+export function getBigboardsWithTeasers(): Promise<{
 	data: Bigboard<Article>[];
 	meta: Meta;
 }> {
-	return fetch(
-		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][cover]=true',
-		{
-			cache,
-			// next: { revalidate: 5 },
-		}
-	)
-		.then((res) => res.json())
-		.catch(console.error);
+	return fetchJson(
+		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][cover]=true'
+	);
 }
-export async function getArticleWithWidgetOrder(): Promise<{
+export function getArticleWithWidgetOrder(): Promise<{
 	data: Widget[];
 	meta: Meta;
 }> {
-	return fetch(
-		'http://localhost:1337/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true',
-		{
-			cache,
-			//next: { revalidate: 5 }
-		}
-	)
-		.then((res) => res.json())
-		.catch(console.error);
+	return fetchJson(
+		'http://localhost:1337/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true'
+	);
 }

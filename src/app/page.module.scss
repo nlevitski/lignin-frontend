@@ -65,7 +65,7 @@
     flex-wrap: wrap;
     gap: 8px;
     >.widgetItem:last-child {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     >a {
       aspect-ratio: 8 / 3;
     }
