@@ -15,7 +15,7 @@ export const Articles = ({ articles }: ArticlesProps) => {
 	const currentArticles = articles.data.filter(
 		(article) => !toExcludePaths.includes(article.path)
 	);
-	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const [windowWidth, setWindowWidth] = useState(320);
 	const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
 
 	useEffect(() => {

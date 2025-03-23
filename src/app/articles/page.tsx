@@ -1,6 +1,6 @@
 import { getArticles } from '@/dal/articles';
-import { Articles } from './Articles';
 import styles from './articles.module.scss';
+import { Articles } from './Articles';
 export default async function ArticlesPage() {
 	const result = await getArticles();
 
