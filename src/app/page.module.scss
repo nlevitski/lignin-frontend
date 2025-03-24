@@ -90,6 +90,7 @@
 }
 @media (min-width: 961px) {
   .widgets {
+    
     >.widgetItem:last-child {
     flex: 1 1 auto;
     >a {
@@ -101,5 +102,10 @@
     flex-grow: 1;
     flex-basis: auto;
     max-width: calc(33.33% - 10.66px);
+  }
+}
+@media (min-width: 1201px) {
+  .widgets {
+    max-width: 1200px;
   }
 }

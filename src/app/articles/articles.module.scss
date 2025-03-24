@@ -157,6 +157,11 @@
     aspect-ratio: 26 / 17;
   }
 }
+@media (min-width: 1201px) {
+  .articleList {
+    max-width: 1200px;
+  }
+}
 @media (min-width: 1281px) {
   .articleList {
     gap: 32px;

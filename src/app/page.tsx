@@ -121,19 +121,10 @@ export default async function Home() {
 				);
 			})}
 			<div className={styles.container}>
+				<h2 className={`${styles.title} ${styles.upper}`}>
+					Статьи о применении лигнина
+				</h2>
 				<ul className={styles.widgets}>
-					{/* {unitedArticles.map((a, i) => (
-						<li className={styles.widgetItem} key={i}>
-							<Widget
-								title={a.title}
-								subtitle={a.subtitle}
-								summary={a.summary}
-								bgImgUrl={a.bgImgUrl}
-								articleUrl={a.articleUrl}
-							/>
-							
-						</li>
-					))} */}
 					{sortedArticleWidthWidgetorder.map(({ article, widgetOrder }) => (
 						<li className={styles.widgetItem} key={widgetOrder}>
 							<Widget
