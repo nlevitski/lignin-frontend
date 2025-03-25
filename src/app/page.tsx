@@ -88,7 +88,7 @@ export default async function Home() {
 				readMoreUrl={`/${mainArticle.article.path}`}
 				imgUrl={mainCover.url}
 				imgAlt={mainCover.name}
-				bgUrl={'/images/backgrounds/'}
+				bgUrl={mainArticle.background.url}
 				teaser={mainArticle.article.teaser || []}
 				style={{ objectFit: 'initial' }}
 				aspectRatio={{ aspectRatio: '779 / 716' }}
@@ -104,7 +104,7 @@ export default async function Home() {
 				))}
 			</Features>
 
-			{bigboardArticles.map(({ article }) => {
+			{bigboardArticles.map(({ article, background }) => {
 				const currentImg = pickImgSize(article.cover.formats);
 				return (
 					<Brief
@@ -114,7 +114,7 @@ export default async function Home() {
 						readMoreUrl={`/${article.path}`}
 						imgUrl={currentImg.url}
 						imgAlt={currentImg.name}
-						bgUrl={'/images/backgrounds/'}
+						bgUrl={background.url}
 						teaser={article.teaser || []}
 						style={{ objectPosition: '75% 50%' }}
 					/>

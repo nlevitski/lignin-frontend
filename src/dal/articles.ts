@@ -191,7 +191,29 @@ export type Bigboard<T> = {
 	createdAt: string;
 	updatedAt: string;
 	publishedAt: string;
+	background: Background;
 	article: T;
+};
+export type Background = {
+	id: number;
+	documentId: string;
+	name: string;
+	caption: string;
+	width: number;
+	height: number;
+	formats: Formats;
+	hash: string;
+	ext: string;
+	mime: string;
+	size: number;
+	url: string;
+	previewUrl: string;
+	provider: string;
+	provider_metadata: string;
+	createdAt: string;
+	updatedAt: string;
+	publishedAt: string;
+	alternativeText: string;
 };
 export type ArticleShort = Omit<Article, 'teaser' | 'title' | 'mission'>;
 export type Article = {
@@ -247,7 +269,7 @@ export function getBigboardsWithTeasers(): Promise<{
 	meta: Meta;
 }> {
 	return fetchJson(
-		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][cover]=true'
+		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][cover]=true&populate[background]=true'
 	);
 }
 export function getArticleWithWidgetOrder(): Promise<{
