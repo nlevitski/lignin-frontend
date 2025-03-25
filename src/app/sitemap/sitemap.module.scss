@@ -8,11 +8,16 @@
   margin: 0 auto;
   max-width: 768px;
 }
-.title {
+.link {
+  display: inline-block;
+  margin-bottom: 18px;
+  width: 100%;
+}
+.header {
   text-align: center;
   font-weight: 500;
 }
-.header {
+.title {
   position: relative;
   font-size: 18px;
   line-height: 1.35;

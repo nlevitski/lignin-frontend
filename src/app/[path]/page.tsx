@@ -10,12 +10,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({
 	params,
 }: {
-	params: { path: string };
+	params: Promise<{ path: string }>;
 }) {
-	const { data } = await getArticleByPath(params.path);
+	const { path } = await params;
+	const { data } = await getArticleByPath(path);
 	return {
 		title: data.title,
-		description: data.summary,
+		description: data?.metaDescription || '',
+		keywords: data?.metaKeywords || '',
 		openGraph: {
 			title: data.title,
 		},

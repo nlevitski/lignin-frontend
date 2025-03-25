@@ -40,6 +40,8 @@ export type ArticleItem = {
 	titleSmall: string;
 	cover: Cover;
 	coverPreview: CoverPreview;
+	metaDescription?: string;
+	metaKeywords?: string;
 };
 
 export type Teaser = {
