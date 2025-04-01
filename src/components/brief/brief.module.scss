@@ -4,6 +4,8 @@
   box-sizing: border-box;
   background-attachment: fixed;
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 75% center;
   
 }
 .wrapper {
@@ -42,17 +44,23 @@
   font-size: 26px;
   line-height: 1.5;
   text-align: center;
-  
+  font-weight: 600;
 }
 .contentBox {
   grid-column: span 1;
   grid-row: span 1;
-
   text-align: center;
+  justify-content: space-evenly;
   overflow: hidden;
   box-sizing: border-box;
   font-size: 14px;
   line-height: 1.5;
+}
+.hrLong {
+  display: none;
+  height: 15px;
+  border: 0 solid transparent;
+  border-bottom: 3px solid #000000;
 }
 
 .upper {
@@ -83,6 +91,9 @@
     align-self: start;
     grid-column: 2 / span 1;
     grid-row: 1 / span 1;
+  }
+  .hrLong {
+    display: block;
   }
   .contentBox {
     grid-column: 2 / span 1;

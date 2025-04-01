@@ -2,11 +2,36 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 80px 0;
+  align-items: stretch;
+  padding: 0;
   overflow: hidden;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 75% center;
   >p {
     margin-bottom: 8px;
+  }
+}
+.holder {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 70vh;
+  padding: 40px 0;
+  background-color: var(--background);
+}
+.aboutWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+  max-width: 860px;
+  
+  >p, >ul {
+    font-size: 16px;
+    line-height: 1.3;
   }
 }
 .widgets {
@@ -37,9 +62,15 @@
 .title {
   margin-bottom: 8px;
   padding: 8px 0;
+  text-align: center;
+  font-size: 28px;
+  line-height: 1.5;
+  font-weight: 600;
 }
 .aboutUsList {
   margin-bottom: 8px;
+  padding-left: 17px;
+  
   >li {
     list-style: disc;
   }
@@ -55,11 +86,21 @@
 .upper {
   text-transform: uppercase;
 }
+.ph20 {
+  padding-left: 20;
+  padding-right: 20;
+}
 @media (min-width: 481px) {
-  
+  .title {
+    font-size: 30px;
+  }
 }
 
 @media (min-width: 641px) {
+  .title {
+    font-size: 36px;
+
+  }
   .widgets {
     flex-direction: row;
     flex-wrap: wrap;
@@ -76,11 +117,15 @@
     flex-basis: calc(50% - 4px);
     overflow: hidden;
   }
+  
   .features {
     padding: 0 16px;
   }
 }
 @media (min-width: 769px) {
+  .title {
+    font-size: 38px;
+  }
   .widgets {
     gap: 16px;
   }
@@ -89,14 +134,21 @@
   }
 }
 @media (min-width: 961px) {
+  .title {
+    font-size: 40px;
+  }
   .widgets {
-    
     >.widgetItem:last-child {
-    flex: 1 1 auto;
+      flex: 1 1 auto;
     >a {
       aspect-ratio: 4 / 3;
     }
+    }
   }
+  .aboutWrapper {
+    >p, >ul {
+      font-size: 18px;
+    }
   }
   .widgetItem {
     flex-grow: 1;
@@ -105,6 +157,9 @@
   }
 }
 @media (min-width: 1201px) {
+  .title {
+    font-size: 42px;
+  }
   .widgets {
     max-width: 1200px;
   }

@@ -9,6 +9,10 @@
   background-position: center;
   background-repeat: no-repeat;
   color: var(--background);
+  transition: 0.3s;
+  overflow: hidden;
+    
+  
 }
 .head {
   display: flex;

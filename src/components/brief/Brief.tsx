@@ -11,6 +11,7 @@ type BriefProps = {
 	bgUrl: string;
 	imgAlt: string;
 	teaser: Teaser[];
+	mission?: string;
 	aspectRatio?: CSSProperties;
 	style?: CSSProperties;
 	id?: string;
@@ -21,6 +22,7 @@ export const Brief = ({
 	imgUrl,
 	readMoreUrl,
 	teaser,
+	mission = '',
 	id = '',
 	bgUrl,
 	aspectRatio = {},
@@ -51,8 +53,19 @@ export const Brief = ({
 							/>
 						</div>
 					</div>
-					<h2 className={`${styles.title} ${styles.upper}`}>{title}</h2>
+					<h2 className={`${styles.title} ${styles.upper}`}>
+						{title}
+						<hr className={styles.hrLong} />
+					</h2>
+
 					<div className={styles.contentBox}>
+						{mission && (
+							<p>
+								<strong>
+									<em>{mission}</em>
+								</strong>
+							</p>
+						)}
 						<RichTextRenderer content={teaser} />
 					</div>
 				</div>
@@ -62,6 +75,7 @@ export const Brief = ({
 					type={'secondary'}
 					bold
 					large
+					alignSelf
 				/>
 			</div>
 		</div>

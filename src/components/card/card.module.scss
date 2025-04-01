@@ -1,7 +1,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-grow: 2;
   flex-shrink: 1;
@@ -15,6 +15,10 @@
   max-width: 110px;
   aspect-ratio: 1;
   width: 100%;
+  transition: 0.3s;
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 .caption {
@@ -36,12 +40,30 @@
     max-width: 160px;
   }
 }
+
 @media (min-width: 961px) {
+  .caption {
+    max-width: 116px;
+    font-size: 12px;
+  }
   .card {
     flex-basis: auto;
     max-width: 220px;
   }
   .imgBox {
-    max-width: 220px;
+    max-width: 200px;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+@media (min-width: 1201px) {
+  .card {
+    gap: 32px;
+  }
+  .caption {
+    max-width: 136px;
+    font-size: 14px;
   }
 }

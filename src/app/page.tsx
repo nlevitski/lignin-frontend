@@ -116,72 +116,90 @@ export default async function Home() {
 						imgAlt={currentImg.name}
 						bgUrl={background.url}
 						teaser={article.teaser || []}
+						mission={article.mission}
 						style={{ objectPosition: '75% 50%' }}
 					/>
 				);
 			})}
-			<div className={styles.container}>
-				<h2 className={`${styles.title} ${styles.upper}`}>
-					Статьи о применении лигнина
-				</h2>
-				<ul className={styles.widgets}>
-					{sortedArticleWidthWidgetorder.map(({ article, widgetOrder }) => (
-						<li className={styles.widgetItem} key={widgetOrder}>
-							<Widget
-								title={article.titleSmall}
-								subtitle={article?.subtitle}
-								summary={article.summary}
-								bgImgUrl={article.cover.formats.small.url}
-								articleUrl={`/${article.path}`}
-							/>
-						</li>
-					))}
-				</ul>
-				<Button
-					href={`/articles`}
-					value={'Читать другие статьи'}
-					type={'secondary'}
-					bold
-					large
-				/>
+			<div
+				className={styles.container}
+				style={{
+					backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.8) 100%), url('/images/webp/backgrounds/bg4.webp')`,
+				}}
+			>
+				<div className={styles.holder}>
+					<h2 className={`${styles.title} ${styles.upper}`}>
+						Статьи о применении лигнина
+					</h2>
+					<ul className={styles.widgets}>
+						{sortedArticleWidthWidgetorder.map(({ article, widgetOrder }) => (
+							<li className={styles.widgetItem} key={widgetOrder}>
+								<Widget
+									title={article.titleSmall}
+									subtitle={article?.subtitle}
+									summary={article.summary}
+									bgImgUrl={article.cover.formats.small.url}
+									articleUrl={`/${article.path}`}
+								/>
+							</li>
+						))}
+					</ul>
+					<Button
+						href={`/articles`}
+						value={'Читать другие статьи'}
+						type={'secondary'}
+						bold
+						large
+					/>
+				</div>
 			</div>
-			<div className={styles.container} id='about-us-section'>
-				<h2 className={`${styles.title} ${styles.upper}`}>О нас</h2>
-				<p className={styles.center}>
-					Компания в 2018 году занялась переработкой и высокой очисткой
-					гидролизного лигнина, чистота которого позволяет широко использовать
-					его в различных сферах.
-				</p>
-				<ul className={styles.aboutUsList}>
-					<li>
-						Лигнин высокой степени очистки не имеет химического вмешательства во
-						время очистки, поэтому на выходе мы получаем абсолютно чистый
-						продукт различной степени влажности.
-					</li>
-					<li>
-						Лигнин очищенный технический - переработанное, просеянное и
-						высушенное сырье, которое находит свое применение не только в
-						промышленности, но и в энергетике и многих других сферах.
-					</li>
-					<li>
-						Экологически чистое топливо в виде брикета или пеллет выгодно
-						отличается на фоне других своей крепостью, теплоотдачей,
-						влагостойкостью и многими другими показателями.
-					</li>
-					<li>
-						Так же предлагаем лигнин из отвалов навалом или фасованный в
-						биг-бэги. Самовывоз или доставка.
-					</li>
-				</ul>
-				<p className={styles.center}>
-					Работаем с компаниями из Беларуси, России, Украины, Узбекистана,
-					Казахстана, Польши, Литвы, Латвии и другими странами.
-				</p>
-				<h3 className={`${styles.subtitle} ${styles.upper}`}>
-					Мы производим высококачественное сырье и топливо для вашего
-					производства
-				</h3>
-				<Samples />
+			<div
+				className={styles.container}
+				id='about-us-section'
+				style={{
+					backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.8) 100%), url('/images/webp/backgrounds/bg9.webp')`,
+				}}
+			>
+				<div className={`${styles.holder} ${styles.ph20} ${styles.center}`}>
+					<div className={styles.aboutWrapper}>
+						<h2 className={`${styles.title} ${styles.upper}`}>О нас</h2>
+						<p className={styles.center}>
+							Компания в 2018 году занялась переработкой и высокой очисткой
+							гидролизного лигнина, чистота которого позволяет широко
+							использовать его в различных сферах.
+						</p>
+						<ul className={styles.aboutUsList}>
+							<li>
+								Лигнин высокой степени очистки не имеет химического
+								вмешательства во время очистки, поэтому на выходе мы получаем
+								абсолютно чистый продукт различной степени влажности.
+							</li>
+							<li>
+								Лигнин очищенный технический - переработанное, просеянное и
+								высушенное сырье, которое находит свое применение не только в
+								промышленности, но и в энергетике и многих других сферах.
+							</li>
+							<li>
+								Экологически чистое топливо в виде брикета или пеллет выгодно
+								отличается на фоне других своей крепостью, теплоотдачей,
+								влагостойкостью и многими другими показателями.
+							</li>
+							<li>
+								Так же предлагаем лигнин из отвалов навалом или фасованный в
+								биг-бэги. Самовывоз или доставка.
+							</li>
+						</ul>
+						<p className={styles.center}>
+							Работаем с компаниями из Беларуси, России, Украины, Узбекистана,
+							Казахстана, Польши, Литвы, Латвии и другими странами.
+						</p>
+						<h3 className={`${styles.subtitle} ${styles.upper}`}>
+							Мы производим высококачественное сырье и топливо для вашего
+							производства
+						</h3>
+					</div>
+					<Samples />
+				</div>
 			</div>
 		</div>
 	);
