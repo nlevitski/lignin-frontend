@@ -3,7 +3,6 @@ import styles from './articles.module.scss';
 import { Articles } from './Articles';
 
 export async function generateMetadata() {
-  
 	return {
 		title: 'Статьи о применении лигнина',
 		description: 'Cтатьи о применении лигнина в различных сферах',

@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: -90px;
   padding: 60px 0 0;
   height: 100vh;
   color: var(--background);
@@ -53,6 +54,9 @@
     br {
       display: none;
     }
+  }
+  .container {
+    margin-top: -104px;
   }
 }
 @media (min-width: 769px) {

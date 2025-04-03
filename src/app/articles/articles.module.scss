@@ -3,7 +3,23 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  overflow: hidden;
+  height: auto;
 }
+.articles {
+  overflow: hidden;
+}
+// .logoPanel {
+//   display: flex;
+//   justify-content: flex-start;  
+//   padding: 20px;
+// }
+// .linkLogo {
+//   display: flex;
+//   overflow: hidden;
+//   width: 80px;
+//   height: auto;
+// }
 .title {
   margin: 100px 0 50px;
   font-size: 30px;

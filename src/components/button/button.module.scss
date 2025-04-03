@@ -81,4 +81,7 @@
   &_alignSelf {
     align-self: center;
   }
+  &_disabled {
+    opacity: 0.5;
+  }
 }

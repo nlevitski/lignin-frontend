@@ -17,6 +17,7 @@ type ButtonProps = {
 	href?: string;
 	alignSelf?: boolean;
 	style?: CSSProperties;
+	disabled?: boolean;
 
 	onClick?: (
 		e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
@@ -35,6 +36,7 @@ export const Button = ({
 	reducePaddingH = false,
 	alpha50 = false,
 	alignSelf = false,
+	disabled = false,
 	style = {},
 	onClick,
 }: ButtonProps) => {
@@ -47,13 +49,19 @@ export const Button = ({
 		button_reducePaddingH: reducePaddingH,
 		button_alpha50: alpha50,
 		button_alignSelf: alignSelf,
+		button_disabled: disabled,
 	});
 	return href ? (
 		<Link href={href} className={resultCx} onClick={onClick} style={style}>
 			{value}
 		</Link>
 	) : (
-		<button className={resultCx} onClick={onClick} style={style}>
+		<button
+			className={resultCx}
+			onClick={onClick}
+			style={style}
+			disabled={disabled}
+		>
 			{value}
 		</button>
 	);

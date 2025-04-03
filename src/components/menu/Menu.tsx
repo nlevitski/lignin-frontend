@@ -78,9 +78,14 @@ export const Menu = ({ bigboards }: MenuProps) => {
 
 	return (
 		<>
-			<button onClick={toggleMenu} className={styles.burger}>
-				<Burger isActive={isOpen} />
-			</button>
+			<div className={styles.navPanel}>
+				<Link href='/' className={styles.linkLogo}>
+					<Logo />
+				</Link>
+				<button onClick={toggleMenu} className={styles.burger}>
+					<Burger isActive={isOpen} />
+				</button>
+			</div>
 			<div
 				className={cx('container', { active: isOpen })}
 				ref={modalRef}
@@ -89,7 +94,7 @@ export const Menu = ({ bigboards }: MenuProps) => {
 					toggleMenu();
 				}}
 			>
-				<Link href='/' className={styles.linkLogo}>
+				<Link href='/' className={styles.innerLogo}>
 					<Logo />
 				</Link>
 
