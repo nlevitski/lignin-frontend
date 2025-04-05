@@ -10,7 +10,7 @@ import {
 	getArticleWithWidgetOrder,
 	getBigboardsWithTeasers,
 } from '@/dal/articles';
-import { pickImgSize } from '@/utils/pickImgSizes';
+// import { pickImgSize } from '@/utils/pickImgSizes';
 import { Features } from '@/components/features/Features';
 
 type Pagination = {
@@ -71,7 +71,7 @@ export default async function Home() {
 		(bigboard) => bigboard.article.documentId === bigboardArticleDocumentId
 	)!;
 
-	const mainCover = pickImgSize(mainArticle.article.coverBigboard.formats);
+	// const mainCover = pickImgSize(mainArticle.article.coverBigboard.formats);
 	const bigboardArticles = bigboardsData.filter(
 		(bigboard) => bigboard.article.documentId !== bigboardArticleDocumentId
 	);
@@ -86,8 +86,8 @@ export default async function Home() {
 			<Brief
 				title={mainArticle.article.title}
 				readMoreUrl={`/${mainArticle.article.path}`}
-				imgUrl={mainCover.url}
-				imgAlt={mainCover.name}
+				imgUrl={mainArticle.article.coverBigboard.url}
+				imgAlt={mainArticle.article.coverBigboard.name}
 				bgUrl={mainArticle.background.url}
 				teaser={mainArticle.article.teaser || []}
 				style={{ objectFit: 'initial' }}
@@ -105,15 +105,15 @@ export default async function Home() {
 			</Features>
 
 			{bigboardArticles.map(({ article, background }) => {
-				const currentImg = pickImgSize(article.coverBigboard.formats);
+				// const currentImg = pickImgSize(article.coverBigboard.formats);
 				return (
 					<Brief
 						id={article.path}
 						key={article.documentId}
 						title={article.title}
 						readMoreUrl={`/${article.path}`}
-						imgUrl={currentImg.url}
-						imgAlt={currentImg.name}
+						imgUrl={article.coverBigboard.url}
+						imgAlt={article.coverBigboard.name}
 						bgUrl={background.url}
 						teaser={article.teaser || []}
 						mission={article.mission}
