@@ -269,7 +269,10 @@ export function getBigboardsWithTeasers(): Promise<{
 	meta: Meta;
 }> {
 	return fetchJson(
-		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][cover]=true&populate[background]=true'
+		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][cover]=true&populate[background]=true',
+		{
+			next: { revalidate: 60 },
+		}
 	);
 }
 export function getArticleWithWidgetOrder(): Promise<{
@@ -277,6 +280,9 @@ export function getArticleWithWidgetOrder(): Promise<{
 	meta: Meta;
 }> {
 	return fetchJson(
-		'http://localhost:1337/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true'
+		'http://localhost:1337/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true',
+		{
+			next: { revalidate: 60 },
+		}
 	);
 }
