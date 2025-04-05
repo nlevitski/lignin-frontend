@@ -155,12 +155,14 @@ export default async function Home() {
 			</div>
 			<div
 				className={styles.container}
-				id='about-us-section'
 				style={{
 					backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.8) 100%), url('/images/webp/backgrounds/bg9.webp')`,
 				}}
 			>
-				<div className={`${styles.holder} ${styles.ph20} ${styles.center}`}>
+				<div
+					className={`${styles.holder} ${styles.ph20} ${styles.center}`}
+					id='about-us-section'
+				>
 					<div className={styles.aboutWrapper}>
 						<h2 className={`${styles.title} ${styles.upper}`}>О нас</h2>
 						<p className={styles.center}>
