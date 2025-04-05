@@ -31,13 +31,12 @@ export const Brief = ({
 	return (
 		<div
 			className={styles.container}
-			id={id}
 			style={{
 				backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.8) 100%), url(${bgUrl})`,
 				backgroundAttachment: 'fixed',
 			}}
 		>
-			<div className={styles.wrapper}>
+			<div className={styles.wrapper} id={id}>
 				<div className={styles.holder}>
 					<div className={styles.imgWrapper}>
 						<div
