@@ -92,9 +92,29 @@
   position: relative;
   cursor: pointer;
 }
-.phone {
+.contacts {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  // flex-wrap: wrap;
+  gap: 8px;
+  // max-width: 178px;
   
+  svg {
+    max-height: 40px;
+    width: auto;
+  }
 }
+.social {
+  // flex: 0 1 0;
+  font-size: 0;
+  line-height: 1;
+  &_ordered {
+    order: -1;
+  }
+}
+
 @media (min-width: 641px) {
   .linkLogo {
     height: 64px;
@@ -138,11 +158,19 @@
     transform: translateY(0);
   }
   }
-  .phone {
+  .contacts {
     position: absolute;
     top: 52px;
     margin: 0 auto;
-    transform: translateX(200%);
+    // max-width: 100%;
+    transform: translateX(112%);
+    z-index: 10;
+    flex-wrap: nowrap;
+  }
+  .social {
+    &_ordered {
+      order: 0;
+    }
   }
   .navPanel {
     display: none;

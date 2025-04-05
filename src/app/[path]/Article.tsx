@@ -47,12 +47,12 @@ export const Article = ({ article }: ArticleProps) => {
 				/>
 			</div>
 			<Button
-				href='/'
+				href='/articles'
 				type={'secondary'}
 				large
 				bold
 				reducePaddingH
-				value={'Вернуться на главную'}
+				value={'Вернуться к статьям'}
 				alignSelf
 				style={{ margin: '30px 0 0' }}
 			/>

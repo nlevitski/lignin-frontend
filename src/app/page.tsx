@@ -92,6 +92,7 @@ export default async function Home() {
 				teaser={mainArticle.article.teaser || []}
 				style={{ objectFit: 'initial' }}
 				aspectRatio={{ aspectRatio: '779 / 716' }}
+				mobileBgOff={true}
 			/>
 			<Features>
 				{features.map((f) => (

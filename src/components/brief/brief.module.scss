@@ -16,6 +16,9 @@
   overflow: hidden;
   gap: 60px;
   background-color: var(--background);
+  &_mobileBgOff {
+    margin-top: 0;
+  }
 }
 
 .holder {
@@ -101,6 +104,13 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+  }
+}
+@media (min-width: 961px) {
+  .wrapper {
+    &_mobileBgOff {
+    margin-top: auto;
+  }
   }
 }
 @media (min-width: 1181px) {

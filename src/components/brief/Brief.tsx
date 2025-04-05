@@ -15,6 +15,7 @@ type BriefProps = {
 	aspectRatio?: CSSProperties;
 	style?: CSSProperties;
 	id?: string;
+	mobileBgOff?: boolean;
 };
 export const Brief = ({
 	title,
@@ -27,6 +28,7 @@ export const Brief = ({
 	bgUrl,
 	aspectRatio = {},
 	style = {},
+	mobileBgOff = false,
 }: BriefProps) => {
 	return (
 		<div
@@ -36,7 +38,12 @@ export const Brief = ({
 				backgroundAttachment: 'fixed',
 			}}
 		>
-			<div className={styles.wrapper} id={id}>
+			<div
+				className={`${styles.wrapper} ${
+					mobileBgOff ? styles.wrapper_mobileBgOff : ''
+				}`}
+				id={id}
+			>
 				<div className={styles.holder}>
 					<div className={styles.imgWrapper}>
 						<div

@@ -7,6 +7,7 @@ import { Burger } from '../icons/burger/Burger';
 import styles from './menu.module.scss';
 import classNames from 'classnames/bind';
 import { ArticleShort, Bigboard } from '@/dal/articles';
+import { Telegram, Whatsup } from '../icons/Socials';
 
 type MenuProps = {
 	bigboards: Bigboard<ArticleShort>[];
@@ -89,9 +90,10 @@ export const Menu = ({ bigboards }: MenuProps) => {
 			<div
 				className={cx('container', { active: isOpen })}
 				ref={modalRef}
-				onClick={(e) => {
-					e.preventDefault();
-					toggleMenu();
+				onClick={() => {
+					if (window?.innerWidth < 961) {
+						toggleMenu();
+					}
 				}}
 			>
 				<Link href='/' className={styles.innerLogo}>
@@ -101,20 +103,51 @@ export const Menu = ({ bigboards }: MenuProps) => {
 				<ul className={styles.navMenu}>
 					{currentMenu.map((item) => (
 						<li key={item.title} className={styles.navItem}>
-							<Link href={item.href} className={styles.navLink}>
-								{item.title}
-							</Link>
+							{item.href !== '/articles' ? (
+								<Link href={item.href} className={styles.navLink}>
+									{item.title}
+								</Link>
+							) : (
+								<a
+									className={styles.navLink}
+									href={item.href}
+									target='_blank'
+									rel='noopener noreferrer'
+								>
+									{item.title}
+								</a>
+							)}
 						</li>
 					))}
 				</ul>
 
-				<div className={styles.phone}>
+				<div className={styles.contacts}>
 					<Button
 						value={phoneNumberRus}
 						href={`tel:${phoneNumberRus}`}
 						type={'primary'}
 						semibold
+						style={{ flexGrow: '2' }}
 					/>
+
+					<a
+						className={`${styles.social} ${styles.social_ordered}`}
+						href={
+							'https://api.whatsapp.com/send/?phone=%2B79997181966&text&type=phone_number&app_absent=0'
+						}
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<Whatsup />
+					</a>
+					<a
+						className={styles.social}
+						href={'https://t.me/ligninby'}
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<Telegram />
+					</a>
 				</div>
 			</div>
 		</>
