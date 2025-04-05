@@ -58,7 +58,7 @@ const features: Feature[] = [
 ];
 
 const bigboardArticleDocumentId = 'r82tukj30x59ztiojp2d9yzp';
-
+export const revalidate = 60;
 export default async function Home() {
 	const {
 		0: { data: bigboardsData },

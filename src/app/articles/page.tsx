@@ -9,6 +9,7 @@ export async function generateMetadata() {
 		keywords: 'Сорбент лигнин статьи научные исследования использование',
 	};
 }
+export const revalidate = 60;
 export default async function ArticlesPage() {
 	const result = await getArticles();
 

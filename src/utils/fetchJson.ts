@@ -1,7 +1,10 @@
-export async function fetchJson<T>(
-	url: string,
-	options?: RequestInit
-): Promise<T> {
+export async function fetchJson<T>({
+	url,
+	options = { next: { revalidate: 60 } },
+}: {
+	url: string;
+	options?: RequestInit;
+}): Promise<T> {
 	try {
 		const response = await fetch(url, options);
 

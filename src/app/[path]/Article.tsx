@@ -9,7 +9,7 @@ import { pickImgSize } from '@/utils/pickImgSizes';
 type ArticleProps = {
 	article: ArticleItem;
 };
-
+export const revalidate = 60;
 export const Article = ({ article }: ArticleProps) => {
 	const format = pickImgSize(article.cover.formats);
 	return (

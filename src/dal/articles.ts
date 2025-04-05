@@ -236,53 +236,47 @@ export type Article = {
 };
 
 export function getArticles(): Promise<ArticlesResponse<ArticleItem[]>> {
-	return fetchJson(
-		'http://localhost:1337/api/articles?populate=cover&sort=updatedAt:desc'
-	);
+	return fetchJson({
+		url: 'http://localhost:1337/api/articles?populate=cover&sort=updatedAt:desc',
+	});
 }
 
 export function getArticleByDocumentId(
 	documentId: string
 ): Promise<ArticlesResponse<ArticleItem>> {
-	return fetchJson(
-		`http://localhost:1337/api/articles/${documentId}?populate=cover`
-	);
+	return fetchJson({
+		url: `http://localhost:1337/api/articles/${documentId}?populate=cover`,
+	});
 }
 
 export function getArticleByPath(
 	path: string
 ): Promise<ArticlesResponse<ArticleItem>> {
 	const currentPath = `http://localhost:1337/api/articles/path/${path}`;
-	return fetchJson(currentPath);
+	return fetchJson({ url: currentPath });
 }
 
 export function getBigboards(): Promise<{
 	data: Bigboard<ArticleShort>[];
 	meta: Meta;
 }> {
-	return fetchJson(
-		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][populate][cover]=true'
-	);
+	return fetchJson({
+		url: 'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][populate][cover]=true',
+	});
 }
 export function getBigboardsWithTeasers(): Promise<{
 	data: Bigboard<Article>[];
 	meta: Meta;
 }> {
-	return fetchJson(
-		'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][cover]=true&populate[background]=true',
-		{
-			next: { revalidate: 60 },
-		}
-	);
+	return fetchJson({
+		url: 'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][cover]=true&populate[background]=true',
+	});
 }
 export function getArticleWithWidgetOrder(): Promise<{
 	data: Widget[];
 	meta: Meta;
 }> {
-	return fetchJson(
-		'http://localhost:1337/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true',
-		{
-			next: { revalidate: 60 },
-		}
-	);
+	return fetchJson({
+		url: 'http://localhost:1337/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true',
+	});
 }
