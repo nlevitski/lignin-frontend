@@ -71,7 +71,7 @@ export default async function Home() {
 		(bigboard) => bigboard.article.documentId === bigboardArticleDocumentId
 	)!;
 
-	const mainCover = pickImgSize(mainArticle.article.cover.formats);
+	const mainCover = pickImgSize(mainArticle.article.coverBigboard.formats);
 	const bigboardArticles = bigboardsData.filter(
 		(bigboard) => bigboard.article.documentId !== bigboardArticleDocumentId
 	);
@@ -105,7 +105,7 @@ export default async function Home() {
 			</Features>
 
 			{bigboardArticles.map(({ article, background }) => {
-				const currentImg = pickImgSize(article.cover.formats);
+				const currentImg = pickImgSize(article.coverBigboard.formats);
 				return (
 					<Brief
 						id={article.path}

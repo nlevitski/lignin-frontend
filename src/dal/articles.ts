@@ -74,6 +74,25 @@ export type Children3 = {
 	text: string;
 };
 
+export type Formats = {
+	large: ImageProperties;
+	medium: ImageProperties;
+	small: ImageProperties;
+	thumbnail: ImageProperties;
+};
+
+export type ImageProperties = {
+	name: string;
+	hash: string;
+	ext: string;
+	mime: string;
+	path: string;
+	width: number;
+	height: number;
+	size: number;
+	sizeInBytes: number;
+	url: string;
+};
 export type Cover = {
 	id: number;
 	documentId: string;
@@ -95,27 +114,6 @@ export type Cover = {
 	updatedAt: string;
 	publishedAt: string;
 };
-
-export type Formats = {
-	large: ImageProperties;
-	medium: ImageProperties;
-	small: ImageProperties;
-	thumbnail: ImageProperties;
-};
-
-export type ImageProperties = {
-	name: string;
-	hash: string;
-	ext: string;
-	mime: string;
-	path: string;
-	width: number;
-	height: number;
-	size: number;
-	sizeInBytes: number;
-	url: string;
-};
-
 export type CoverPreview = {
 	id: number;
 	documentId: string;
@@ -136,6 +134,27 @@ export type CoverPreview = {
 	createdAt: string;
 	updatedAt: string;
 	publishedAt: string;
+};
+export type CoverBigboard = {
+	id: number;
+	documentId: string;
+	name: string;
+	caption: string;
+	width: number;
+	height: number;
+	formats: Formats;
+	hash: string;
+	ext: string;
+	mime: string;
+	size: number;
+	url: string;
+	previewUrl: string;
+	provider: string;
+	provider_metadata: unknown;
+	createdAt: string;
+	updatedAt: string;
+	publishedAt: string;
+	alternativeText: string;
 };
 
 export type Formats2 = {
@@ -232,6 +251,7 @@ export type Article = {
 	path: string;
 	titleSmall: string;
 	cover: Cover;
+	coverBigboard: CoverBigboard;
 	coverPreview: CoverPreview;
 };
 
@@ -261,7 +281,7 @@ export function getBigboards(): Promise<{
 	meta: Meta;
 }> {
 	return fetchJson({
-		url: 'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][populate][cover]=true',
+		url: 'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][populate][coverBigboard]=true',
 	});
 }
 export function getBigboardsWithTeasers(): Promise<{
@@ -269,7 +289,7 @@ export function getBigboardsWithTeasers(): Promise<{
 	meta: Meta;
 }> {
 	return fetchJson({
-		url: 'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][cover]=true&populate[background]=true',
+		url: 'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][coverBigboard]=true&populate[background]=true',
 	});
 }
 export function getArticleWithWidgetOrder(): Promise<{
