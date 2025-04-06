@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Socials } from '../socials/Socials';
 import styles from './footer.module.scss';
+import { FooterMap } from '../map/Map';
 
 export const Footer = () => {
 	return (
@@ -26,6 +27,7 @@ export const Footer = () => {
 					{'Карта сайта'}
 				</Link>
 				<Socials />
+				<FooterMap />
 			</div>
 		</footer>
 	);

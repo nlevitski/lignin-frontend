@@ -1,0 +1,19 @@
+.box {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 48px;
+  max-width: 368px;
+  width: 100%;
+  height: 300px;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 384px) {
+  .box {
+    max-width: 384px;
+  }
+}
