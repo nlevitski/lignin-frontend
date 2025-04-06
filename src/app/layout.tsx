@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer/Footer';
 import { Feedback } from '@/components/feedback/Feedback';
 import { Menu } from '@/components/menu/Menu';
 import { getBigboards } from '@/dal/articles';
+import { YandexMetrika } from '@/components/yandexMetrika/YandexMetrika';
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -31,6 +32,7 @@ export default async function RootLayout({
 				{children}
 				<Feedback />
 				<Footer />
+				<YandexMetrika />
 			</body>
 		</html>
 	);
