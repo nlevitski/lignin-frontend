@@ -1,6 +1,6 @@
 'use client';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import styles from './Map.module.scss';
+import styles from './map.module.scss';
 
 export const FooterMap = () => {
 	return (
