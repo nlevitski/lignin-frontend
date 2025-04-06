@@ -6,6 +6,7 @@ import { Feedback } from '@/components/feedback/Feedback';
 import { Menu } from '@/components/menu/Menu';
 import { getBigboards } from '@/dal/articles';
 import { YandexMetrika } from '@/components/yandexMetrika/YandexMetrika';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -33,6 +34,11 @@ export default async function RootLayout({
 				<Feedback />
 				<Footer />
 				<YandexMetrika />
+				{process.env.NODE_ENV === 'production' && (
+					<GoogleAnalytics
+						gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!}
+					/>
+				)}
 			</body>
 		</html>
 	);
