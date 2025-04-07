@@ -7,6 +7,7 @@ import { Menu } from '@/components/menu/Menu';
 import { getBigboards } from '@/dal/articles';
 import { YandexMetrika } from '@/components/yandexMetrika/YandexMetrika';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import ScrollTopButton from '@/components/scrollToTopButton/ScrollToTopButton';
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -35,6 +36,7 @@ export default async function RootLayout({
 				{children}
 				<Feedback />
 				<Footer />
+				<ScrollTopButton />
 				{isProduciton && <YandexMetrika />}
 				{isProduciton && (
 					<GoogleAnalytics
