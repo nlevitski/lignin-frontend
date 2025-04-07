@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const baseUrl = 'http://95.182.120.240:3000';
+const baseUrl = 'http://ligninsorbent.ru';
 export default function robots(): MetadataRoute.Robots {
 	return {
 		rules: {

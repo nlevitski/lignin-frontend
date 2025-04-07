@@ -26,6 +26,7 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const { data } = await getBigboards();
+	console.log(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID);
 	return (
 		<html lang='ru'>
 			<body className={`${montserrat.variable}`}>
