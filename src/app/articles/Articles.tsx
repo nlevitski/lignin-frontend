@@ -1,19 +1,21 @@
 'use client';
 import styles from './articles.module.scss';
 import Image from 'next/image';
-import { ArticleItem, ArticlesResponse } from '@/dal/articles';
+import { ArticleItem, ArticlesResponse, ExcludedArticle } from '@/dal/articles';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 type ArticlesProps = {
 	articles: ArticlesResponse<ArticleItem[]>;
+	excludedArticles: ArticlesResponse<ExcludedArticle[]>;
 };
 
-const toExcludePaths = ['hydrolyzedlignin', 'application'];
-
-export const Articles = ({ articles }: ArticlesProps) => {
+export const Articles = ({ articles, excludedArticles }: ArticlesProps) => {
 	const currentArticles = articles.data.filter(
-		(article) => !toExcludePaths.includes(article.path)
+		(article) =>
+			!excludedArticles.data.some(
+				(exclude) => exclude.article.documentId === article.documentId
+			)
 	);
 	const [windowWidth, setWindowWidth] = useState(320);
 	const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);

@@ -44,6 +44,15 @@ export type ArticleItem = {
 	metaKeywords?: string;
 };
 
+export type ExcludedArticle = {
+	id: number;
+	documentId: string;
+	createdAt: string;
+	updatedAt: string;
+	publishedAt: string;
+	article: Pick<ArticleItem, 'id' | 'documentId'>;
+};
+
 export type Teaser = {
 	type: string;
 	children: Children[];
@@ -258,6 +267,14 @@ export type Article = {
 export function getArticles(): Promise<ArticlesResponse<ArticleItem[]>> {
 	return fetchJson({
 		url: 'http://localhost:1337/api/articles?populate=cover&sort=updatedAt:desc',
+	});
+}
+
+export function getExcludedArticles(): Promise<
+	ArticlesResponse<ExcludedArticle[]>
+> {
+	return fetchJson({
+		url: 'http://localhost:1337/api/excluded-articles?populate[article][fields][0]=documentId',
 	});
 }
 

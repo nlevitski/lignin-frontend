@@ -1,6 +1,6 @@
 export async function fetchJson<T>({
 	url,
-	options = { next: { revalidate: 60 } },
+	options = { next: { revalidate: 60 }, cache: 'no-store' },
 }: {
 	url: string;
 	options?: RequestInit;

@@ -16,6 +16,11 @@ const links = [
 		href: '/articles',
 	},
 ];
+export const metadata = {
+	title: 'Карта сайта - Лигнин гидролизный',
+	description:
+		'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный высокой степени очистки. Сорбент для ЛАРН. Пеллеты и брикет из лигнина. Россия Беларусь Казахстан Узбекистан Грузия Молдова',
+};
 export default async function SitemapPage() {
 	const { data: articles } = await getArticles();
 	const newArticles = articles

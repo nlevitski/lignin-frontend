@@ -1,4 +1,4 @@
-import { getArticles } from '@/dal/articles';
+import { getArticles, getExcludedArticles } from '@/dal/articles';
 import styles from './articles.module.scss';
 import { Articles } from './Articles';
 
@@ -11,7 +11,10 @@ export async function generateMetadata() {
 }
 export const revalidate = 60;
 export default async function ArticlesPage() {
-	const result = await getArticles();
+	const { 0: result, 1: excludedArticles } = await Promise.all([
+		getArticles(),
+		getExcludedArticles(),
+	]);
 
 	return (
 		<div className={styles.articles}>
@@ -19,7 +22,7 @@ export default async function ArticlesPage() {
 				<h1 className={`${styles.title} ${styles.upper}`}>
 					Статьи о применении лигнина
 				</h1>
-				<Articles articles={result} />;
+				<Articles articles={result} excludedArticles={excludedArticles} />;
 			</div>
 		</div>
 	);
