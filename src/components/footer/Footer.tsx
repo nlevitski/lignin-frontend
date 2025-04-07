@@ -23,7 +23,7 @@ export const Footer = () => {
 					<dd className={styles.emailDd}>alex.bizby@gmail.com</dd>
 				</dl>
 				{/* <a href='#'>Карта сайта</a> */}
-				<Link className={styles.link} href='/sitemap-info'>
+				<Link className={styles.link} href='/sitemap'>
 					{'Карта сайта'}
 				</Link>
 				<Socials />
