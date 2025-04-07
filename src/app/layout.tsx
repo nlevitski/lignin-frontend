@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 		'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный высокой степени очистки. Сорбент для ЛАРН. Пеллеты и брикет из лигнина. Россия Беларусь Казахстан Узбекистан Грузия Молдова',
 };
 
+const isProduciton = process.env.NODE_ENV === 'production';
 export default async function RootLayout({
 	children,
 }: Readonly<{
@@ -34,8 +35,8 @@ export default async function RootLayout({
 				{children}
 				<Feedback />
 				<Footer />
-				<YandexMetrika />
-				{process.env.NODE_ENV === 'production' && (
+				{isProduciton && <YandexMetrika />}
+				{isProduciton && (
 					<GoogleAnalytics
 						gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!}
 					/>
