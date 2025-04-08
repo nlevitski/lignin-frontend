@@ -31,15 +31,12 @@ export const Brief = ({
 	mobileBgOff = false,
 }: BriefProps) => {
 	return (
-		<div className={`${styles.container}`}>
-			<div className={`${styles.background}`}>
-				<div
-					className={styles.backgroundDeep}
-					style={{
-						backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.8) 100%), url(${bgUrl})`,
-					}}
-				></div>
-			</div>
+		<div
+			className={`${styles.container} ${styles.container_bgFixed}`}
+			style={{
+				backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.8) 100%), url(${bgUrl})`,
+			}}
+		>
 			<div
 				className={`${styles.wrapper} ${mobileBgOff ? styles.mobileBgOff : ''}`}
 				id={id}
