@@ -22,6 +22,7 @@ type FormState = {
 		message: string;
 	};
 };
+
 export const Feedback = () => {
 	const initialFormState: FormState = {
 		success: false,
@@ -40,7 +41,9 @@ export const Feedback = () => {
 			message: '',
 		},
 	};
-	const { 0: isSubmitted, 1: setIsSubmitted } = useState(false);
+
+	// Состояние отправки формы хранится только в useState
+	const [isSubmitted, setIsSubmitted] = useState(false);
 
 	const [state, formAction, isPending] = useActionState<FormState, FormData>(
 		(prev: FormState, formData: FormData) =>
@@ -50,16 +53,13 @@ export const Feedback = () => {
 			})),
 		initialFormState
 	);
-	useEffect(() => {
-		setIsSubmitted(sessionStorage.getItem('feedbackSubmitted') === 'true');
-	}, []);
 
+	// Обновляем isSubmitted только при успешной отправке
 	useEffect(() => {
 		if (state.success) {
 			setIsSubmitted(true);
-			sessionStorage.setItem('feedbackSubmitted', 'true');
 		}
-	}, [state]);
+	}, [state.success]);
 
 	return (
 		<div className={styles.container} id='feedback-section'>
@@ -77,7 +77,6 @@ export const Feedback = () => {
 					className={styles.form}
 					id='feedback-form'
 					action={formAction}
-					// method='POST'
 					noValidate
 					aria-label='Форма обратной связи'
 				>
@@ -136,7 +135,6 @@ export const Feedback = () => {
 					<Button
 						type={'tertiary'}
 						value={'Отправить'}
-						// onClick={handleClick}
 						bold
 						disabled={isPending}
 					/>
