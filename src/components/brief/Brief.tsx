@@ -32,16 +32,13 @@ export const Brief = ({
 }: BriefProps) => {
 	return (
 		<div
-			className={styles.container}
+			className={`${styles.container} ${styles.container_bgFixed}`}
 			style={{
 				backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.8) 100%), url(${bgUrl})`,
-				backgroundAttachment: 'fixed',
 			}}
 		>
 			<div
-				className={`${styles.wrapper} ${
-					mobileBgOff ? styles.wrapper_mobileBgOff : ''
-				}`}
+				className={`${styles.wrapper} ${mobileBgOff ? styles.mobileBgOff : ''}`}
 				id={id}
 			>
 				<div className={styles.holder}>
