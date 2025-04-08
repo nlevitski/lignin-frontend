@@ -71,7 +71,6 @@ export default async function Home() {
 		(bigboard) => bigboard.article.documentId === bigboardArticleDocumentId
 	)!;
 
-	// const mainCover = pickImgSize(mainArticle.article.coverBigboard.formats);
 	const bigboardArticles = bigboardsData.filter(
 		(bigboard) => bigboard.article.documentId !== bigboardArticleDocumentId
 	);
@@ -106,23 +105,24 @@ export default async function Home() {
 				))}
 			</Features>
 
-			{bigboardArticles.map(({ article, background }) => {
-				// const currentImg = pickImgSize(article.coverBigboard.formats);
-				return (
-					<Brief
-						id={article.path}
-						key={article.documentId}
-						title={article.title}
-						readMoreUrl={`/${article.path}`}
-						imgUrl={article.coverBigboard.url}
-						imgAlt={article.coverBigboard.name}
-						bgUrl={background.url}
-						teaser={article.teaser || []}
-						mission={article.mission}
-						style={{ objectPosition: '75% 50%' }}
-					/>
-				);
-			})}
+			<div className={styles.bigboards}>
+				{bigboardArticles.map(({ article, background }) => {
+					return (
+						<Brief
+							id={article.path}
+							key={article.documentId}
+							title={article.title}
+							readMoreUrl={`/${article.path}`}
+							imgUrl={article.coverBigboard.url}
+							imgAlt={article.coverBigboard.name}
+							bgUrl={background.url}
+							teaser={article.teaser || []}
+							mission={article.mission}
+							style={{ objectPosition: '75% 50%' }}
+						/>
+					);
+				})}
+			</div>
 			<div
 				className={styles.container}
 				style={{
