@@ -60,7 +60,11 @@ export const Menu = ({ bigboards }: MenuProps) => {
 		href: `/#${bigboard.article.path}`,
 	}));
 
-	const currentMenu = [...menuItemsDynamic, ...menuItems];
+	const currentMenu = [
+		{ title: 'Главная', href: '/#home' },
+		...menuItemsDynamic,
+		...menuItems,
+	];
 	const { 0: isOpen, 1: setIsOpen } = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
 	const toggleMenu = () => {

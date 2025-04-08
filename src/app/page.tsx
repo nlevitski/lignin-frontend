@@ -81,9 +81,10 @@ export default async function Home() {
 	);
 
 	return (
-		<div>
+		<div id='home'>
 			<Hero />
 			<Brief
+				id={mainArticle.article.path}
 				title={mainArticle.article.title}
 				readMoreUrl={`/${mainArticle.article.path}`}
 				imgUrl={mainArticle.article.coverBigboard.url}
