@@ -129,6 +129,7 @@
     overflow-y: hidden;
     opacity: 1;
     transform: translateY(0);
+    transform: translateZ(0);
     height: auto;
     background-color: transparent;
     // margin-bottom: -218px;
@@ -141,7 +142,13 @@
       padding-top: 12px;
       padding-bottom: 12px;
       background-color: var(--background);
+      
     }
+
+  }
+  .placeholder {
+    display: flex;
+    height: 214px;
   }
   .navMenu {
     flex-direction: row;

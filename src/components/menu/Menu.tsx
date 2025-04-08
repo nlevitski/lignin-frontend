@@ -126,6 +126,7 @@ export const Menu = ({ bigboards }: MenuProps) => {
 					<Burger isActive={isOpen} />
 				</button>
 			</div>
+			{showSticky && <div className={styles.placeholder}>&nbsp;</div>}
 			<div
 				className={cx('container', {
 					active: isOpen,
