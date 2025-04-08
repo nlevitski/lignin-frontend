@@ -149,6 +149,7 @@
   .placeholder {
     display: flex;
     height: 214px;
+    transition: 300ms ease-in-out;
   }
   .navMenu {
     flex-direction: row;

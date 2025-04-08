@@ -54,8 +54,8 @@ const menuDesktopMinWidth = 960;
 const phoneNumberRus = '+7 999 718 19 66';
 export const Menu = ({ bigboards }: MenuProps) => {
 	const { 0: showSticky, 1: setShowSticky } = useState(false);
-	const { 0: lastScrollY, 1: setLastScrollY } = useState(0);
 
+	const lastScrollYRef = useRef(0);
 	const sortedBigboards = bigboards.sort((a, b) =>
 		a.menuOrder > b.menuOrder ? 1 : -1
 	);
@@ -89,11 +89,13 @@ export const Menu = ({ bigboards }: MenuProps) => {
 	useEffect(() => {
 		const handleScroll = () => {
 			const currentY = window.scrollY;
+			const lastY = lastScrollYRef.current;
+
 			const screenHeight = window.innerHeight;
 			const screenWidth = window.innerWidth;
 
-			const scrollingUp = currentY < lastScrollY;
-			const scrollingDown = currentY > lastScrollY;
+			const scrollingUp = currentY < lastY;
+			const scrollingDown = currentY > lastY;
 			const scrolledPastTwoScreens = currentY > screenHeight * 2;
 			const wideEnough = screenWidth > menuDesktopMinWidth;
 			const closeToTop = currentY < menuDesktopHeight;
@@ -110,11 +112,13 @@ export const Menu = ({ bigboards }: MenuProps) => {
 				setShowSticky(false);
 			}
 
-			setLastScrollY(currentY);
+			requestAnimationFrame(() => {
+				lastScrollYRef.current = currentY;
+			});
 		};
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
-	}, [lastScrollY]);
+	}, [showSticky]);
 
 	return (
 		<>
