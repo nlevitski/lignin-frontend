@@ -49,8 +49,13 @@ const menuItems: MenuItem[] = [
 ];
 // const phoneNumber = '+375297290243';
 // const phoneValue = '+375 29 729 02 43';
+const menuDesktopHeight = 214;
+const menuDesktopMinWidth = 960;
 const phoneNumberRus = '+7 999 718 19 66';
 export const Menu = ({ bigboards }: MenuProps) => {
+	const { 0: showSticky, 1: setShowSticky } = useState(false);
+	const { 0: lastScrollY, 1: setLastScrollY } = useState(0);
+
 	const sortedBigboards = bigboards.sort((a, b) =>
 		a.menuOrder > b.menuOrder ? 1 : -1
 	);
@@ -81,6 +86,36 @@ export const Menu = ({ bigboards }: MenuProps) => {
 		}
 	}, [isOpen]);
 
+	useEffect(() => {
+		const handleScroll = () => {
+			const currentY = window.scrollY;
+			const screenHeight = window.innerHeight;
+			const screenWidth = window.innerWidth;
+
+			const scrollingUp = currentY < lastScrollY;
+			const scrollingDown = currentY > lastScrollY;
+			const scrolledPastTwoScreens = currentY > screenHeight * 2;
+			const wideEnough = screenWidth > menuDesktopMinWidth;
+			const closeToTop = currentY < menuDesktopHeight;
+
+			if (showSticky && closeToTop) {
+				setShowSticky(false);
+			}
+
+			if (!showSticky && wideEnough && scrollingUp && scrolledPastTwoScreens) {
+				setShowSticky(true);
+			}
+
+			if (showSticky && scrollingDown) {
+				setShowSticky(false);
+			}
+
+			setLastScrollY(currentY);
+		};
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, [lastScrollY]);
+
 	return (
 		<>
 			<div className={styles.navPanel}>
@@ -92,7 +127,10 @@ export const Menu = ({ bigboards }: MenuProps) => {
 				</button>
 			</div>
 			<div
-				className={cx('container', { active: isOpen })}
+				className={cx('container', {
+					active: isOpen,
+					container_sticky: showSticky,
+				})}
 				ref={modalRef}
 				onClick={() => {
 					if (window?.innerWidth < 961) {
@@ -100,11 +138,13 @@ export const Menu = ({ bigboards }: MenuProps) => {
 					}
 				}}
 			>
-				<Link href='/' className={styles.innerLogo}>
-					<Logo />
-				</Link>
+				{!showSticky && (
+					<Link href='/' className={styles.innerLogo}>
+						<Logo />
+					</Link>
+				)}
 
-				<ul className={styles.navMenu}>
+				<ul className={cx('navMenu')}>
 					{currentMenu.map((item) => (
 						<li key={item.title} className={styles.navItem}>
 							{item.href !== '/articles' ? (
@@ -125,34 +165,36 @@ export const Menu = ({ bigboards }: MenuProps) => {
 					))}
 				</ul>
 
-				<div className={styles.contacts}>
-					<Button
-						value={phoneNumberRus}
-						href={`tel:${phoneNumberRus}`}
-						type={'primary'}
-						semibold
-						style={{ flexGrow: '2' }}
-					/>
+				{!showSticky && (
+					<div className={styles.contacts}>
+						<Button
+							value={phoneNumberRus}
+							href={`tel:${phoneNumberRus}`}
+							type={'primary'}
+							semibold
+							style={{ flexGrow: '2' }}
+						/>
 
-					<a
-						className={`${styles.social} ${styles.social_ordered}`}
-						href={
-							'https://api.whatsapp.com/send/?phone=%2B79997181966&text&type=phone_number&app_absent=0'
-						}
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						<Whatsup />
-					</a>
-					<a
-						className={styles.social}
-						href={'https://t.me/ligninby'}
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						<Telegram />
-					</a>
-				</div>
+						<a
+							className={`${styles.social} ${styles.social_ordered}`}
+							href={
+								'https://api.whatsapp.com/send/?phone=%2B79997181966&text&type=phone_number&app_absent=0'
+							}
+							target='_blank'
+							rel='noopener noreferrer'
+						>
+							<Whatsup />
+						</a>
+						<a
+							className={styles.social}
+							href={'https://t.me/ligninby'}
+							target='_blank'
+							rel='noopener noreferrer'
+						>
+							<Telegram />
+						</a>
+					</div>
+				)}
 			</div>
 		</>
 	);

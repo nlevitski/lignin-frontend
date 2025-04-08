@@ -12,7 +12,7 @@
   overflow-y: scroll;
   z-index: 1;
   background-color: var(--background);
-  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+  transition: 300ms ease-in-out;
   transform: translateY(-100%);
   will-change: opacity, transform;
   opacity: 0;
@@ -132,6 +132,16 @@
     height: auto;
     background-color: transparent;
     // margin-bottom: -218px;
+    &_sticky {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      background-color: var(--background);
+    }
   }
   .navMenu {
     flex-direction: row;
