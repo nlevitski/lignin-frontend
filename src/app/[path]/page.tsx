@@ -18,8 +18,15 @@ export async function generateMetadata({
 		title: data.title,
 		description: data?.metaDescription || '',
 		keywords: data?.metaKeywords || '',
+		alternates: {
+			canonical: `https://ligninsorbent.ru/${path}`,
+		},
 		openGraph: {
 			title: data.title,
+			description: data?.metaDescription || '',
+			type: 'website',
+			url: `https://ligninsorbent.ru/${path}`,
+			image: [`https://ligninsorbent.ru${data.cover?.url}`],
 		},
 	};
 }
