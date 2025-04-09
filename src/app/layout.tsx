@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 		description:
 			'Производим сорбент лигнин гидролизный высокой степени очистки.Сорбент для ЛАРН. Пеллеты и брикет из лигнина',
 		type: 'website',
-		url: 'https://www.ligninsorbent.ru/',
+		url: 'https://ligninsorbent.ru/',
 		images: ['https://ligninsorbent.ru/uploads/open_graph_69fa6096d4.jpeg'],
 		siteName: 'Лигнин',
 	},

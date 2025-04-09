@@ -1,6 +1,7 @@
 import { getArticles, getExcludedArticles } from '@/dal/articles';
 import styles from './articles.module.scss';
 import { Articles } from './Articles';
+import { Metadata } from 'next/types';
 
 export async function generateMetadata() {
 	return {
@@ -10,6 +11,22 @@ export async function generateMetadata() {
 	};
 }
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+	title: 'Лигнин. Статьи. Научные исследования',
+	description: 'Cтатьи о применении лигнина в различных сферах',
+	keywords: 'Сорбент лигнин статьи научные исследования использование',
+	alternates: {
+		canonical: 'https://ligninsorbent.ru/articles',
+	},
+	openGraph: {
+		title: 'Лигнин. Статьи. Научные исследования',
+		description: 'Cтатьи о применении лигнина в различных сферах',
+		type: 'website',
+		url: 'https://ligninsorbent.ru/articles',
+		images: ['https://ligninsorbent.ru/images/webp/backgrounds/bg4.webp'],
+	},
+};
 export default async function ArticlesPage() {
 	const { 0: result, 1: excludedArticles } = await Promise.all([
 		getArticles(),
