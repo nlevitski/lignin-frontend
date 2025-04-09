@@ -19,6 +19,20 @@ export const metadata: Metadata = {
 		'От производителя: СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный очищенный. Сорбент для ЛАРН. Топливные пеллеты и брикеты ',
 	description:
 		'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный высокой степени очистки. Сорбент для ЛАРН. Пеллеты и брикет из лигнина. Россия Беларусь Казахстан Узбекистан Грузия Молдова',
+	keywords:
+		'От производителя лигнин сорбент адсорбент очищенный для ларн Россия',
+	alternates: {
+		canonical: 'https://ligninsorbent.ru/',
+	},
+	openGraph: {
+		title: 'Лигнин гидролизный очищенный. Сорбент для ЛАРН. Топливо из лигнина',
+		description:
+			'Производим сорбент лигнин гидролизный высокой степени очистки.Сорбент для ЛАРН. Пеллеты и брикет из лигнина',
+		type: 'website',
+		url: 'https://www.ligninsorbent.ru/',
+		images: ['https://ligninsorbent.ru/uploads/open_graph_69fa6096d4.jpeg'],
+		siteName: 'Лигнин',
+	},
 };
 
 const isProduciton = process.env.NODE_ENV === 'production';
@@ -28,7 +42,7 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const { data } = await getBigboards();
-	
+
 	return (
 		<html lang='ru'>
 			<body className={`${montserrat.variable}`}>
