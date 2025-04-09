@@ -12,8 +12,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  margin-top: 70vh;
-  padding: 80px 20px;
+  padding: 60px 20px 40px;
   overflow: hidden;
   gap: 60px;
   background-color: var(--background);
@@ -109,6 +108,8 @@
 }
 @media (min-width: 961px) {
   .wrapper {
+    margin-top: 70vh;
+    padding: 80px 20px;
     &_mobileBgOff {
     margin-top: auto;
   }

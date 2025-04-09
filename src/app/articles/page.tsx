@@ -3,15 +3,7 @@ import styles from './articles.module.scss';
 import { Articles } from './Articles';
 import { Metadata } from 'next/types';
 
-// export async function generateMetadata() {
-// 	return {
-// 		title: 'Статьи о применении лигнина',
-// 		description: 'Cтатьи о применении лигнина в различных сферах',
-// 		keywords: 'Сорбент лигнин статьи научные исследования использование',
-// 	};
-// }
 export const revalidate = 60;
-
 export const metadata: Metadata = {
 	title: 'Лигнин. Статьи. Научные исследования',
 	description: 'Cтатьи о применении лигнина в различных сферах',
