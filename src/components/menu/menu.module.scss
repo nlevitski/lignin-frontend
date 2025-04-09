@@ -25,7 +25,7 @@
   display: flex;
   width: auto;
   
-  height: 50px;
+  height: 32px;
   line-height: 0;
   color: var(--foreground);
   overflow: hidden;
@@ -33,11 +33,11 @@
 }
 .innerLogo {
   align-self: center;
-  height: 80px;
+  height: 40px;
   width: auto;
   svg {
-    max-width: 129px;
-    max-height: 80px;
+    max-width: auto;
+    max-height: 40px;
   }
 }
 .box {
@@ -117,7 +117,7 @@
 
 @media (min-width: 641px) {
   .linkLogo {
-    height: 64px;
+    height: 40px;
   }
 }
 @media (min-width: 961px) {
