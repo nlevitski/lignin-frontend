@@ -10,7 +10,7 @@ import {
 	getArticleWithWidgetOrder,
 	getBigboardsWithTeasers,
 } from '@/dal/articles';
-// import { pickImgSize } from '@/utils/pickImgSizes';
+
 import { Features } from '@/components/features/Features';
 
 type Pagination = {
@@ -71,7 +71,6 @@ export default async function Home() {
 		(bigboard) => bigboard.article.documentId === bigboardArticleDocumentId
 	)!;
 
-	// const mainCover = pickImgSize(mainArticle.article.coverBigboard.formats);
 	const bigboardArticles = bigboardsData.filter(
 		(bigboard) => bigboard.article.documentId !== bigboardArticleDocumentId
 	);

@@ -49,7 +49,7 @@ const menuItems: MenuItem[] = [
 ];
 // const phoneNumber = '+375297290243';
 // const phoneValue = '+375 29 729 02 43';
-const menuDesktopHeight = 214;
+const menuDesktopHeight = 174;
 const menuDesktopMinWidth = 960;
 const phoneNumberRus = '+7 999 718 19 66';
 export const Menu = ({ bigboards }: MenuProps) => {
