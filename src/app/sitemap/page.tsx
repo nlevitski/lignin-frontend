@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from './sitemap.module.scss';
 import { getArticles } from '@/dal/articles';
+import { getMetaTags } from '@/dal/metaTags';
 
 const links = [
 	{
@@ -16,7 +17,7 @@ const links = [
 		href: '/articles',
 	},
 ];
-export const metadata = {
+const defaultMetaTags = {
 	title: 'Карта сайта - Лигнин гидролизный',
 	description:
 		'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный высокой степени очистки. Сорбент для ЛАРН. Россия Беларусь Казахстан Узбекистан Грузия Молдова',
@@ -31,6 +32,24 @@ export const metadata = {
 		url: 'https://ligninsorbent.ru/sitemap',
 	},
 };
+export async function generateMetadata() {
+	const { data } = await getMetaTags();
+	const { title, description, ogTitle, ogDescription } =
+		data.find(({ path }) => path === '/sitemap') || {};
+	return {
+		alternates: {
+			canonical: 'https://ligninsorbent.ru/articles',
+		},
+		title: title || defaultMetaTags.title,
+		description: description || defaultMetaTags.description,
+		openGraph: {
+			title: ogTitle || defaultMetaTags.openGraph.title,
+			description: ogDescription || defaultMetaTags.openGraph.description,
+			type: defaultMetaTags.openGraph.type,
+			url: defaultMetaTags.openGraph.url,
+		},
+	};
+}
 export default async function SitemapPage() {
 	const { data: articles } = await getArticles();
 	const newArticles = articles

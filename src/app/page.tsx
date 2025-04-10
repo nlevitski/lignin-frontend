@@ -79,7 +79,7 @@ export default async function Home() {
 		(bigboard) => bigboard.article.documentId !== bigboardArticleDocumentId
 	);
 
-	const sortedArticleWidthWidgetorder = articlesDataWithWidgetOrder.sort(
+	const sortedArticleWithWidgetorder = articlesDataWithWidgetOrder.sort(
 		(a, b) => (a.widgetOrder > b.widgetOrder ? 1 : -1)
 	);
 
@@ -137,7 +137,7 @@ export default async function Home() {
 						Статьи о применении лигнина
 					</h2>
 					<ul className={styles.widgets}>
-						{sortedArticleWidthWidgetorder.map(({ article, widgetOrder }) => (
+						{sortedArticleWithWidgetorder.map(({ article, widgetOrder }) => (
 							<li className={styles.widgetItem} key={widgetOrder}>
 								<Widget
 									title={article.titleSmall}
