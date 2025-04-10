@@ -132,7 +132,7 @@ export default async function Home() {
 					backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.8) 100%), url('/images/webp/backgrounds/bg4.webp')`,
 				}}
 			>
-				<div className={styles.holder}>
+				<div className={`${styles.holder} ${styles.holder_mobileBgOff}`}>
 					<h2 className={`${styles.title} ${styles.upper}`}>
 						Статьи о применении лигнина
 					</h2>
@@ -165,7 +165,7 @@ export default async function Home() {
 				}}
 			>
 				<div
-					className={`${styles.holder} ${styles.ph20} ${styles.center}`}
+					className={`${styles.holder} ${styles.holder_mobileBgOff} ${styles.ph20} ${styles.center}`}
 					id='about-us-section'
 				>
 					<div className={styles.aboutWrapper}>
