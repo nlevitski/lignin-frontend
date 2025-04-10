@@ -320,10 +320,16 @@ const renderBlock = (
 
 		case 'link':
 			const linkClassName = getClassName(styles, classNames?.link, 'link');
-
+			const currentTitle =
+				block?.children?.find((child) => child.type === 'text')?.text ?? '';
 			if (isInternalLink(block.url!)) {
 				return (
-					<Link key={key} href={block.url!} className={linkClassName}>
+					<Link
+						key={key}
+						href={block.url!}
+						className={linkClassName}
+						title={currentTitle}
+					>
 						{renderBlockChildren(block, styles, classNames)}
 					</Link>
 				);
