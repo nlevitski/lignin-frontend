@@ -38,7 +38,7 @@ export async function generateMetadata() {
 		data.find(({ path }) => path === '/sitemap') || {};
 	return {
 		alternates: {
-			canonical: 'https://ligninsorbent.ru/articles',
+			canonical: 'https://ligninsorbent.ru/sitemap',
 		},
 		title: title || defaultMetaTags.title,
 		description: description || defaultMetaTags.description,
