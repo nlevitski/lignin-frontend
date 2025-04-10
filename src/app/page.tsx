@@ -7,11 +7,13 @@ import { Samples } from '@/components/samples/Samples';
 import { Widget } from '@/components/widget/Widget';
 import { Button } from '@/components/button/Button';
 import {
+	getAboutUsContent,
 	getArticleWithWidgetOrder,
 	getBigboardsWithTeasers,
 } from '@/dal/articles';
 
 import { Features } from '@/components/features/Features';
+import { AboutUs } from '@/components/aboutUs/AboutUs';
 
 type Pagination = {
 	page: number;
@@ -63,9 +65,11 @@ export default async function Home() {
 	const {
 		0: { data: bigboardsData },
 		1: { data: articlesDataWithWidgetOrder },
+		2: { data: aboutUsData },
 	} = await Promise.all([
 		getBigboardsWithTeasers(),
 		getArticleWithWidgetOrder(),
+		getAboutUsContent(),
 	]);
 	const mainArticle = bigboardsData.find(
 		(bigboard) => bigboard.article.documentId === bigboardArticleDocumentId
@@ -165,7 +169,8 @@ export default async function Home() {
 					id='about-us-section'
 				>
 					<div className={styles.aboutWrapper}>
-						<h2 className={`${styles.title} ${styles.upper}`}>О нас</h2>
+						<AboutUs aboutUsData={aboutUsData} />
+						{/* <h2 className={`${styles.title} ${styles.upper}`}>О нас</h2>
 						<p className={styles.center}>
 							Компания в 2018 году занялась переработкой и высокой очисткой
 							гидролизного лигнина, чистота которого позволяет широко
@@ -199,7 +204,7 @@ export default async function Home() {
 						<h3 className={`${styles.subtitle} ${styles.upper}`}>
 							Мы производим высококачественное сырье и топливо для вашего
 							производства
-						</h3>
+						</h3> */}
 					</div>
 					<Samples />
 				</div>

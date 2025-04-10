@@ -264,6 +264,22 @@ export type Article = {
 	coverPreview: CoverPreview;
 };
 
+export type AboutUs = {
+	id: number;
+	documentId: string;
+	content: Content[];
+	createdAt: string;
+	updatedAt: string;
+	publishedAt: string;
+};
+
+export type AboutUsContent = {
+	type: string;
+	children: Children[];
+	level?: number;
+	format?: string;
+};
+
 export function getArticles(): Promise<ArticlesResponse<ArticleItem[]>> {
 	return fetchJson({
 		url: 'http://localhost:1337/api/articles?populate=cover&sort=updatedAt:desc',
@@ -315,5 +331,14 @@ export function getArticleWithWidgetOrder(): Promise<{
 }> {
 	return fetchJson({
 		url: 'http://localhost:1337/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true',
+	});
+}
+
+export function getAboutUsContent(): Promise<{
+	data: AboutUs;
+	meta: object;
+}> {
+	return fetchJson({
+		url: 'http://localhost:1337/api/about-us',
 	});
 }
