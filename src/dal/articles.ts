@@ -282,7 +282,7 @@ export type AboutUsContent = {
 
 export function getArticles(): Promise<ArticlesResponse<ArticleItem[]>> {
 	return fetchJson({
-		url: 'http://localhost:1337/api/articles?populate=cover&sort=updatedAt:desc',
+		url: 'http://localhost:1337/api/articles?populate=cover&sort=createdAt:desc',
 	});
 }
 
