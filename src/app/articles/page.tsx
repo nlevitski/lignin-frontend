@@ -39,21 +39,7 @@ export async function generateMetadata() {
 		},
 	};
 }
-// export const metadata: Metadata = {
-// 	title: 'Лигнин. Статьи. Научные исследования',
-// 	description: 'Cтатьи о применении лигнина в различных сферах',
-// 	keywords: 'Сорбент лигнин статьи научные исследования использование',
-// 	alternates: {
-// 		canonical: 'https://ligninsorbent.ru/articles',
-// 	},
-// 	openGraph: {
-// 		title: 'Лигнин. Статьи. Научные исследования',
-// 		description: 'Cтатьи о применении лигнина в различных сферах',
-// 		type: 'website',
-// 		url: 'https://ligninsorbent.ru/articles',
-// 		images: ['https://ligninsorbent.ru/images/webp/backgrounds/bg4.webp'],
-// 	},
-// };
+
 export default async function ArticlesPage() {
 	const { 0: result, 1: excludedArticles } = await Promise.all([
 		getArticles(),

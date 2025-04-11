@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 export async function fetchJson<T>({
 	url,
 	options = { next: { revalidate: 60 } },
@@ -9,6 +11,9 @@ export async function fetchJson<T>({
 		const response = await fetch(url, options);
 
 		if (!response.ok) {
+			if (response.status === 404) {
+				notFound();
+			}
 			throw new Error(`HTTP error! Status: ${response.status}`);
 		}
 
