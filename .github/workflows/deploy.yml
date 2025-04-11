@@ -14,9 +14,9 @@ jobs:
       - name: Execute deploy commands
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
+            export PATH=\"/${{ secrets.VPS_USER }}/.nvm/versions/node/v22.14.0/bin:/${{ secrets.VPS_USER }}/.local/share/pnpm:\$PATH\" &&
             cd ${{ secrets.VPS_PATH }} &&
             git pull origin main &&
-            source ~/.bashrc &&
             pnpm install &&
             pnpm build &&
             pm2 restart frontend
