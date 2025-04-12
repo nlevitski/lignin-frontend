@@ -81,7 +81,15 @@ const renderTextNode = (
 ): ReactNode => {
 	if (!node.text) return null;
 
-	let content: ReactNode = node.text;
+	let content: ReactNode = node.text
+		.split('\n')
+		.reduce((acc, part, partIndex, array) => {
+			if (partIndex > 0 && (part !== '' || array[partIndex - 1] !== '')) {
+				acc.push(<br key={`br-${index}-${partIndex}`} />);
+			}
+			if (part !== '') acc.push(part);
+			return acc;
+		}, [] as ReactNode[]);
 
 	if (node.bold) {
 		content = (

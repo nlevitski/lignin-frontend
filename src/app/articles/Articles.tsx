@@ -2,12 +2,13 @@
 import styles from './articles.module.scss';
 import Image from 'next/image';
 import { ArticleItem, ArticlesResponse, ExcludedArticle } from '@/dal/articles';
+import { Document } from '@/dal/common';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 type ArticlesProps = {
-	articles: ArticlesResponse<ArticleItem[]>;
-	excludedArticles: ArticlesResponse<ExcludedArticle[]>;
+	articles: ArticlesResponse<Document<ArticleItem>[]>;
+	excludedArticles: ArticlesResponse<Document<ExcludedArticle>[]>;
 };
 
 export const Articles = ({ articles, excludedArticles }: ArticlesProps) => {

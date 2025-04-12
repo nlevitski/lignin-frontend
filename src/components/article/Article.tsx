@@ -1,4 +1,3 @@
-// import { BlocksContent } from '@strapi/blocks-react-renderer';
 import { ArticleItem } from '@/dal/articles';
 import styles from './article.module.scss';
 
@@ -11,9 +10,6 @@ export const Article = ({ article }: ArticleProps) => {
 			{article.title && <h1>{article.title}</h1>}
 			<div className={styles.cover}></div>
 			{article.subtitle && <h2>{article.subtitle}</h2>}
-			{/* {article.content.map((paragraph, i) => (
-				<p key={i}>{paragraph}</p>
-			))} */}
 		</div>
 	);
 };

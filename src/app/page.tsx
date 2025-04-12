@@ -14,6 +14,7 @@ import {
 
 import { Features } from '@/components/features/Features';
 import { AboutUs } from '@/components/aboutUs/AboutUs';
+import { getHeroContent } from '@/dal/hero';
 
 type Pagination = {
 	page: number;
@@ -66,10 +67,12 @@ export default async function Home() {
 		0: { data: bigboardsData },
 		1: { data: articlesDataWithWidgetOrder },
 		2: { data: aboutUsData },
+		3: { data: heroData },
 	} = await Promise.all([
 		getBigboardsWithTeasers(),
 		getArticleWithWidgetOrder(),
 		getAboutUsContent(),
+		getHeroContent(),
 	]);
 	const mainArticle = bigboardsData.find(
 		(bigboard) => bigboard.article.documentId === bigboardArticleDocumentId
@@ -85,7 +88,7 @@ export default async function Home() {
 
 	return (
 		<div id='home'>
-			<Hero />
+			<Hero content={heroData.content} bgUrl={heroData.background.url} />
 			<Brief
 				id={mainArticle.article.path}
 				title={mainArticle.article.title}
@@ -170,41 +173,6 @@ export default async function Home() {
 				>
 					<div className={styles.aboutWrapper}>
 						<AboutUs aboutUsData={aboutUsData} />
-						{/* <h2 className={`${styles.title} ${styles.upper}`}>О нас</h2>
-						<p className={styles.center}>
-							Компания в 2018 году занялась переработкой и высокой очисткой
-							гидролизного лигнина, чистота которого позволяет широко
-							использовать его в различных сферах.
-						</p>
-						<ul className={styles.aboutUsList}>
-							<li>
-								Лигнин высокой степени очистки не имеет химического
-								вмешательства во время очистки, поэтому на выходе мы получаем
-								абсолютно чистый продукт различной степени влажности.
-							</li>
-							<li>
-								Лигнин очищенный технический - переработанное, просеянное и
-								высушенное сырье, которое находит свое применение не только в
-								промышленности, но и в энергетике и многих других сферах.
-							</li>
-							<li>
-								Экологически чистое топливо в виде брикета или пеллет выгодно
-								отличается на фоне других своей крепостью, теплоотдачей,
-								влагостойкостью и многими другими показателями.
-							</li>
-							<li>
-								Так же предлагаем лигнин из отвалов навалом или фасованный в
-								биг-бэги. Самовывоз или доставка.
-							</li>
-						</ul>
-						<p className={styles.center}>
-							Работаем с компаниями из Беларуси, России, Украины, Узбекистана,
-							Казахстана, Польши, Литвы, Латвии и другими странами.
-						</p>
-						<h3 className={`${styles.subtitle} ${styles.upper}`}>
-							Мы производим высококачественное сырье и топливо для вашего
-							производства
-						</h3> */}
 					</div>
 					<Samples />
 				</div>

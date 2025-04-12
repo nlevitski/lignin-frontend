@@ -2,16 +2,13 @@ import { Button } from '@/components/button/Button';
 import { ArticleItem } from '@/dal/articles';
 import styles from './articlePage.module.scss';
 import Image from 'next/image';
-import RichTextRenderer, { RichTextContent } from '@/utils/RichTextRenderer';
-
-import { pickImgSize } from '@/utils/pickImgSizes';
+import RichTextRenderer from '@/utils/RichTextRenderer';
 
 type ArticleProps = {
 	article: ArticleItem;
 };
 export const revalidate = 60;
 export const Article = ({ article }: ArticleProps) => {
-	const format = pickImgSize(article.cover.formats);
 	return (
 		<div className={styles.container}>
 			<div className={styles.holder}>
@@ -20,18 +17,11 @@ export const Article = ({ article }: ArticleProps) => {
 				<div className={styles.imgBox}>
 					<Image
 						className={styles.img}
-						src={format.url}
-						alt={format.name}
-						width={format.width}
-						height={format.height}
+						src={article.cover.url}
+						alt={article.cover.name}
+						width={article.cover.width}
+						height={article.cover.height}
 					/>
-					{/* <img
-						className={styles.img}
-						src={format.url}
-						alt={format.name}
-						width={format.width}
-						height={format.height}
-					/> */}
 					<p className={styles.imgCaption}>{article.imgCaption}</p>
 				</div>
 				<h2 className={styles.subtitle}>{article.subtitle}</h2>
@@ -41,9 +31,9 @@ export const Article = ({ article }: ArticleProps) => {
 					</em>
 				</p>
 				<RichTextRenderer
-					content={(article.content as RichTextContent) || []}
+					content={article.content || []}
 					styles={styles}
-					imageSizes='(max-width: 768px) 100vw, 768px'
+					imageSizes='(max-width: 768px) 100vw, 50vw'
 				/>
 			</div>
 			<Button

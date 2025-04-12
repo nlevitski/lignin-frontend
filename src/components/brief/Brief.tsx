@@ -1,16 +1,18 @@
 import Image from 'next/image';
 import styles from './brief.module.scss';
 import { Button } from '../button/Button';
-import { Teaser } from '@/dal/articles';
+
 import RichTextRenderer from '@/utils/RichTextRenderer';
 import { CSSProperties } from 'react';
+import { StrapiRichTextBlock } from '@/dal/common';
+
 type BriefProps = {
 	title: string;
 	imgUrl: string;
 	readMoreUrl: string;
 	bgUrl: string;
 	imgAlt: string;
-	teaser: Teaser[];
+	teaser: StrapiRichTextBlock[];
 	mission?: string;
 	aspectRatio?: CSSProperties;
 	style?: CSSProperties;
@@ -50,7 +52,7 @@ export const Brief = ({
 							<Image
 								src={imgUrl}
 								alt={imgAlt}
-								sizes='100vw'
+								sizes='(max-width: 769) 100vw, 50vw'
 								fill
 								style={{ objectFit: 'cover', ...style }}
 							/>
