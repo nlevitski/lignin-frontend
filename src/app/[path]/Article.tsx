@@ -7,7 +7,7 @@ import RichTextRenderer from '@/utils/RichTextRenderer';
 type ArticleProps = {
 	article: ArticleItem;
 };
-export const revalidate = 60;
+
 export const Article = ({ article }: ArticleProps) => {
 	return (
 		<div className={styles.container}>

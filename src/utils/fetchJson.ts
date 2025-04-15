@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 export async function fetchJson<T>({
 	url,
-	options = { next: { revalidate: 60 } },
+	options = { next: { revalidate: 3600 }, cache: 'force-cache' },
 }: {
 	url: string;
 	options?: RequestInit;

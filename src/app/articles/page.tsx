@@ -3,7 +3,7 @@ import styles from './articles.module.scss';
 import { Articles } from './Articles';
 import { getMetaTags } from '@/dal/metaTags';
 
-export const revalidate = 60;
+export const revalidate = 3600;
 const defaultMetaTags = {
 	title: 'Лигнин. Статьи. Научные исследования',
 	description: 'Cтатьи о применении лигнина в различных сферах',
