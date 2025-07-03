@@ -51,6 +51,8 @@ export type Bigboard<T> = {
 export type ArticleShort = Omit<Article, 'teaser' | 'title' | 'mission'>;
 
 export type Article = {
+  id: number;
+  documentId: string;
 	title: string;
 	subtitle: string;
 	mission?: string;
@@ -68,7 +70,11 @@ export type Article = {
 export type AboutUs = {
 	content: StrapiRichTextBlock[];
 };
-
+export function getArticlesPageContent(): Promise<ArticlesResponse<Document<{title: string}>>> {
+  return fetchJson({
+    url: `http://localhost:1337/api/articles-page`,
+  });
+}
 export function getArticles(): Promise<
 	ArticlesResponse<Document<ArticleItem>[]>
 > {
@@ -104,14 +110,21 @@ export function getBigboards(): Promise<
 	ArticlesResponse<Document<Bigboard<Document<ArticleShort>>>[]>
 > {
 	return fetchJson({
-		url: 'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][populate][coverBigboard]=true',
+		url: 'http://localhost:1337/api/bigboards?populate[article][populate][cover]=true&populate[cover]=true',
 	});
 }
 export function getBigboardsWithTeasers(): Promise<
-	ArticlesResponse<Document<Bigboard<Document<Article>>>[]>
+	ArticlesResponse<
+		Document<
+			Bigboard<Document<Article>> & {
+				background: SingleMedia;
+				cover: SingleMedia;
+			}
+		>[]
+	>
 > {
 	return fetchJson({
-		url: 'http://localhost:1337/api/bigboards?populate[article][fields][0]=path&populate[article][fields][1]=teaser&populate[article][fields][2]=title&populate[article][fields][3]=mission&populate[article][populate][coverBigboard]=true&populate[background]=true',
+		url: 'http://localhost:1337/api/bigboards?populate[background]=true&populate[cover]=true&populate[article][populate][cover]=true',
 	});
 }
 export function getArticleWithWidgetOrder(): Promise<

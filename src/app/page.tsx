@@ -8,13 +8,14 @@ import { Widget } from '@/components/widget/Widget';
 import { Button } from '@/components/button/Button';
 import {
 	getAboutUsContent,
+	getArticlesPageContent,
 	getArticleWithWidgetOrder,
 	getBigboardsWithTeasers,
 } from '@/dal/articles';
-
+import { getHeroContent } from '@/dal/hero';
 import { Features } from '@/components/features/Features';
 import { AboutUs } from '@/components/aboutUs/AboutUs';
-import { getHeroContent } from '@/dal/hero';
+
 
 type Pagination = {
 	page: number;
@@ -62,17 +63,20 @@ const features: Feature[] = [
 
 const bigboardArticleDocumentId = 'r82tukj30x59ztiojp2d9yzp';
 export const revalidate = 3600;
+
 export default async function Home() {
 	const {
 		0: { data: bigboardsData },
 		1: { data: articlesDataWithWidgetOrder },
 		2: { data: aboutUsData },
 		3: { data: heroData },
+		4: { data: articlesData },
 	} = await Promise.all([
 		getBigboardsWithTeasers(),
 		getArticleWithWidgetOrder(),
 		getAboutUsContent(),
 		getHeroContent(),
+		getArticlesPageContent(),
 	]);
 	const mainArticle = bigboardsData.find(
 		(bigboard) => bigboard.article.documentId === bigboardArticleDocumentId
@@ -82,20 +86,19 @@ export default async function Home() {
 		(bigboard) => bigboard.article.documentId !== bigboardArticleDocumentId
 	);
 
-	const sortedArticleWithWidgetorder = articlesDataWithWidgetOrder.sort(
+	const sortedArticleWithWidgetOrder = articlesDataWithWidgetOrder.sort(
 		(a, b) => (a.widgetOrder > b.widgetOrder ? 1 : -1)
 	);
-
+  
 	return (
 		<div id='home'>
-			<Hero content={heroData.content} bgUrl={heroData.background.url} />
+			<Hero data={heroData} />
 			<Brief
 				id={mainArticle.article.path}
 				title={mainArticle.article.title}
 				readMoreUrl={`/${mainArticle.article.path}`}
-				imgUrl={mainArticle.article.coverBigboard.url}
-				imgAlt={mainArticle.article.coverBigboard.name}
-				bgUrl={mainArticle.background.url}
+				cover={mainArticle.cover}
+        background={mainArticle.background}
 				teaser={mainArticle.article.teaser || []}
 				style={{ objectFit: 'initial' }}
 				aspectRatio={{ aspectRatio: '779 / 716' }}
@@ -112,17 +115,15 @@ export default async function Home() {
 				))}
 			</Features>
 
-			{bigboardArticles.map(({ article, background }) => {
-				// const currentImg = pickImgSize(article.coverBigboard.formats);
+			{bigboardArticles.map(({ article, background, cover }) => {
 				return (
 					<Brief
 						id={article.path}
 						key={article.documentId}
 						title={article.title}
 						readMoreUrl={`/${article.path}`}
-						imgUrl={article.coverBigboard.url}
-						imgAlt={article.coverBigboard.name}
-						bgUrl={background.url}
+						cover={cover}
+						background={background}
 						teaser={article.teaser || []}
 						mission={article.mission}
 						style={{ objectPosition: '75% 50%' }}
@@ -137,17 +138,19 @@ export default async function Home() {
 			>
 				<div className={`${styles.holder} ${styles.holder_mobileBgOff}`}>
 					<h2 className={`${styles.title} ${styles.upper}`}>
-						Статьи о применении лигнина
+						{/* Статьи о применении лигнина */}
+						{articlesData.title}
 					</h2>
 					<ul className={styles.widgets}>
-						{sortedArticleWithWidgetorder.map(({ article, widgetOrder }) => (
+						{sortedArticleWithWidgetOrder.map(({ article, widgetOrder }) => (
 							<li className={styles.widgetItem} key={widgetOrder}>
 								<Widget
+                  id={article.documentId}
 									title={article.titleSmall}
 									subtitle={article?.subtitle}
 									summary={article.summary}
-									bgImgUrl={article.cover.formats.small.url}
 									articleUrl={`/${article.path}`}
+                  cover={article.cover}
 								/>
 							</li>
 						))}

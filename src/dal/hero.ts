@@ -5,9 +5,9 @@ import {
 	SingleResponse,
 	Document,
 } from './common';
-type HeroContent = {
+export type HeroContent = {
 	content: StrapiRichTextBlock[];
-	background: SingleMedia;
+	background: SingleMedia[];
 };
 export function getHeroContent(): Promise<
 	SingleResponse<Document<HeroContent>>

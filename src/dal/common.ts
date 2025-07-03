@@ -1,3 +1,5 @@
+import { fetchJson } from '@/utils/fetchJson';
+
 export type CollectionResponse<T> = {
 	data: T[];
 	meta: Meta;
@@ -68,7 +70,7 @@ export type StrapiRichTextNode = {
 
 export type SingleMedia = MediaDocument & BaseImage;
 
-export type ImageSizes = 'thumbnail' | 'small' | 'medium' | 'large';
+export type ImageSizes = 'thumbnail' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
 export type Formats = Record<ImageSizes, ImageDocument>;
 
 export type ImageDocument = BaseImage & {
@@ -105,3 +107,9 @@ export type BaseImage = {
 };
 
 export type Document<T> = BaseDocument & T;
+
+export const getPageInfoByPath = async (path: string): Promise<SingleResponse<Document<{title: string}>>> => {
+	return fetchJson({
+		url: `http://localhost:1337/api/${path}`,
+	});
+};

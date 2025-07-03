@@ -8,11 +8,12 @@
   height: 100vh;
   color: var(--background);
   background-color: rgb(100, 100, 100);
-  // background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5)), url('/images/webp/pics/hero-background.webp');
+  background-image: none;
   background-size: cover;
-  background-position: 50% 50%;
+  background-position: center center;
   background-repeat: no-repeat;
   text-align: center;
+  will-change: background-image;
 }
 
 .title {

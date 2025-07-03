@@ -1,7 +1,7 @@
-import { getArticles, getExcludedArticles } from '@/dal/articles';
+import { getArticles, getArticlesPageContent, getExcludedArticles } from '@/dal/articles';
 import styles from './articles.module.scss';
 import { Articles } from './Articles';
-import { getMetaTags } from '@/dal/metaTags';
+import { getMetaTagsByPath } from '@/dal/metaTags';
 
 export const revalidate = 3600;
 const defaultMetaTags = {
@@ -18,39 +18,52 @@ const defaultMetaTags = {
 		url: 'https://ligninsorbent.ru/articles',
 		images: ['https://ligninsorbent.ru/images/webp/backgrounds/bg4.webp'],
 	},
+  robots: 'index, follow',
 };
 export async function generateMetadata() {
-	const { data } = await getMetaTags();
-	const { title, description, keywords, ogTitle, ogDescription } =
-		data.find(({ path }) => path === '/articles') || {};
+  const { data: { seo } } = await getMetaTagsByPath(
+		'articles-page?populate[seo][populate][openGraph][populate]=ogImage'
+	);
 	return {
 		alternates: {
-			canonical: 'https://ligninsorbent.ru/articles',
+			canonical: seo.canonicalURL,
 		},
-		title: title || defaultMetaTags.title,
-		description: description || defaultMetaTags.description,
-		keywords: keywords || defaultMetaTags.keywords,
+		title: seo.metaTitle || defaultMetaTags.title,
+		description: seo.metaDescription || defaultMetaTags.description,
+		keywords: seo.keywords || defaultMetaTags.keywords,
 		openGraph: {
-			title: ogTitle || defaultMetaTags.openGraph.title,
-			description: ogDescription || defaultMetaTags.openGraph.description,
-			type: defaultMetaTags.openGraph.type,
-			url: defaultMetaTags.openGraph.url,
-			images: defaultMetaTags.openGraph.images,
+			title: seo.openGraph.ogTitle || defaultMetaTags.openGraph.title,
+			description:
+				seo.openGraph.ogDescription ||
+				defaultMetaTags.openGraph.description,
+			type: seo.openGraph.ogType || defaultMetaTags.openGraph.type,
+			url: seo.openGraph.ogUrl || defaultMetaTags.openGraph.url,
+			images: [
+				{
+					url: seo.openGraph.ogImage?.url || '',
+					width: seo.openGraph.ogImage?.width || 0,
+					height: seo.openGraph.ogImage?.height || 0,
+					alt: seo.openGraph.ogImage?.alternativeText || '',
+				},
+			],
 		},
+    robots: seo.metaRobots || defaultMetaTags.robots,
 	};
 }
 
 export default async function ArticlesPage() {
-	const { 0: result, 1: excludedArticles } = await Promise.all([
+	const { 0: result, 1: excludedArticles, 2: articlePageContent } = await Promise.all([
 		getArticles(),
 		getExcludedArticles(),
+    getArticlesPageContent(),
 	]);
 
 	return (
 		<div className={styles.articles}>
 			<div className={styles.container}>
 				<h1 className={`${styles.title} ${styles.upper}`}>
-					Статьи о применении лигнина
+					{/* Статьи о применении лигнина */}
+          {articlePageContent.data.title}
 				</h1>
 				<Articles articles={result} excludedArticles={excludedArticles} />;
 			</div>

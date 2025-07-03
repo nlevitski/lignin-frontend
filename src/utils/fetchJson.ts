@@ -9,14 +9,12 @@ export async function fetchJson<T>({
 }): Promise<T> {
 	try {
 		const response = await fetch(url, options);
-
+    if (response.status === 404) {
+      return notFound();
+    }
 		if (!response.ok) {
-			if (response.status === 404) {
-				notFound();
-			}
-			throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
 		}
-
 		return await response.json();
 	} catch (error) {
 		console.error(`API request failed: ${url}`, error);

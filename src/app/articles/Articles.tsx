@@ -53,18 +53,18 @@ export const Articles = ({ articles, excludedArticles }: ArticlesProps) => {
 			});
 		}
 	}, [currentArticles, windowWidth]);
-
+  
 	return (
 		<ul className={styles.articleList}>
 			{currentArticles.map((article, index) => {
 				return (
 					<li className={styles.articleItem} key={article.id}>
 						<Link href={`${article.path}`} className={styles.articleLink}>
-							{!!article.cover?.formats?.small && (
+							{(
 								<div className={styles.imgBox}>
 									<Image
-										src={article.cover.formats.small.url}
-										alt={article.cover.formats.small.name}
+										src={article.cover.url}
+										alt={article.cover.name}
 										className={styles.img}
 										fill
 										sizes='(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px'

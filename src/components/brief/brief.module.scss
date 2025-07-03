@@ -5,6 +5,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 75% center;
+  background-image: none;
   &_bgFixed {
     background-attachment: fixed;
   }
@@ -44,7 +45,7 @@
 .title {
   grid-column: span 1;
   grid-row: span 1;
-  font-size: 26px;
+  font-size: 23px;
   line-height: 1.5;
   text-align: center;
   font-weight: 600;
@@ -81,6 +82,7 @@
   }
 }
 @media (min-width: 769px) {
+  
   .holder {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto 1fr;

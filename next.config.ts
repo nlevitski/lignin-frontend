@@ -1,4 +1,7 @@
 import type { NextConfig } from 'next';
+import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
+
+const withVanillaExtract = createVanillaExtractPlugin();
 
 const nextConfig: NextConfig = {
 	/* config options here */
@@ -41,6 +44,21 @@ const nextConfig: NextConfig = {
 			},
 		];
 	},
+	async redirects() {
+		return [
+			// Перенаправляем запросы к иконкам на статические файлы
+			{
+				source: '/apple-touch-icon.png',
+				destination: '/apple-icon-180x180.png',
+				permanent: false,
+			},
+			{
+				source: '/apple-touch-icon-precomposed.png',
+				destination: '/apple-icon-180x180.png',
+				permanent: false,
+			},
+		];
+	},
 };
 
-export default nextConfig;
+export default withVanillaExtract(nextConfig);

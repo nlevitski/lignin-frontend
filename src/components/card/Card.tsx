@@ -18,6 +18,7 @@ export const Card = ({ caption, imgUrl, imgAlt }: CardProps) => {
 					alt={imgAlt}
 					fill
 					sizes='(max-width: 769px) 116px, 300px'
+					fetchPriority="high"
 				/>
 			</div>
 			<div className={cx('caption')}>{caption}</div>

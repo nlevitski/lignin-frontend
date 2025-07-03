@@ -118,7 +118,7 @@ export const Menu = ({ bigboards }: MenuProps) => {
 		};
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
-	}, [showSticky]);
+	}, [showSticky, setShowSticky]);
 
 	return (
 		<>

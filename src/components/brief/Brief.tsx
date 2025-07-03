@@ -4,14 +4,13 @@ import { Button } from '../button/Button';
 
 import RichTextRenderer from '@/utils/RichTextRenderer';
 import { CSSProperties } from 'react';
-import { StrapiRichTextBlock } from '@/dal/common';
+import { SingleMedia, StrapiRichTextBlock } from '@/dal/common';
 
 type BriefProps = {
 	title: string;
-	imgUrl: string;
 	readMoreUrl: string;
-	bgUrl: string;
-	imgAlt: string;
+	background: SingleMedia;
+	cover: SingleMedia;
 	teaser: StrapiRichTextBlock[];
 	mission?: string;
 	aspectRatio?: CSSProperties;
@@ -21,68 +20,77 @@ type BriefProps = {
 };
 export const Brief = ({
 	title,
-	imgAlt,
-	imgUrl,
 	readMoreUrl,
 	teaser,
 	mission = '',
 	id = '',
-	bgUrl,
+  background,
+  cover,
 	aspectRatio = {},
 	style = {},
 	mobileBgOff = false,
 }: BriefProps) => {
 	return (
-		<div
-			className={`${styles.container} ${styles.container_bgFixed}`}
-			style={{
-				backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.8) 100%), url(${bgUrl})`,
-			}}
-		>
+		<>
+			<style>
+				{`
+          @media (min-width: 960px) {
+              .container-${id} {
+                background-image: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.7) 100%), url(${background?.formats?.large?.url || background?.formats?.medium?.url || background?.formats?.small?.url});
+              }
+        `}
+			</style>
 			<div
-				className={`${styles.wrapper} ${mobileBgOff ? styles.mobileBgOff : ''}`}
-				id={id}
+				className={`${styles.container} ${styles.container_bgFixed} container-${id}`}
 			>
-				<div className={styles.holder}>
-					<div className={styles.imgWrapper}>
-						<div
-							className={styles.imgBox}
-							style={{ aspectRatio: 1, ...aspectRatio }}
-						>
-							<Image
-								src={imgUrl}
-								alt={imgAlt}
-								sizes='(max-width: 769) 100vw, 50vw'
-								fill
-								style={{ objectFit: 'cover', ...style }}
-							/>
+				<div
+					className={`${styles.wrapper} ${
+						mobileBgOff ? styles.mobileBgOff : ''
+					}`}
+					id={id}
+				>
+					<div className={styles.holder}>
+						<div className={styles.imgWrapper}>
+							<div
+								className={styles.imgBox}
+								style={{ aspectRatio: 1, ...aspectRatio }}
+							>
+								<Image
+									src={cover?.url || cover?.formats?.large?.url || cover?.formats?.medium?.url || cover?.formats?.small?.url || ''}
+									alt={cover?.alternativeText || ''}
+									sizes='(max-width: 768px) 80vw, 35vw'
+									fill
+									style={{ objectFit: 'cover', ...style }}
+									fetchPriority='high'
+								/>
+							</div>
+						</div>
+						<h2 className={`${styles.title} ${styles.upper}`}>
+							{title}
+							<hr className={styles.hrLong} />
+						</h2>
+
+						<div className={styles.contentBox}>
+							{mission && (
+								<p>
+									<strong>
+										<em>{mission}</em>
+									</strong>
+								</p>
+							)}
+							<RichTextRenderer content={teaser} />
 						</div>
 					</div>
-					<h2 className={`${styles.title} ${styles.upper}`}>
-						{title}
-						<hr className={styles.hrLong} />
-					</h2>
-
-					<div className={styles.contentBox}>
-						{mission && (
-							<p>
-								<strong>
-									<em>{mission}</em>
-								</strong>
-							</p>
-						)}
-						<RichTextRenderer content={teaser} />
-					</div>
+					<Button
+						href={readMoreUrl}
+						value={'Читать полностью'}
+						type={'secondary'}
+						bold
+						large
+						alignSelf
+					/>
 				</div>
-				<Button
-					href={readMoreUrl}
-					value={'Читать полностью'}
-					type={'secondary'}
-					bold
-					large
-					alignSelf
-				/>
 			</div>
-		</div>
+		</>
 	);
 };

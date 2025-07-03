@@ -28,8 +28,9 @@ export const Samples = () => {
 								className={styles.img}
 								alt={card.title}
 								fill
-								sizes='100vw'
+								sizes='280px'
 								src={card.href}
+								fetchPriority="high"
 							/>
 						</div>
 						<div className={styles.caption}>{card.caption}</div>
