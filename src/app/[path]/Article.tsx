@@ -21,6 +21,7 @@ export const Article = ({ article }: ArticleProps) => {
 						alt={article.cover.name}
 						width={article.cover.width}
 						height={article.cover.height}
+            sizes={'(max-width: 480px) 100vw, (max-width: 768px) 100vw, (max-width: 960px) 35vw, 45vw'}
 					/>
 					<p className={styles.imgCaption}>{article.imgCaption}</p>
 				</div>
