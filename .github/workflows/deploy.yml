@@ -14,34 +14,10 @@ jobs:
       - name: Execute deploy commands
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            # Инициализируем fnm
-            export FNM_PATH=\"/home/${{ secrets.VPS_USER }}/.local/share/fnm\"
-            export PATH=\"\$FNM_PATH:\$PATH\"
-            eval \"\$(fnm env)\"
-            
-            # Используем default версию Node.js
-            fnm use default
-            
-            # Добавляем pnpm в PATH
-            export PNPM_HOME=\"/home/${{ secrets.VPS_USER }}/.local/share/pnpm\"
-            export PATH=\"\$PNPM_HOME:\$PATH\"
-            
-            # Проверяем версии (для отладки)
-            echo 'Node version:' && node -v
-            echo 'pnpm version:' && pnpm -v
-            echo 'pm2 version:' && pm2 --version
-            echo 'PATH:' && echo \$PATH
-            
-            # Переходим в директорию проекта
+            export PATH=\"/${{ secrets.VPS_USER }}/.nvm/versions/node/v22.14.0/bin:/${{ secrets.VPS_USER }}/.local/share/pnpm:\$PATH\" &&
             cd ${{ secrets.VPS_PATH }} &&
-            
-            # Обновляем код
             git pull origin main &&
-            
-            # Устанавливаем зависимости и собираем проект
-            pnpm install --frozen-lockfile &&
+            pnpm install &&
             pnpm build &&
-            
-            # Перезапускаем PM2
-            pm2 restart front
+            pm2 restart frontend
           "
