@@ -28,8 +28,17 @@ jobs:
             LOG=/tmp/deploy.log
             exec > >(tee -a "$LOG") 2>&1
             trap 'rc=$?; echo "FAILED rc=$rc"; tail -n 200 "$LOG"; exit $rc' ERR
-            source ~/.profile
-            source ~/.bashrc || true
+            # Ensure fnm/Node/Pnpm are available in non-interactive shell
+            FNM_PATH="$HOME/.local/share/fnm"
+            if [ ! -d "$FNM_PATH" ]; then
+              echo "fnm not found at $FNM_PATH"
+              exit 1
+            fi
+            export PATH="$FNM_PATH:$PATH"
+            eval "$(fnm env --shell bash)"
+            fnm use --install-if-missing
+            corepack enable
+            corepack prepare pnpm@9.12.0 --activate
             cd "/home/ubuntu/lignin/lignin-frontend"
             git fetch --all --prune
             git reset --hard origin/main
