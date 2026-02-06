@@ -4,10 +4,12 @@ import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
 const withVanillaExtract = createVanillaExtractPlugin();
 
 const devDomain = process.env.DEV_DOMAIN;
-const strapiInternalUrl =
-	process.env.STRAPI_INTERNAL_URL ??
-	process.env.STRAPI_URL ??
-	'http://localhost:1337';
+const isDev = process.env.NODE_ENV !== 'production';
+const strapiInternalUrl = isDev
+	? process.env.STRAPI_DEV_URL ?? 'http://localhost:1337'
+	: process.env.STRAPI_INTERNAL_URL ??
+		process.env.STRAPI_URL ??
+		'http://localhost:1337';
 const strapiUrl = new URL(strapiInternalUrl);
 
 const remotePatterns: NonNullable<NextConfig['images']>['remotePatterns'] = [

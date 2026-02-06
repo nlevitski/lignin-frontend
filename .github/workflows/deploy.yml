@@ -29,28 +29,19 @@ jobs:
             exec > >(tee -a "$LOG") 2>&1
             trap 'rc=$?; echo "FAILED rc=$rc"; tail -n 200 "$LOG"; exit $rc' ERR
             cd "/home/ubuntu/lignin/lignin-frontend"
-            # Ensure Node + pnpm are available in non-interactive shell
-            FNM_PATH="$HOME/.local/share/fnm"
-            if [ ! -d "$FNM_PATH" ]; then
-              echo "fnm not found at $FNM_PATH"
-              exit 1
-            fi
-            export PATH="$FNM_PATH:$PATH"
-            eval "$(fnm env --shell bash)"
-            fnm use v22.22.0
-            corepack enable
-            corepack prepare pnpm@10.7.1 --activate
             git fetch --all --prune
             git reset --hard origin/main
             export CI=1
-            export PNPM_APPROVE_BUILD=1
-            which pnpm
-            pnpm -v
+            curl -fsSL https://bun.sh/install | bash
+            export BUN_INSTALL="$HOME/.bun"
+            export PATH="$BUN_INSTALL/bin:$PATH"
+            which bun
+            bun -v
             export STRAPI_INTERNAL_URL=http://lignin-prod:1337
             export STRAPI_SSG_URL=http://127.0.0.1:1337
             export STRAPI_URL=http://lignin-prod:1337
             export NEXT_PUBLIC_STRAPI_URL=http://lignin-prod:1337
             curl -fsS "http://127.0.0.1:1337/_health" >/dev/null || curl -fsS "http://127.0.0.1:1337/admin" >/dev/null
-            pnpm install --no-frozen-lockfile
-            pnpm build
+            bun install --frozen-lockfile
+            bun run build
             docker compose --profile prod up --build -d
