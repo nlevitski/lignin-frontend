@@ -1,4 +1,5 @@
 import { fetchJson } from '@/utils/fetchJson';
+import { getStrapiBaseUrl } from '@/utils/strapiBaseUrl';
 
 type MetaTags = {
 	id: number;
@@ -105,11 +106,11 @@ export function getMetaTags(): Promise<{
 	meta: Meta;
 }> {
 	return fetchJson({
-		url: 'http://localhost:1337/api/meta-tags',
+		url: `${getStrapiBaseUrl()}/api/meta-tags`,
 	});
 }
 export function getMetaTagsByPath(path: string): Promise<Response> {
   return fetchJson({
-		url: new URL(`http://localhost:1337/api/${path}`).toString(),
+		url: new URL(`${getStrapiBaseUrl()}/api/${path}`).toString(),
 	});
 }

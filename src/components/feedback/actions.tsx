@@ -1,5 +1,7 @@
 'use server';
 
+import { getStrapiBaseUrl } from '@/utils/strapiBaseUrl';
+
 // import { feedbackSchema } from './schema';
 const badRequest = 400;
 
@@ -30,7 +32,7 @@ export async function submitFeedback(formData: FormData) {
 	};
 
 	try {
-		const response: Response = await fetch('http://localhost:1337/api/form', {
+		const response: Response = await fetch(`${getStrapiBaseUrl()}/api/form`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(data),

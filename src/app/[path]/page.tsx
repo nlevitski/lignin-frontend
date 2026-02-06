@@ -4,7 +4,10 @@ import { Article } from './Article';
 export async function generateStaticParams() {
 	const { data } = await getArticles();
 
-	return data.map(({ path }) => ({ path }));
+	return data
+		.map(({ path }) => path)
+		.filter((path) => typeof path === 'string' && path.trim().length > 0)
+		.map((path) => ({ path }));
 }
 
 export async function generateMetadata({
@@ -14,19 +17,26 @@ export async function generateMetadata({
 }) {
 	const { path } = await params;
 	const { data } = await getArticleByPath(path);
+	const nonEmpty = (value?: string | null) =>
+		value && value.trim().length > 0 ? value : undefined;
+	const coverUrl = nonEmpty(data.cover?.url);
+	const metaDescription = nonEmpty(data?.metaDescription);
+	const metaKeywords = nonEmpty(data?.metaKeywords);
 	return {
 		title: data.title,
-		description: data?.metaDescription || '',
-		keywords: data?.metaKeywords || '',
+		description: metaDescription,
+		keywords: metaKeywords,
 		alternates: {
 			canonical: `https://ligninsorbent.ru/${path}`,
 		},
 		openGraph: {
 			title: data.title,
-			description: data?.metaDescription || '',
+			description: metaDescription,
 			type: 'website',
 			url: `https://ligninsorbent.ru/${path}`,
-			image: [`https://ligninsorbent.ru${data.cover?.url}`],
+			images: coverUrl
+				? [`https://ligninsorbent.ru${coverUrl}`]
+				: undefined,
 		},
 	};
 }

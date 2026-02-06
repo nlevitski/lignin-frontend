@@ -43,29 +43,42 @@ export async function generateMetadata() {
   const { data: { seo } } = await getMetaTagsByPath(
 		'hero-content?populate[seo][populate][openGraph][populate]=ogImage'
 	);
-  
+  const nonEmpty = (value?: string | null) =>
+		value && value.trim().length > 0 ? value : undefined;
+  const ogImageUrl = nonEmpty(seo.openGraph?.ogImage?.url);
+  const canonicalUrl = nonEmpty(seo.canonicalURL);
+  const ogUrl = nonEmpty(seo.openGraph?.ogUrl);
+  const ogTitle = nonEmpty(seo.openGraph?.ogTitle);
+  const ogDescription = nonEmpty(seo.openGraph?.ogDescription);
+  const ogType = nonEmpty(seo.openGraph?.ogType);
+  const metaTitle = nonEmpty(seo.metaTitle);
+  const metaDescription = nonEmpty(seo.metaDescription);
+  const keywords = nonEmpty(seo.keywords);
+
 	return {
 		metadataBase: new URL('https://ligninsorbent.ru'),
-		title: seo.metaTitle,
-		description: seo.metaDescription,
-		keywords: seo.keywords,
+		title: metaTitle,
+		description: metaDescription,
+		keywords,
 		openGraph: {
-			title: seo.openGraph.ogTitle,
-			description: seo.openGraph.ogDescription,
-			type: seo.openGraph.ogType,
-			url: seo.openGraph.ogUrl,
-			images: [
-				{
-					url: seo.openGraph.ogImage?.url || '',
-					width: seo.openGraph.ogImage?.width || 0,
-					height: seo.openGraph.ogImage?.height || 0,
-					alt: seo.openGraph.ogImage?.alternativeText || 'Лигнин',
-				},
-			],
+			title: ogTitle,
+			description: ogDescription,
+			type: ogType,
+			url: ogUrl,
+			images: ogImageUrl
+				? [
+						{
+							url: ogImageUrl,
+							width: seo.openGraph.ogImage?.width || 0,
+							height: seo.openGraph.ogImage?.height || 0,
+							alt: seo.openGraph.ogImage?.alternativeText || 'Лигнин',
+						},
+					]
+				: undefined,
 			siteName: "Лигнин гидролизный",
 		},
 		alternates: {
-			canonical: seo.canonicalURL,
+			canonical: canonicalUrl,
 		},
 		icons,
 	};
@@ -92,6 +105,7 @@ export async function generateMetadata() {
 // };
 
 const isProduciton = process.env.NODE_ENV === 'production';
+const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 export default async function RootLayout({
 	children,
 }: Readonly<{
@@ -111,11 +125,7 @@ export default async function RootLayout({
 				<Footer />
 				<ScrollTopButton />
 				{isProduciton && <YandexMetrika />}
-				{isProduciton && (
-					<GoogleAnalytics
-						gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!}
-					/>
-				)}
+				{isProduciton && gaId && <GoogleAnalytics gaId={gaId} />}
 			</body>
 		</html>
 	);

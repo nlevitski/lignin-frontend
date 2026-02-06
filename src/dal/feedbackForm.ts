@@ -1,4 +1,5 @@
 import { fetchJson } from '@/utils/fetchJson';
+import { getStrapiBaseUrl } from '@/utils/strapiBaseUrl';
 import { SingleResponse, Document, SingleMedia } from './common';
 
 export function getFeedbackFormInfo(): Promise<SingleResponse<Document<{
@@ -6,8 +7,8 @@ export function getFeedbackFormInfo(): Promise<SingleResponse<Document<{
   backgroundDesktop: SingleMedia; 
   backgroundMobile: SingleMedia
 }>>> {
-  return fetchJson({
-		url: 'http://localhost:1337/api/feedback-form?populate=backgroundDesktop&populate=backgroundMobile',
+	return fetchJson({
+		url: `${getStrapiBaseUrl()}/api/feedback-form?populate=backgroundDesktop&populate=backgroundMobile`,
 	});
 }
   

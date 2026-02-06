@@ -1,4 +1,5 @@
 import { fetchJson } from '@/utils/fetchJson';
+import { getStrapiBaseUrl } from '@/utils/strapiBaseUrl';
 
 export type CollectionResponse<T> = {
 	data: T[];
@@ -110,6 +111,6 @@ export type Document<T> = BaseDocument & T;
 
 export const getPageInfoByPath = async (path: string): Promise<SingleResponse<Document<{title: string}>>> => {
 	return fetchJson({
-		url: `http://localhost:1337/api/${path}`,
+		url: `${getStrapiBaseUrl()}/api/${path}`,
 	});
 };

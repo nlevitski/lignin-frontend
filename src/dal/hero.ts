@@ -1,4 +1,5 @@
 import { fetchJson } from '@/utils/fetchJson';
+import { getStrapiBaseUrl } from '@/utils/strapiBaseUrl';
 import {
 	StrapiRichTextBlock,
 	SingleMedia,
@@ -13,6 +14,6 @@ export function getHeroContent(): Promise<
 	SingleResponse<Document<HeroContent>>
 > {
 	return fetchJson({
-		url: 'http://localhost:1337/api/hero-content?populate=background',
+		url: `${getStrapiBaseUrl()}/api/hero-content?populate=background`,
 	});
 }

@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  frontend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    environment:
+      NODE_ENV: development
+      STRAPI_INTERNAL_URL: ${STRAPI_INTERNAL_URL:-http://lignin-dev:1337}
+      STRAPI_SSG_URL: ${STRAPI_SSG_URL:-}
+      STRAPI_URL: ${STRAPI_URL:-http://lignin-dev:1337}
+      NEXT_PUBLIC_STRAPI_URL: ${NEXT_PUBLIC_STRAPI_URL:-http://lignin-dev:1337}
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - lignin
+    profiles:
+      - dev
+
+  frontend-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    environment:
+      NODE_ENV: production
+      STRAPI_INTERNAL_URL: ${STRAPI_INTERNAL_URL:-http://lignin-prod:1337}
+      STRAPI_SSG_URL: ${STRAPI_SSG_URL:-}
+      STRAPI_URL: ${STRAPI_URL:-http://lignin-prod:1337}
+      NEXT_PUBLIC_STRAPI_URL: ${NEXT_PUBLIC_STRAPI_URL:-http://lignin-prod:1337}
+    ports:
+      - "3000:3000"
+    networks:
+      - lignin
+    profiles:
+      - prod
+
+networks:
+  lignin:
+    external: true

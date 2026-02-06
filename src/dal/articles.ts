@@ -1,4 +1,5 @@
 import { fetchJson } from '@/utils/fetchJson';
+import { getStrapiBaseUrl } from '@/utils/strapiBaseUrl';
 import {
 	BaseDocument,
 	StrapiRichTextBlock,
@@ -72,14 +73,14 @@ export type AboutUs = {
 };
 export function getArticlesPageContent(): Promise<ArticlesResponse<Document<{title: string}>>> {
   return fetchJson({
-    url: `http://localhost:1337/api/articles-page`,
+    url: `${getStrapiBaseUrl()}/api/articles-page`,
   });
 }
 export function getArticles(): Promise<
 	ArticlesResponse<Document<ArticleItem>[]>
 > {
 	return fetchJson({
-		url: 'http://localhost:1337/api/articles?populate=cover&sort=createdAt:desc',
+		url: `${getStrapiBaseUrl()}/api/articles?populate=cover&sort=createdAt:desc`,
 	});
 }
 
@@ -87,7 +88,7 @@ export function getExcludedArticles(): Promise<
 	ArticlesResponse<Document<ExcludedArticle>[]>
 > {
 	return fetchJson({
-		url: 'http://localhost:1337/api/excluded-articles?populate[article][fields][0]=documentId',
+		url: `${getStrapiBaseUrl()}/api/excluded-articles?populate[article][fields][0]=documentId`,
 	});
 }
 
@@ -95,14 +96,14 @@ export function getArticleByDocumentId(
 	documentId: string
 ): Promise<ArticlesResponse<Document<ArticleItem>>> {
 	return fetchJson({
-		url: `http://localhost:1337/api/articles/${documentId}?populate=cover`,
+		url: `${getStrapiBaseUrl()}/api/articles/${documentId}?populate=cover`,
 	});
 }
 
 export function getArticleByPath(
 	path: string
 ): Promise<ArticlesResponse<Document<ArticleItem>>> {
-	const currentPath = `http://localhost:1337/api/articles/path/${path}`;
+	const currentPath = `${getStrapiBaseUrl()}/api/articles/path/${path}`;
 	return fetchJson({ url: currentPath });
 }
 
@@ -110,7 +111,7 @@ export function getBigboards(): Promise<
 	ArticlesResponse<Document<Bigboard<Document<ArticleShort>>>[]>
 > {
 	return fetchJson({
-		url: 'http://localhost:1337/api/bigboards?populate[article][populate][cover]=true&populate[cover]=true',
+		url: `${getStrapiBaseUrl()}/api/bigboards?populate[article][populate][cover]=true&populate[cover]=true`,
 	});
 }
 export function getBigboardsWithTeasers(): Promise<
@@ -124,14 +125,14 @@ export function getBigboardsWithTeasers(): Promise<
 	>
 > {
 	return fetchJson({
-		url: 'http://localhost:1337/api/bigboards?populate[background]=true&populate[cover]=true&populate[article][populate][cover]=true',
+		url: `${getStrapiBaseUrl()}/api/bigboards?populate[background]=true&populate[cover]=true&populate[article][populate][cover]=true`,
 	});
 }
 export function getArticleWithWidgetOrder(): Promise<
 	ArticlesResponse<Document<Widget>[]>
 > {
 	return fetchJson({
-		url: 'http://localhost:1337/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true',
+		url: `${getStrapiBaseUrl()}/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true`,
 	});
 }
 
@@ -140,6 +141,6 @@ export function getAboutUsContent(): Promise<{
 	meta: object;
 }> {
 	return fetchJson({
-		url: 'http://localhost:1337/api/about-us',
+		url: `${getStrapiBaseUrl()}/api/about-us`,
 	});
 }

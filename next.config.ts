@@ -3,44 +3,57 @@ import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
 
 const withVanillaExtract = createVanillaExtractPlugin();
 
+const devDomain = process.env.DEV_DOMAIN;
+const strapiInternalUrl =
+	process.env.STRAPI_INTERNAL_URL ??
+	process.env.STRAPI_URL ??
+	'http://localhost:1337';
+const strapiUrl = new URL(strapiInternalUrl);
+
+const remotePatterns: NonNullable<NextConfig['images']>['remotePatterns'] = [
+	{
+		protocol: 'http', // или 'https' в продакшене
+		hostname: 'localhost',
+		pathname: '/**', // Разрешить все пути
+	},
+	{
+		protocol: strapiUrl.protocol.replace(':', '') as 'http' | 'https',
+		hostname: strapiUrl.hostname,
+		port: strapiUrl.port || undefined,
+		pathname: '/uploads/**', // Только для путей Strapi uploads
+	},
+	// Добавляем шаблон для API, если вы хотите использовать изображения оттуда
+	{
+		protocol: strapiUrl.protocol.replace(':', '') as 'http' | 'https',
+		hostname: strapiUrl.hostname,
+		port: strapiUrl.port || undefined,
+		pathname: '/api/**', // Для API путей
+	},
+];
+
+if (devDomain) {
+	remotePatterns.push({
+		protocol: 'http',
+		hostname: devDomain,
+		pathname: '/**',
+	});
+}
+
 const nextConfig: NextConfig = {
 	/* config options here */
+	output: 'standalone',
 	images: {
-		remotePatterns: [
-			{
-				protocol: 'http', // или 'https' в продакшене
-				hostname: 'localhost',
-				pathname: '/**', // Разрешить все пути
-			},
-			{
-				protocol: 'http',
-				hostname: process.env.DEV_DOMAIN ?? '',
-				pathname: '/**',
-			},
-			{
-				protocol: 'http',
-				hostname: 'localhost',
-				port: '1337', // Для Strapi
-				pathname: '/uploads/**', // Только для путей Strapi uploads
-			},
-			// Добавляем шаблон для API, если вы хотите использовать изображения оттуда
-			{
-				protocol: 'http',
-				hostname: 'localhost',
-				port: '1337', // Для Strapi
-				pathname: '/api/**', // Для API путей
-			},
-		],
+		remotePatterns,
 	},
 	async rewrites() {
 		return [
 			{
 				source: '/uploads/:path*',
-				destination: 'http://localhost:1337/uploads/:path*',
+				destination: `${strapiInternalUrl}/uploads/:path*`,
 			},
 			{
 				source: '/api/:path*',
-				destination: 'http://localhost:1337/api/:path*',
+				destination: `${strapiInternalUrl}/api/:path*`,
 			},
 		];
 	},

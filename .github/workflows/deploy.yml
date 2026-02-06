@@ -1,23 +1,38 @@
-name: Deploy to VPS
+name: Deploy
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Install SSH Key
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Execute deploy commands
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            export PATH=\"/${{ secrets.VPS_USER }}/.nvm/versions/node/v22.14.0/bin:/${{ secrets.VPS_USER }}/.local/share/pnpm:\$PATH\" &&
-            cd ${{ secrets.VPS_PATH }} &&
-            git pull origin main &&
-            pnpm install &&
-            pnpm build &&
-            pm2 restart frontend
-          "
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -euo pipefail
+            cd "/home/ubuntu/lignin/lignin-frontend"
+            git fetch --all --prune
+            git reset --hard origin/main
+            export CI=1
+            export PNPM_APPROVE_BUILD=1
+            which pnpm
+            pnpm -v
+            export STRAPI_INTERNAL_URL=http://lignin-prod:1337
+            export STRAPI_SSG_URL=http://127.0.0.1:1337
+            export STRAPI_URL=http://lignin-prod:1337
+            export NEXT_PUBLIC_STRAPI_URL=http://lignin-prod:1337
+            curl -fsS "http://127.0.0.1:1337/_health" >/dev/null || curl -fsS "http://127.0.0.1:1337/admin" >/dev/null
+            pnpm install --frozen-lockfile --include=optional
+            pnpm build
+            docker compose --profile prod up --build -d
