@@ -25,10 +25,11 @@ jobs:
           script: |
             set -euo pipefail
             set -x
-            LOG=/tmp/deploy.log
+            LOG=/tmp/deploy-$(date +%s).log
             exec > >(tee -a "$LOG") 2>&1
             trap 'rc=$?; echo "FAILED rc=$rc"; tail -n 200 "$LOG"; exit $rc' ERR
-            # Ensure fnm/Node/Pnpm are available in non-interactive shell
+            cd "/home/ubuntu/lignin/lignin-frontend"
+            # Ensure Node + pnpm are available in non-interactive shell
             FNM_PATH="$HOME/.local/share/fnm"
             if [ ! -d "$FNM_PATH" ]; then
               echo "fnm not found at $FNM_PATH"
@@ -36,10 +37,9 @@ jobs:
             fi
             export PATH="$FNM_PATH:$PATH"
             eval "$(fnm env --shell bash)"
-            fnm use --install-if-missing
+            fnm use v22.22.0
             corepack enable
-            corepack prepare pnpm@9.12.0 --activate
-            cd "/home/ubuntu/lignin/lignin-frontend"
+            corepack prepare pnpm@10.7.1 --activate
             git fetch --all --prune
             git reset --hard origin/main
             export CI=1
