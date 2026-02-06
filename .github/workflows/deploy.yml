@@ -28,6 +28,8 @@ jobs:
             LOG=/tmp/deploy.log
             exec > >(tee -a "$LOG") 2>&1
             trap 'rc=$?; echo "FAILED rc=$rc"; tail -n 200 "$LOG"; exit $rc' ERR
+            source ~/.profile
+            source ~/.bashrc || true
             cd "/home/ubuntu/lignin/lignin-frontend"
             git fetch --all --prune
             git reset --hard origin/main
