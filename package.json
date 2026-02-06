@@ -19,6 +19,7 @@
     "classnames": "^2.5.1",
     "next": "^15.2.4",
     "normalize.css": "^8.0.1",
+    "optional": "^0.1.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-yandex-metrika": "^2.6.0",

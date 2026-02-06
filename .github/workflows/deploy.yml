@@ -51,6 +51,6 @@ jobs:
             export STRAPI_URL=http://lignin-prod:1337
             export NEXT_PUBLIC_STRAPI_URL=http://lignin-prod:1337
             curl -fsS "http://127.0.0.1:1337/_health" >/dev/null || curl -fsS "http://127.0.0.1:1337/admin" >/dev/null
-            pnpm install --frozen-lockfile --include=optional
+            pnpm install --no-frozen-lockfile
             pnpm build
             docker compose --profile prod up --build -d
