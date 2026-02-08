@@ -4,6 +4,9 @@ node_modules
 .gitignore
 .env
 .env.*
+!.env
+!.env.lignin
+!.env.ligninsorbent
 *.log
 Dockerfile
 docker-compose.yml

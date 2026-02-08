@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
+import { getSiteUrl } from '@/utils/siteUrl';
 
-const baseUrl = 'https://ligninsorbent.ru';
+const baseUrl = getSiteUrl();
 export default function robots(): MetadataRoute.Robots {
 	return {
 		rules: {

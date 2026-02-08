@@ -1,8 +1,9 @@
 import { getArticles } from '@/dal/articles';
+import { getSiteUrl } from '@/utils/siteUrl';
 import { MetadataRoute } from 'next/types';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const baseUrl = 'https://ligninsorbent.ru';
+	const baseUrl = getSiteUrl();
 	const { data: articles } = await getArticles();
 
 	return [

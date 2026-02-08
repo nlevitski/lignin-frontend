@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import styles from './sitemap.module.scss';
 import { getArticles } from '@/dal/articles';
-import { getMetaTagsByPath } from '@/dal/metaTags';
-import { getPageInfoByPath } from '@/dal/common';
+import { getSitemapsByDomain } from '@/dal/sitemaps';
+import { getSiteDomain, toAbsoluteUrl } from '@/utils/siteUrl';
 
 const links = [
 	{
@@ -34,29 +34,33 @@ const links = [
 // 	},
 // };
 export async function generateMetadata() {
-	const { data: { seo } } = await getMetaTagsByPath('sitemap-page?populate[seo][populate][openGraph]=true');
-	// const { title, description, ogTitle, ogDescription } =
-	// 	data.find(({ path }) => path === '/sitemap') || {};
-	
-	return {
-		alternates: {
-			canonical: seo?.canonicalURL,
-		},
-		title: seo.metaTitle,
-		description: seo.metaDescription,
-		openGraph: {
-			title: seo.openGraph.ogTitle,
-			description: seo.openGraph.ogDescription,
-			type: seo.openGraph.ogType,
-			url: seo.openGraph.ogUrl,
-		},
-	};
+	const domain = getSiteDomain();
+	const { data } = await getSitemapsByDomain(domain);
+	const entry = data?.[0];
+	if (entry?.seo) {
+		return {
+			alternates: {
+				canonical: toAbsoluteUrl(entry.seo.canonicalURL),
+			},
+			title: entry.seo.metaTitle,
+			description: entry.seo.metaDescription,
+			openGraph: {
+				title: entry.seo.openGraph.ogTitle,
+				description: entry.seo.openGraph.ogDescription,
+				type: entry.seo.openGraph.ogType,
+				url: toAbsoluteUrl(entry.seo.openGraph.ogUrl),
+			},
+		};
+	}
+	return {};
 }
 export default async function SitemapPage() {
-	const { 0: { data: { title } }, 1: { data: articles } } = await Promise.all([
-		getPageInfoByPath('sitemap-page'),
+	const domain = getSiteDomain();
+	const { 0: sitemapRes, 1: { data: articles } } = await Promise.all([
+		getSitemapsByDomain(domain),
 		getArticles(),
 	]);
+	const title = sitemapRes.data?.[0]?.title;
 	const newArticles = articles
 		.filter((a) => a.path !== 'hydrolyzedlignin')
 		.map((article) => ({
@@ -68,7 +72,7 @@ export default async function SitemapPage() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.holder}>
-				<h1 className={styles.header}>{title}</h1>
+				<h1 className={styles.header}>{title || 'Карта сайта'}</h1>
 				{currentLinks.map((link) => (
 					<Link className={styles.link} href={link.href} key={link.href}>
 						<h2 className={styles.title}>{link.title}</h2>

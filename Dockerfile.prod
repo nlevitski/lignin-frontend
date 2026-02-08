@@ -1,10 +1,21 @@
+FROM node:20-slim AS deps
+WORKDIR /app
+COPY package.json package-lock.json* bun.lock* ./
+ENV HUSKY=0
+RUN npm install --legacy-peer-deps --ignore-scripts
+
+FROM deps AS builder
+WORKDIR /app
+COPY . .
+ARG ENV_FILE=.env
+ARG STRAPI_SSG_URL
+ENV NODE_ENV=production
+RUN STRAPI_SSG_URL=$STRAPI_SSG_URL ./node_modules/.bin/dotenv -e .env -e $ENV_FILE -- ./node_modules/.bin/next build && \
+  node ./scripts/prepare-standalone.mjs
+
 FROM node:20-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-
-COPY .next/standalone ./
-COPY .next/static ./.next/static
-COPY public ./public
-
+COPY --from=builder /app/.next/standalone ./
 EXPOSE 3000
 CMD ["node", "server.js"]

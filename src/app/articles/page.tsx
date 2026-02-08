@@ -2,6 +2,7 @@ import { getArticles, getArticlesPageContent, getExcludedArticles } from '@/dal/
 import styles from './articles.module.scss';
 import { Articles } from './Articles';
 import { getMetaTagsByPath } from '@/dal/metaTags';
+import { getSiteUrl, toAbsoluteUrl } from '@/utils/siteUrl';
 
 export const revalidate = 3600;
 const defaultMetaTags = {
@@ -9,14 +10,16 @@ const defaultMetaTags = {
 	description: 'Cтатьи о применении лигнина в различных сферах',
 	keywords: 'Сорбент лигнин статьи научные исследования использование',
 	alternates: {
-		canonical: 'https://ligninsorbent.ru/articles',
+		canonical: `${getSiteUrl()}/articles`,
 	},
 	openGraph: {
 		title: 'Лигнин. Статьи. Научные исследования',
 		description: 'Cтатьи о применении лигнина в различных сферах',
 		type: 'website',
-		url: 'https://ligninsorbent.ru/articles',
-		images: ['https://ligninsorbent.ru/images/webp/backgrounds/bg4.webp'],
+		url: `${getSiteUrl()}/articles`,
+		images: [
+			`${getSiteUrl()}/images/webp/backgrounds/bg4.webp`,
+		],
 	},
   robots: 'index, follow',
 };
@@ -26,7 +29,7 @@ export async function generateMetadata() {
 	);
 	return {
 		alternates: {
-			canonical: seo.canonicalURL,
+			canonical: toAbsoluteUrl(seo.canonicalURL),
 		},
 		title: seo.metaTitle || defaultMetaTags.title,
 		description: seo.metaDescription || defaultMetaTags.description,
@@ -37,10 +40,10 @@ export async function generateMetadata() {
 				seo.openGraph.ogDescription ||
 				defaultMetaTags.openGraph.description,
 			type: seo.openGraph.ogType || defaultMetaTags.openGraph.type,
-			url: seo.openGraph.ogUrl || defaultMetaTags.openGraph.url,
+			url: toAbsoluteUrl(seo.openGraph.ogUrl) || defaultMetaTags.openGraph.url,
 			images: [
 				{
-					url: seo.openGraph.ogImage?.url || '',
+					url: toAbsoluteUrl(seo.openGraph.ogImage?.url) || '',
 					width: seo.openGraph.ogImage?.width || 0,
 					height: seo.openGraph.ogImage?.height || 0,
 					alt: seo.openGraph.ogImage?.alternativeText || '',

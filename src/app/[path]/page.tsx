@@ -1,5 +1,6 @@
 import { getArticleByPath, getArticles } from '@/dal/articles';
 import { Article } from './Article';
+import { getSiteUrl, toAbsoluteUrl } from '@/utils/siteUrl';
 
 export async function generateStaticParams() {
 	const { data } = await getArticles();
@@ -27,15 +28,15 @@ export async function generateMetadata({
 		description: metaDescription,
 		keywords: metaKeywords,
 		alternates: {
-			canonical: `https://ligninsorbent.ru/${path}`,
+			canonical: `${getSiteUrl()}/${path}`,
 		},
 		openGraph: {
 			title: data.title,
 			description: metaDescription,
 			type: 'website',
-			url: `https://ligninsorbent.ru/${path}`,
+			url: `${getSiteUrl()}/${path}`,
 			images: coverUrl
-				? [`https://ligninsorbent.ru${coverUrl}`]
+				? [toAbsoluteUrl(coverUrl)]
 				: undefined,
 		},
 	};

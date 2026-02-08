@@ -8,6 +8,7 @@ import { YandexMetrika } from '@/components/yandexMetrika/YandexMetrika';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import ScrollTopButton from '@/components/scrollToTopButton/ScrollToTopButton';
 import { getMetaTagsByPath } from '@/dal/metaTags';
+import { getSiteUrl, toAbsoluteUrl } from '@/utils/siteUrl';
 import { getFeedbackFormInfo } from '@/dal/feedbackForm';
 // import { getFeedbackFormInfo } from '@/dal/feedbackForm';
 
@@ -45,9 +46,9 @@ export async function generateMetadata() {
 	);
   const nonEmpty = (value?: string | null) =>
 		value && value.trim().length > 0 ? value : undefined;
-  const ogImageUrl = nonEmpty(seo.openGraph?.ogImage?.url);
-  const canonicalUrl = nonEmpty(seo.canonicalURL);
-  const ogUrl = nonEmpty(seo.openGraph?.ogUrl);
+	const ogImageUrl = toAbsoluteUrl(nonEmpty(seo.openGraph?.ogImage?.url));
+	const canonicalUrl = toAbsoluteUrl(nonEmpty(seo.canonicalURL));
+	const ogUrl = toAbsoluteUrl(nonEmpty(seo.openGraph?.ogUrl));
   const ogTitle = nonEmpty(seo.openGraph?.ogTitle);
   const ogDescription = nonEmpty(seo.openGraph?.ogDescription);
   const ogType = nonEmpty(seo.openGraph?.ogType);
@@ -56,7 +57,7 @@ export async function generateMetadata() {
   const keywords = nonEmpty(seo.keywords);
 
 	return {
-		metadataBase: new URL('https://ligninsorbent.ru'),
+		metadataBase: new URL(getSiteUrl()),
 		title: metaTitle,
 		description: metaDescription,
 		keywords,
