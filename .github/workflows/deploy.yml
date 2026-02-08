@@ -33,4 +33,4 @@ jobs:
             git reset --hard origin/main
             export CI=1
             curl -fsS "http://127.0.0.1:1337/_health" >/dev/null || curl -fsS "http://127.0.0.1:1337/admin" >/dev/null
-            docker compose up --build -d
+            docker compose up --build -d --remove-orphans
