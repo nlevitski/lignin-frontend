@@ -6,6 +6,8 @@ services:
       args:
         ENV_FILE: .env.ligninsorbent
         STRAPI_SSG_URL: http://host.docker.internal:1337
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
     env_file:
       - .env
       - .env.ligninsorbent
@@ -13,6 +15,8 @@ services:
       NODE_ENV: production
     ports:
       - "3000:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - lignin
 
@@ -23,6 +27,8 @@ services:
       args:
         ENV_FILE: .env.lignin
         STRAPI_SSG_URL: http://host.docker.internal:1337
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
     env_file:
       - .env
       - .env.lignin
@@ -31,6 +37,8 @@ services:
       PORT: 3001
     ports:
       - "3001:3001"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - lignin
 
