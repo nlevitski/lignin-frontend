@@ -1,4 +1,3 @@
-import { fetchJson } from '@/utils/fetchJson';
 import { getStrapiBaseUrl } from '@/utils/strapiBaseUrl';
 
 export type SitemapEntry = {
