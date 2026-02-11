@@ -61,7 +61,6 @@ export const Brief = ({
 									sizes='(max-width: 768px) 80vw, 35vw'
 									fill
 									style={{ objectFit: 'cover', ...style }}
-									fetchPriority='high'
 								/>
 							</div>
 						</div>

@@ -30,7 +30,6 @@ export const Samples = () => {
 								fill
 								sizes='280px'
 								src={card.href}
-								fetchPriority="high"
 							/>
 						</div>
 						<div className={styles.caption}>{card.caption}</div>

@@ -1,5 +1,5 @@
-import { Montserrat } from 'next/font/google';
 import './globals.css';
+import { tildaSans } from '@/fonts/fonts';
 import { Footer } from '@/components/footer/Footer';
 import { Feedback } from '@/components/feedback/Feedback';
 import { Menu } from '@/components/menu/Menu';
@@ -13,10 +13,10 @@ import { getFeedbackFormInfo } from '@/dal/feedbackForm';
 import { getHeroContent } from '@/dal/hero';
 // import { getFeedbackFormInfo } from '@/dal/feedbackForm';
 
-const montserrat = Montserrat({
-	variable: '--font-montserrat',
-	subsets: ['cyrillic'],
-});
+// const montserrat = Montserrat({
+// 	variable: '--font-montserrat',
+// 	subsets: ['cyrillic'],
+// });
 const icons = {
 	icon: [
 		{ url: '/favicon.svg', type: 'image/svg+xml' },
@@ -127,6 +127,13 @@ export default async function RootLayout({
   ]);
 
 	const { 0: desktop, 1: mobile } = heroData.background ?? [];
+	const heroPreloadUrl = toAbsoluteUrl(
+		desktop?.formats?.large?.url ||
+			desktop?.formats?.medium?.url ||
+			desktop?.url ||
+			mobile?.formats?.medium?.url ||
+			mobile?.url
+	);
 	const heroCss = `
 		:root {
 			--hero-bg-xsmall: ${cssUrlValue(mobile?.formats?.xsmall?.url || mobile?.url)};
@@ -142,9 +149,17 @@ export default async function RootLayout({
 	return (
 		<html lang='ru'>
 			<head>
+				{heroPreloadUrl && (
+					<link
+						rel='preload'
+						as='image'
+						href={heroPreloadUrl}
+						fetchPriority='high'
+					/>
+				)}
 				<style>{heroCss}</style>
 			</head>
-			<body className={`${montserrat.variable}`}>
+			<body className={`${tildaSans.variable}`}>
 				<Menu bigboards={bigBoardsData} />
 				{children}
 				<Feedback {...feedbackFormInfoData} />
