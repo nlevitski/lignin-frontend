@@ -127,11 +127,14 @@ export default async function RootLayout({
   ]);
 
 	const { 0: desktop, 1: mobile } = heroData.background ?? [];
-	const heroPreloadUrl = toAbsoluteUrl(
+	const heroPreloadDesktopUrl = toAbsoluteUrl(
 		desktop?.formats?.large?.url ||
 			desktop?.formats?.medium?.url ||
-			desktop?.url ||
-			mobile?.formats?.medium?.url ||
+			desktop?.url
+	);
+	const heroPreloadMobileUrl = toAbsoluteUrl(
+		mobile?.formats?.medium?.url ||
+			mobile?.formats?.small?.url ||
 			mobile?.url
 	);
 	const heroCss = `
@@ -149,11 +152,21 @@ export default async function RootLayout({
 	return (
 		<html lang='ru'>
 			<head>
-				{heroPreloadUrl && (
+				{heroPreloadDesktopUrl && (
 					<link
 						rel='preload'
 						as='image'
-						href={heroPreloadUrl}
+						href={heroPreloadDesktopUrl}
+						media='(min-width: 769px)'
+						fetchPriority='high'
+					/>
+				)}
+				{heroPreloadMobileUrl && (
+					<link
+						rel='preload'
+						as='image'
+						href={heroPreloadMobileUrl}
+						media='(max-width: 768px)'
 						fetchPriority='high'
 					/>
 				)}
