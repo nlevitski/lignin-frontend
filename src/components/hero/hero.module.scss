@@ -8,7 +8,7 @@
   height: 100vh;
   color: var(--background);
   background-color: rgb(100, 100, 100);
-  background-image: none;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5)), var(--hero-bg-medium, none);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -62,6 +62,41 @@
 @media (min-width: 481px) {
   .title {
     font-size: 32px;
+  }
+}
+@media (min-width: 240px) and (max-width: 319px) {
+  .container {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5)), var(--hero-bg-xsmall, none);
+  }
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  .container {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5)), var(--hero-bg-small, none);
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5)), var(--hero-bg-medium, none);
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5)), var(--hero-bg-desktop-medium, none);
+  }
+}
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .container {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5)), var(--hero-bg-large, none);
+  }
+}
+@media (min-width: 1441px) and (max-width: 1920px) {
+  .container {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5)), var(--hero-bg-xlarge, none);
+  }
+}
+@media (min-width: 1921px) {
+  .container {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5)), var(--hero-bg-full, none);
   }
 }
 @media (min-width: 641px) {

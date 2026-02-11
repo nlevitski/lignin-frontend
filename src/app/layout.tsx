@@ -10,6 +10,7 @@ import ScrollTopButton from '@/components/scrollToTopButton/ScrollToTopButton';
 import { getMetaTagsByPath } from '@/dal/metaTags';
 import { getSiteUrl, toAbsoluteUrl } from '@/utils/siteUrl';
 import { getFeedbackFormInfo } from '@/dal/feedbackForm';
+import { getHeroContent } from '@/dal/hero';
 // import { getFeedbackFormInfo } from '@/dal/feedbackForm';
 
 const montserrat = Montserrat({
@@ -107,18 +108,42 @@ export async function generateMetadata() {
 
 const isProduciton = process.env.NODE_ENV === 'production';
 const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
+
+function cssUrlValue(pathOrUrl?: string | null): string {
+	if (!pathOrUrl) return 'none';
+	return `url(${pathOrUrl})`;
+}
+
 export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
 	
-  const { 0: { data: bigBoardsData }, 1: { data: feedbackFormInfoData } } = await Promise.all([
+  const { 0: { data: bigBoardsData }, 1: { data: feedbackFormInfoData }, 2: { data: heroData } } = await Promise.all([
     getBigboards(),
-    getFeedbackFormInfo()
+    getFeedbackFormInfo(),
+		getHeroContent()
   ]);
+
+	const { 0: desktop, 1: mobile } = heroData.background ?? [];
+	const heroCss = `
+		:root {
+			--hero-bg-xsmall: ${cssUrlValue(mobile?.formats?.xsmall?.url || mobile?.url)};
+			--hero-bg-small: ${cssUrlValue(mobile?.formats?.small?.url || mobile?.url)};
+			--hero-bg-medium: ${cssUrlValue(mobile?.formats?.medium?.url || mobile?.url)};
+			--hero-bg-desktop-medium: ${cssUrlValue(desktop?.formats?.medium?.url || desktop?.url)};
+			--hero-bg-large: ${cssUrlValue(desktop?.formats?.large?.url || desktop?.url)};
+			--hero-bg-xlarge: ${cssUrlValue(desktop?.formats?.xlarge?.url || desktop?.url)};
+			--hero-bg-full: ${cssUrlValue(desktop?.url)};
+		}
+	`;
+
 	return (
 		<html lang='ru'>
+			<head>
+				<style>{heroCss}</style>
+			</head>
 			<body className={`${montserrat.variable}`}>
 				<Menu bigboards={bigBoardsData} />
 				{children}
