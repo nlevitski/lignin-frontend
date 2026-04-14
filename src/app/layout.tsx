@@ -1,16 +1,17 @@
-import './globals.css';
-import { tildaSans } from '@/fonts/fonts';
-import { Footer } from '@/components/footer/Footer';
-import { Feedback } from '@/components/feedback/Feedback';
-import { Menu } from '@/components/menu/Menu';
-import { getBigboards } from '@/dal/articles';
-import { YandexMetrika } from '@/components/yandexMetrika/YandexMetrika';
-import { GoogleAnalytics } from '@next/third-parties/google';
-import ScrollTopButton from '@/components/scrollToTopButton/ScrollToTopButton';
-import { getMetaTagsByPath } from '@/dal/metaTags';
-import { getSiteUrl, toAbsoluteUrl } from '@/utils/siteUrl';
-import { getFeedbackFormInfo } from '@/dal/feedbackForm';
-import { getHeroContent } from '@/dal/hero';
+import "./globals.css";
+import { tildaSans } from "@/fonts/fonts";
+import { Footer } from "@/components/footer/Footer";
+import { Feedback } from "@/components/feedback/Feedback";
+import { Menu } from "@/components/menu/Menu";
+import { getBigboards } from "@/dal/articles";
+import { YandexMetrika } from "@/components/yandexMetrika/YandexMetrika";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import ScrollTopButton from "@/components/scrollToTopButton/ScrollToTopButton";
+import { getMetaTagsByPath } from "@/dal/metaTags";
+import { getSiteUrl, toAbsoluteUrl } from "@/utils/siteUrl";
+import { getFeedbackFormInfo } from "@/dal/feedbackForm";
+import { getHeroContent } from "@/dal/hero";
+import { getHreflangUrls } from "@/utils/hreflang";
 // import { getFeedbackFormInfo } from '@/dal/feedbackForm';
 
 // const montserrat = Montserrat({
@@ -19,43 +20,49 @@ import { getHeroContent } from '@/dal/hero';
 // });
 const icons = {
 	icon: [
-		{ url: '/favicon.svg', type: 'image/svg+xml' },
-		{ url: '/favicon.ico', type: 'image/x-icon' },
-		{ url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-		{ url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-		{ url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
-		{ url: '/android-icon-192x192.png', sizes: '192x192', type: 'image/png' },
+		{ url: "/favicon.svg", type: "image/svg+xml" },
+		{ url: "/favicon.ico", type: "image/x-icon" },
+		{ url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+		{ url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+		{ url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+		{
+			url: "/android-icon-192x192.png",
+			sizes: "192x192",
+			type: "image/png",
+		},
 	],
-	shortcut: '/favicon.ico',
+	shortcut: "/favicon.ico",
 	apple: [
-		{ url: '/apple-icon-180x180.png', sizes: '180x180' },
-		{ url: '/apple-icon-152x152.png', sizes: '152x152' },
-		{ url: '/apple-icon-144x144.png', sizes: '144x144' },
-		{ url: '/apple-icon-120x120.png', sizes: '120x120' },
-		{ url: '/apple-icon-114x114.png', sizes: '114x114' },
-		{ url: '/apple-icon-76x76.png', sizes: '76x76' },
-		{ url: '/apple-icon-72x72.png', sizes: '72x72' },
-		{ url: '/apple-icon-60x60.png', sizes: '60x60' },
-		{ url: '/apple-icon-57x57.png', sizes: '57x57' },
+		{ url: "/apple-icon-180x180.png", sizes: "180x180" },
+		{ url: "/apple-icon-152x152.png", sizes: "152x152" },
+		{ url: "/apple-icon-144x144.png", sizes: "144x144" },
+		{ url: "/apple-icon-120x120.png", sizes: "120x120" },
+		{ url: "/apple-icon-114x114.png", sizes: "114x114" },
+		{ url: "/apple-icon-76x76.png", sizes: "76x76" },
+		{ url: "/apple-icon-72x72.png", sizes: "72x72" },
+		{ url: "/apple-icon-60x60.png", sizes: "60x60" },
+		{ url: "/apple-icon-57x57.png", sizes: "57x57" },
 	],
 };
 
 export async function generateMetadata() {
-	
-  const { data: { seo } } = await getMetaTagsByPath(
-		'hero-content?populate[seo][populate][openGraph][populate]=ogImage'
+	const {
+		data: { seo },
+	} = await getMetaTagsByPath(
+		"hero-content?populate[seo][populate][openGraph][populate]=ogImage",
 	);
-  const nonEmpty = (value?: string | null) =>
+	const nonEmpty = (value?: string | null) =>
 		value && value.trim().length > 0 ? value : undefined;
 	const ogImageUrl = toAbsoluteUrl(nonEmpty(seo.openGraph?.ogImage?.url));
 	const canonicalUrl = toAbsoluteUrl(nonEmpty(seo.canonicalURL));
 	const ogUrl = toAbsoluteUrl(nonEmpty(seo.openGraph?.ogUrl));
-  const ogTitle = nonEmpty(seo.openGraph?.ogTitle);
-  const ogDescription = nonEmpty(seo.openGraph?.ogDescription);
-  const ogType = nonEmpty(seo.openGraph?.ogType);
-  const metaTitle = nonEmpty(seo.metaTitle);
-  const metaDescription = nonEmpty(seo.metaDescription);
-  const keywords = nonEmpty(seo.keywords);
+	const ogTitle = nonEmpty(seo.openGraph?.ogTitle);
+	const ogDescription = nonEmpty(seo.openGraph?.ogDescription);
+	const ogType = nonEmpty(seo.openGraph?.ogType);
+	const metaTitle = nonEmpty(seo.metaTitle);
+	const metaDescription = nonEmpty(seo.metaDescription);
+	const keywords = nonEmpty(seo.keywords);
+	const hreflangUrls = getHreflangUrls();
 
 	return {
 		metadataBase: new URL(getSiteUrl()),
@@ -73,7 +80,9 @@ export async function generateMetadata() {
 							url: ogImageUrl,
 							width: seo.openGraph.ogImage?.width || 0,
 							height: seo.openGraph.ogImage?.height || 0,
-							alt: seo.openGraph.ogImage?.alternativeText || 'Лигнин',
+							alt:
+								seo.openGraph.ogImage?.alternativeText ||
+								"Лигнин",
 						},
 					]
 				: undefined,
@@ -81,6 +90,7 @@ export async function generateMetadata() {
 		},
 		alternates: {
 			canonical: canonicalUrl,
+			languages: hreflangUrls,
 		},
 		icons,
 	};
@@ -106,11 +116,11 @@ export async function generateMetadata() {
 // 	},
 // };
 
-const isProduciton = process.env.NODE_ENV === 'production';
+const isProduciton = process.env.NODE_ENV === "production";
 const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 
 function cssUrlValue(pathOrUrl?: string | null): string {
-	if (!pathOrUrl) return 'none';
+	if (!pathOrUrl) return "none";
 	return `url(${pathOrUrl})`;
 }
 
@@ -119,23 +129,26 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	
-  const { 0: { data: bigBoardsData }, 1: { data: feedbackFormInfoData }, 2: { data: heroData } } = await Promise.all([
-    getBigboards(),
-    getFeedbackFormInfo(),
-		getHeroContent()
-  ]);
+	const {
+		0: { data: bigBoardsData },
+		1: { data: feedbackFormInfoData },
+		2: { data: heroData },
+	} = await Promise.all([
+		getBigboards(),
+		getFeedbackFormInfo(),
+		getHeroContent(),
+	]);
 
 	const { 0: desktop, 1: mobile } = heroData.background ?? [];
 	const heroPreloadDesktopUrl = toAbsoluteUrl(
 		desktop?.formats?.large?.url ||
 			desktop?.formats?.medium?.url ||
-			desktop?.url
+			desktop?.url,
 	);
 	const heroPreloadMobileUrl = toAbsoluteUrl(
 		mobile?.formats?.medium?.url ||
 			mobile?.formats?.small?.url ||
-			mobile?.url
+			mobile?.url,
 	);
 	const heroCss = `
 		:root {
@@ -150,24 +163,24 @@ export default async function RootLayout({
 	`;
 
 	return (
-		<html lang='ru'>
+		<html lang="ru">
 			<head>
 				{heroPreloadDesktopUrl && (
 					<link
-						rel='preload'
-						as='image'
+						rel="preload"
+						as="image"
 						href={heroPreloadDesktopUrl}
-						media='(min-width: 769px)'
-						fetchPriority='high'
+						media="(min-width: 769px)"
+						fetchPriority="high"
 					/>
 				)}
 				{heroPreloadMobileUrl && (
 					<link
-						rel='preload'
-						as='image'
+						rel="preload"
+						as="image"
 						href={heroPreloadMobileUrl}
-						media='(max-width: 768px)'
-						fetchPriority='high'
+						media="(max-width: 768px)"
+						fetchPriority="high"
 					/>
 				)}
 				<style>{heroCss}</style>

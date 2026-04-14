@@ -1,13 +1,14 @@
-import { getArticleByPath, getArticles } from '@/dal/articles';
-import { Article } from './Article';
-import { getSiteUrl, toAbsoluteUrl } from '@/utils/siteUrl';
+import { getArticleByPath, getArticles } from "@/dal/articles";
+import { Article } from "./Article";
+import { getSiteUrl, toAbsoluteUrl } from "@/utils/siteUrl";
+import { getHreflangUrls } from "@/utils/hreflang";
 
 export async function generateStaticParams() {
 	const { data } = await getArticles();
 
 	return data
 		.map(({ path }) => path)
-		.filter((path) => typeof path === 'string' && path.trim().length > 0)
+		.filter((path) => typeof path === "string" && path.trim().length > 0)
 		.map((path) => ({ path }));
 }
 
@@ -23,21 +24,22 @@ export async function generateMetadata({
 	const coverUrl = nonEmpty(data.cover?.url);
 	const metaDescription = nonEmpty(data?.metaDescription);
 	const metaKeywords = nonEmpty(data?.metaKeywords);
+	const hreflangUrls = getHreflangUrls(path);
+
 	return {
 		title: data.title,
 		description: metaDescription,
 		keywords: metaKeywords,
 		alternates: {
 			canonical: `${getSiteUrl()}/${path}`,
+			languages: hreflangUrls,
 		},
 		openGraph: {
 			title: data.title,
 			description: metaDescription,
-			type: 'website',
+			type: "website",
 			url: `${getSiteUrl()}/${path}`,
-			images: coverUrl
-				? [toAbsoluteUrl(coverUrl)]
-				: undefined,
+			images: coverUrl ? [toAbsoluteUrl(coverUrl)] : undefined,
 		},
 	};
 }

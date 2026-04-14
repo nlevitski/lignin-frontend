@@ -1,21 +1,21 @@
-import Link from 'next/link';
-import styles from './sitemap.module.scss';
-import { getArticles } from '@/dal/articles';
-import { getSitemapsByDomain } from '@/dal/sitemaps';
-import { getSiteDomain, toAbsoluteUrl } from '@/utils/siteUrl';
+import Link from "next/link";
+import styles from "./sitemap.module.scss";
+import { getArticles } from "@/dal/articles";
+import { getSitemapsByDomain } from "@/dal/sitemaps";
+import { getSiteDomain, toAbsoluteUrl } from "@/utils/siteUrl";
+import { getHreflangUrls } from "@/utils/hreflang";
 
 const links = [
 	{
-		title:
-			'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН очищенный. Сорбент для ЛАРН. Брикеты пеллеты из лигнина',
+		title: "Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН очищенный. Сорбент для ЛАРН. Брикеты пеллеты из лигнина",
 		description:
-			'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный высокой степени очистки. Сорбент для ЛАРН. Россия Беларусь Казахстан Узбекистан Грузия Молдова',
-		href: '/',
+			"Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный высокой степени очистки. Сорбент для ЛАРН. Россия Беларусь Казахстан Узбекистан Грузия Молдова",
+		href: "/",
 	},
 	{
-		title: 'Cтатьи о применении лигнина в различных сферах',
-		description: 'Сорбент лигнин статьи научные исследования использование',
-		href: '/articles',
+		title: "Cтатьи о применении лигнина в различных сферах",
+		description: "Сорбент лигнин статьи научные исследования использование",
+		href: "/articles",
 	},
 ];
 // const defaultMetaTags = {
@@ -37,10 +37,13 @@ export async function generateMetadata() {
 	const domain = getSiteDomain();
 	const { data } = await getSitemapsByDomain(domain);
 	const entry = data?.[0];
+	const hreflangUrls = getHreflangUrls("sitemap");
+
 	if (entry?.seo) {
 		return {
 			alternates: {
 				canonical: toAbsoluteUrl(entry.seo.canonicalURL),
+				languages: hreflangUrls,
 			},
 			title: entry.seo.metaTitle,
 			description: entry.seo.metaDescription,
@@ -56,13 +59,13 @@ export async function generateMetadata() {
 }
 export default async function SitemapPage() {
 	const domain = getSiteDomain();
-	const { 0: sitemapRes, 1: { data: articles } } = await Promise.all([
-		getSitemapsByDomain(domain),
-		getArticles(),
-	]);
+	const {
+		0: sitemapRes,
+		1: { data: articles },
+	} = await Promise.all([getSitemapsByDomain(domain), getArticles()]);
 	const title = sitemapRes.data?.[0]?.title;
 	const newArticles = articles
-		.filter((a) => a.path !== 'hydrolyzedlignin')
+		.filter((a) => a.path !== "hydrolyzedlignin")
 		.map((article) => ({
 			title: article.title,
 			description: article.metaDescription,
@@ -72,9 +75,13 @@ export default async function SitemapPage() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.holder}>
-				<h1 className={styles.header}>{title || 'Карта сайта'}</h1>
+				<h1 className={styles.header}>{title || "Карта сайта"}</h1>
 				{currentLinks.map((link) => (
-					<Link className={styles.link} href={link.href} key={link.href}>
+					<Link
+						className={styles.link}
+						href={link.href}
+						key={link.href}
+					>
 						<h2 className={styles.title}>{link.title}</h2>
 						<p className={styles.description}>{link.description}</p>
 					</Link>
