@@ -113,23 +113,9 @@ export const MenuClient = ({ menuItems, contactInfo }: MenuClientProps) => {
 				<ul className={cx("navMenu")}>
 					{menuItems.map((item) => (
 						<li key={item.title} className={styles.navItem}>
-							{item.href !== "/articles" ? (
-								<Link
-									href={item.href}
-									className={styles.navLink}
-								>
-									{item.title}
-								</Link>
-							) : (
-								<a
-									className={styles.navLink}
-									href={item.href}
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									{item.title}
-								</a>
-							)}
+							<Link href={item.href} className={styles.navLink}>
+								{item.title}
+							</Link>
 						</li>
 					))}
 				</ul>
