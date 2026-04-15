@@ -13,20 +13,14 @@ type HreflangUrls = {
  */
 export function getHreflangUrls(path: string = ""): HreflangUrls {
 	const currentSiteUrl = getSiteUrl();
-	const isProduction = process.env.NODE_ENV === "production";
 
 	// Нормализуем путь (убираем начальный слеш если есть)
 	const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
 	const pathSegment = normalizedPath ? `/${normalizedPath}` : "";
 
-	// В продакшене используем порты
-	const ruUrl = isProduction
-		? `https://ligninsorbent.ru:3000${pathSegment}`
-		: `https://ligninsorbent.ru${pathSegment}`;
-
-	const byUrl = isProduction
-		? `https://lignin.by:3001${pathSegment}`
-		: `https://lignin.by${pathSegment}`;
+	// URLs без портов для hreflang
+	const ruUrl = `https://ligninsorbent.ru${pathSegment}`;
+	const byUrl = `https://lignin.by${pathSegment}`;
 
 	return {
 		"ru-RU": ruUrl,
