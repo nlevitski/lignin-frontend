@@ -145,7 +145,10 @@ export default async function RootLayout({
 			desktop?.formats?.medium?.url ||
 			desktop?.url,
 	);
-	const heroPreloadMobileUrl = toAbsoluteUrl(
+	const heroPreloadMobileSmallUrl = toAbsoluteUrl(
+		mobile?.formats?.small?.url || mobile?.url,
+	);
+	const heroPreloadMobileMediumUrl = toAbsoluteUrl(
 		mobile?.formats?.medium?.url ||
 			mobile?.formats?.small?.url ||
 			mobile?.url,
@@ -174,12 +177,21 @@ export default async function RootLayout({
 						fetchPriority="high"
 					/>
 				)}
-				{heroPreloadMobileUrl && (
+				{heroPreloadMobileSmallUrl && (
 					<link
 						rel="preload"
 						as="image"
-						href={heroPreloadMobileUrl}
-						media="(max-width: 768px)"
+						href={heroPreloadMobileSmallUrl}
+						media="(min-width: 240px) and (max-width: 480px)"
+						fetchPriority="high"
+					/>
+				)}
+				{heroPreloadMobileMediumUrl && (
+					<link
+						rel="preload"
+						as="image"
+						href={heroPreloadMobileMediumUrl}
+						media="(min-width: 481px) and (max-width: 768px)"
 						fetchPriority="high"
 					/>
 				)}

@@ -81,6 +81,7 @@ export default async function SitemapPage() {
 						className={styles.link}
 						href={link.href}
 						key={link.href}
+						prefetch={link.href === "/articles" ? false : undefined}
 					>
 						<h2 className={styles.title}>{link.title}</h2>
 						<p className={styles.description}>{link.description}</p>

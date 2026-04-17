@@ -161,6 +161,7 @@ export default async function Home() {
 						type={'secondary'}
 						bold
 						large
+						prefetch={false}
 					/>
 				</div>
 			</div>

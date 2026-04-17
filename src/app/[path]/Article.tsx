@@ -45,6 +45,7 @@ export const Article = ({ article }: ArticleProps) => {
 				reducePaddingH
 				value={'Вернуться к статьям'}
 				alignSelf
+				prefetch={false}
 				style={{ margin: '30px 0 0' }}
 			/>
 		</div>

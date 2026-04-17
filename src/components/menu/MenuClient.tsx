@@ -110,15 +110,15 @@ export const MenuClient = ({ menuItems, contactInfo }: MenuClientProps) => {
 					</Link>
 				)}
 
-				<ul className={cx("navMenu")}>
-					{menuItems.map((item) => (
-						<li key={item.title} className={styles.navItem}>
-							<Link href={item.href} className={styles.navLink}>
-								{item.title}
-							</Link>
-						</li>
-					))}
-				</ul>
+					<ul className={cx("navMenu")}>
+						{menuItems.map((item) => (
+							<li key={item.title} className={styles.navItem}>
+								<Link href={item.href} className={styles.navLink}>
+									{item.title}
+								</Link>
+							</li>
+						))}
+					</ul>
 
 				{!showSticky && (
 					<div className={styles.contacts}>

@@ -18,6 +18,7 @@ type ButtonProps = {
 	alignSelf?: boolean;
 	style?: CSSProperties;
 	disabled?: boolean;
+	prefetch?: boolean;
 
 	onClick?: (
 		e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
@@ -37,6 +38,7 @@ export const Button = ({
 	alpha50 = false,
 	alignSelf = false,
 	disabled = false,
+	prefetch,
 	style = {},
 	onClick,
 }: ButtonProps) => {
@@ -52,7 +54,13 @@ export const Button = ({
 		button_disabled: disabled,
 	});
 	return href ? (
-		<Link href={href} className={resultCx} onClick={onClick} style={style}>
+		<Link
+			href={href}
+			className={resultCx}
+			onClick={onClick}
+			style={style}
+			prefetch={prefetch}
+		>
 			{value}
 		</Link>
 	) : (
