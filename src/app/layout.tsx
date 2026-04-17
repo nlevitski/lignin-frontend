@@ -4,8 +4,7 @@ import { Footer } from "@/components/footer/Footer";
 import { Feedback } from "@/components/feedback/Feedback";
 import { Menu } from "@/components/menu/Menu";
 import { getBigboards } from "@/dal/articles";
-import { YandexMetrika } from "@/components/yandexMetrika/YandexMetrika";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@/components/analytics/Analytics";
 import ScrollTopButton from "@/components/scrollToTopButton/ScrollToTopButton";
 import { getMetaTagsByPath } from "@/dal/metaTags";
 import { getSiteUrl, toAbsoluteUrl } from "@/utils/siteUrl";
@@ -203,8 +202,7 @@ export default async function RootLayout({
 				<Feedback {...feedbackFormInfoData} />
 				<Footer />
 				<ScrollTopButton />
-				{isProduciton && <YandexMetrika />}
-				{isProduciton && gaId && <GoogleAnalytics gaId={gaId} />}
+				<Analytics enabled={isProduciton} gaId={gaId} />
 			</body>
 		</html>
 	);
