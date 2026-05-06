@@ -116,7 +116,6 @@ export async function generateMetadata() {
 // };
 
 const isProduciton = process.env.NODE_ENV === "production";
-const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 
 function cssUrlValue(pathOrUrl?: string | null): string {
 	if (!pathOrUrl) return "none";
@@ -202,7 +201,7 @@ export default async function RootLayout({
 				<Feedback {...feedbackFormInfoData} />
 				<Footer />
 				<ScrollTopButton />
-				<Analytics enabled={isProduciton} gaId={gaId} />
+				<Analytics enabled={isProduciton} />
 			</body>
 		</html>
 	);

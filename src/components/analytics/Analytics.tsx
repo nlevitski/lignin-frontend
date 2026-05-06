@@ -4,16 +4,27 @@ import { useEffect, useState } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { YandexMetrika } from "@/components/yandexMetrika/YandexMetrika";
 
+const GA4_IDS_BY_HOSTNAME: Record<string, string | undefined> = {
+	"lignin.by": process.env.NEXT_PUBLIC_GA4_ID_LIGNIN_BY,
+	"ligninsorbent.ru": process.env.NEXT_PUBLIC_GA4_ID_LIGNINSORBENT_RU,
+};
+
 type AnalyticsProps = {
-	gaId?: string;
 	enabled?: boolean;
 };
 
-export const Analytics = ({ gaId, enabled = true }: AnalyticsProps) => {
+function normalizeHostname(hostname: string): string {
+	return hostname.trim().toLowerCase().replace(/^www\./, "");
+}
+
+export const Analytics = ({ enabled = true }: AnalyticsProps) => {
 	const [isReady, setIsReady] = useState(false);
+	const [hostname, setHostname] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (!enabled) return;
+
+		setHostname(normalizeHostname(window.location.hostname));
 
 		let cancelled = false;
 		let timeoutId: number | undefined;
@@ -40,6 +51,8 @@ export const Analytics = ({ gaId, enabled = true }: AnalyticsProps) => {
 			window.removeEventListener("load", start);
 		};
 	}, [enabled]);
+
+	const gaId = hostname ? GA4_IDS_BY_HOSTNAME[hostname] : undefined;
 
 	if (!enabled || !isReady) {
 		return null;
