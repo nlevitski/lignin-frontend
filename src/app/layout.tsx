@@ -5,12 +5,18 @@ import { Feedback } from "@/components/feedback/Feedback";
 import { Menu } from "@/components/menu/Menu";
 import { getBigboards } from "@/dal/articles";
 import { Analytics } from "@/components/analytics/Analytics";
+import { AnalyticsHead } from "@/components/analytics/AnalyticsHead";
 import ScrollTopButton from "@/components/scrollToTopButton/ScrollToTopButton";
 import { getMetaTagsByPath } from "@/dal/metaTags";
+import { headers } from "next/headers";
 import { getSiteUrl, toAbsoluteUrl } from "@/utils/siteUrl";
 import { getFeedbackFormInfo } from "@/dal/feedbackForm";
 import { getHeroContent } from "@/dal/hero";
 import { getHreflangUrls } from "@/utils/hreflang";
+import {
+	getHostnameFromRequest,
+	resolveTrackingIds,
+} from "@/components/analytics/tracking";
 // import { getFeedbackFormInfo } from '@/dal/feedbackForm';
 
 // const montserrat = Montserrat({
@@ -127,6 +133,11 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const requestHeaders = await headers();
+	const hostname = getHostnameFromRequest(
+		requestHeaders.get("x-forwarded-host") || requestHeaders.get("host"),
+	);
+	const { gaId, ymId, gtmId } = resolveTrackingIds(hostname);
 	const {
 		0: { data: bigBoardsData },
 		1: { data: feedbackFormInfoData },
@@ -166,6 +177,7 @@ export default async function RootLayout({
 	return (
 		<html lang="ru">
 			<head>
+				<AnalyticsHead enabled={isProduciton} gtmId={gtmId} />
 				{heroPreloadDesktopUrl && (
 					<link
 						rel="preload"
@@ -196,12 +208,17 @@ export default async function RootLayout({
 				<style>{heroCss}</style>
 			</head>
 			<body className={`${tildaSans.variable}`}>
+				<Analytics
+					enabled={isProduciton}
+					gaId={gaId}
+					ymId={ymId}
+					gtmId={gtmId}
+				/>
 				<Menu bigboards={bigBoardsData} />
 				{children}
 				<Feedback {...feedbackFormInfoData} />
 				<Footer />
 				<ScrollTopButton />
-				<Analytics enabled={isProduciton} />
 			</body>
 		</html>
 	);
