@@ -93,7 +93,8 @@ function withSiteFilter(
 ): string {
 	return buildQuery({
 		...params,
-		'filters[site][$eq]': site,
+		// Avoid $eq in query params: some build/proxy paths rewrite it and Strapi rejects the result.
+		'filters[site]': site,
 	});
 }
 
@@ -129,7 +130,7 @@ export function getArticleByDocumentId(
 	site?: SiteDomain
 ): Promise<ArticlesResponse<Document<ArticleItem>>> {
 	return getSingleArticle({
-		'filters[documentId][$eq]': documentId,
+		'filters[documentId]': documentId,
 		populate: 'cover',
 		site,
 	});
@@ -140,7 +141,7 @@ export function getArticleByPath(
 	site?: SiteDomain
 ): Promise<ArticlesResponse<Document<ArticleItem>>> {
 	return getSingleArticle({
-		'filters[path][$eq]': path,
+		'filters[path]': path,
 		populate: 'cover',
 		site,
 	});
@@ -212,7 +213,7 @@ export function getArticleWithWidgetOrder(site?: SiteDomain): Promise<
 		url: `${getStrapiBaseUrl()}/api/widgets${buildQuery({
 			'populate[article][populate][cover]': 'true',
 			'populate[article][populate][coverPreview]': 'true',
-			'filters[article][site][$eq]': site,
+			'filters[article][site]': site,
 		})}`,
 	});
 }
