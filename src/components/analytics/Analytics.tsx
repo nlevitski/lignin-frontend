@@ -8,7 +8,12 @@ type AnalyticsProps = {
 	gtmId?: string;
 };
 
-export const Analytics = ({ enabled = true, gaId, ymId, gtmId }: AnalyticsProps) => {
+export const Analytics = ({
+	enabled = true,
+	gaId,
+	ymId,
+	gtmId,
+}: AnalyticsProps) => {
 	if (!enabled) {
 		return null;
 	}

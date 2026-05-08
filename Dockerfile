@@ -26,7 +26,7 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 COPY . .
 ENV NODE_ENV=production
-RUN bun run build
+RUN node ./scripts/build.mjs prod
 
 FROM node:20-slim AS runner
 ENV NODE_ENV=production
@@ -42,4 +42,4 @@ COPY --from=build /app/bun.lock ./bun.lock
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/next.config.ts ./next.config.ts
 EXPOSE 3000
-CMD ["bun", "run", "start"]
+CMD ["node", ".next/standalone/server.js"]

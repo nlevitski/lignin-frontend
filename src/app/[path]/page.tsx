@@ -1,10 +1,11 @@
 import { getArticleByPath, getArticles } from "@/dal/articles";
 import { Article } from "./Article";
-import { getSiteUrl, toAbsoluteUrl } from "@/utils/siteUrl";
+import { getCurrentSite, getSiteUrl, toAbsoluteUrl } from "@/utils/siteUrl";
 import { getHreflangUrls } from "@/utils/hreflang";
 
 export async function generateStaticParams() {
-	const { data } = await getArticles();
+	const site = getCurrentSite();
+	const { data } = await getArticles(site);
 
 	return data
 		.map(({ path }) => path)
@@ -18,7 +19,8 @@ export async function generateMetadata({
 	params: Promise<{ path: string }>;
 }) {
 	const { path } = await params;
-	const { data } = await getArticleByPath(path);
+	const site = getCurrentSite();
+	const { data } = await getArticleByPath(path, site);
 	const nonEmpty = (value?: string | null) =>
 		value && value.trim().length > 0 ? value : undefined;
 	const coverUrl = nonEmpty(data.cover?.url);
@@ -50,6 +52,7 @@ export default async function ArticlePage({
 	params: Promise<{ path: string }>;
 }) {
 	const { path } = await params;
-	const { data } = await getArticleByPath(path);
+	const site = getCurrentSite();
+	const { data } = await getArticleByPath(path, site);
 	return <Article article={data} />;
 }

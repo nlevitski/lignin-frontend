@@ -15,6 +15,7 @@ import {
 import { getHeroContent } from '@/dal/hero';
 import { Features } from '@/components/features/Features';
 import { AboutUs } from '@/components/aboutUs/AboutUs';
+import { getCurrentSite } from '@/utils/siteUrl';
 
 
 type Pagination = {
@@ -61,10 +62,10 @@ const features: Feature[] = [
 	},
 ];
 
-const bigboardArticleDocumentId = 'r82tukj30x59ztiojp2d9yzp';
 export const revalidate = 3600;
 
 export default async function Home() {
+	const site = getCurrentSite();
 	const {
 		0: { data: bigboardsData },
 		1: { data: articlesDataWithWidgetOrder },
@@ -72,19 +73,22 @@ export default async function Home() {
 		3: { data: heroData },
 		4: { data: articlesData },
 	} = await Promise.all([
-		getBigboardsWithTeasers(),
-		getArticleWithWidgetOrder(),
+		getBigboardsWithTeasers(site),
+		getArticleWithWidgetOrder(site),
 		getAboutUsContent(),
 		getHeroContent(),
 		getArticlesPageContent(),
 	]);
-	const mainArticle = bigboardsData.find(
-		(bigboard) => bigboard.article.documentId === bigboardArticleDocumentId
-	)!;
-
-	const bigboardArticles = bigboardsData.filter(
-		(bigboard) => bigboard.article.documentId !== bigboardArticleDocumentId
+	const sortedBigboardsData = [...bigboardsData].sort(
+		(a, b) => a.menuOrder - b.menuOrder,
 	);
+	const mainArticle = sortedBigboardsData[0];
+
+	const bigboardArticles = mainArticle
+		? sortedBigboardsData.filter(
+				(bigboard) => bigboard.documentId !== mainArticle.documentId
+			)
+		: [];
 
 	const sortedArticleWithWidgetOrder = articlesDataWithWidgetOrder.sort(
 		(a, b) => (a.widgetOrder > b.widgetOrder ? 1 : -1)
@@ -93,17 +97,19 @@ export default async function Home() {
 	return (
 		<div id='home'>
 			<Hero data={heroData} />
-			<Brief
-				id={mainArticle.article.path}
-				title={mainArticle.article.title}
-				readMoreUrl={`/${mainArticle.article.path}`}
-				cover={mainArticle.cover}
-        background={mainArticle.background}
-				teaser={mainArticle.article.teaser || []}
-				style={{ objectFit: 'initial' }}
-				aspectRatio={{ aspectRatio: '779 / 716' }}
-				mobileBgOff={true}
-			/>
+			{mainArticle && (
+				<Brief
+					id={mainArticle.article.path}
+					title={mainArticle.article.title}
+					readMoreUrl={`/${mainArticle.article.path}`}
+					cover={mainArticle.cover}
+					background={mainArticle.background}
+					teaser={mainArticle.article.teaser || []}
+					style={{ objectFit: 'initial' }}
+					aspectRatio={{ aspectRatio: '779 / 716' }}
+					mobileBgOff={true}
+				/>
+			)}
 			<Features>
 				{features.map((f) => (
 					<Card

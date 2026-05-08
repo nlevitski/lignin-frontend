@@ -1,5 +1,7 @@
 import { fetchJson } from '@/utils/fetchJson';
 import { getStrapiBaseUrl } from '@/utils/strapiBaseUrl';
+import { SiteDomain } from '@/utils/siteUrl';
+import { notFound } from 'next/navigation';
 import {
 	BaseDocument,
 	StrapiRichTextBlock,
@@ -71,16 +73,46 @@ export type Article = {
 export type AboutUs = {
 	content: StrapiRichTextBlock[];
 };
+
+function buildQuery(params: Record<string, string | undefined>): string {
+	const searchParams = new URLSearchParams();
+
+	for (const [key, value] of Object.entries(params)) {
+		if (value) {
+			searchParams.set(key, value);
+		}
+	}
+
+	const query = searchParams.toString();
+	return query ? `?${query}` : '';
+}
+
+function withSiteFilter(
+	params: Record<string, string>,
+	site?: SiteDomain
+): string {
+	return buildQuery({
+		...params,
+		'filters[site][$eq]': site,
+	});
+}
+
 export function getArticlesPageContent(): Promise<ArticlesResponse<Document<{title: string}>>> {
   return fetchJson({
     url: `${getStrapiBaseUrl()}/api/articles-page`,
   });
 }
-export function getArticles(): Promise<
+export function getArticles(site?: SiteDomain): Promise<
 	ArticlesResponse<Document<ArticleItem>[]>
 > {
 	return fetchJson({
-		url: `${getStrapiBaseUrl()}/api/articles?populate=cover&sort=createdAt:desc`,
+		url: `${getStrapiBaseUrl()}/api/articles${withSiteFilter(
+			{
+				populate: 'cover',
+				sort: 'createdAt:desc',
+			},
+			site
+		)}`,
 	});
 }
 
@@ -93,28 +125,66 @@ export function getExcludedArticles(): Promise<
 }
 
 export function getArticleByDocumentId(
-	documentId: string
+	documentId: string,
+	site?: SiteDomain
 ): Promise<ArticlesResponse<Document<ArticleItem>>> {
-	return fetchJson({
-		url: `${getStrapiBaseUrl()}/api/articles/${documentId}?populate=cover`,
+	return getSingleArticle({
+		'filters[documentId][$eq]': documentId,
+		populate: 'cover',
+		site,
 	});
 }
 
 export function getArticleByPath(
-	path: string
+	path: string,
+	site?: SiteDomain
 ): Promise<ArticlesResponse<Document<ArticleItem>>> {
-	const currentPath = `${getStrapiBaseUrl()}/api/articles/path/${path}`;
-	return fetchJson({ url: currentPath });
+	return getSingleArticle({
+		'filters[path][$eq]': path,
+		populate: 'cover',
+		site,
+	});
 }
 
-export function getBigboards(): Promise<
+async function getSingleArticle({
+	site,
+	...params
+}: Record<string, string | undefined> & { site?: SiteDomain }): Promise<
+	ArticlesResponse<Document<ArticleItem>>
+> {
+	const response = await fetchJson<ArticlesResponse<Document<ArticleItem>[]>>({
+		url: `${getStrapiBaseUrl()}/api/articles${withSiteFilter(
+			params as Record<string, string>,
+			site
+		)}`,
+	});
+
+	const [article] = response.data;
+
+	if (!article) {
+		return notFound();
+	}
+
+	return {
+		...response,
+		data: article,
+	};
+}
+
+export function getBigboards(site?: SiteDomain): Promise<
 	ArticlesResponse<Document<Bigboard<Document<ArticleShort>>>[]>
 > {
 	return fetchJson({
-		url: `${getStrapiBaseUrl()}/api/bigboards?populate[article][populate][cover]=true&populate[cover]=true`,
+		url: `${getStrapiBaseUrl()}/api/bigboards${withSiteFilter(
+			{
+				'populate[article][populate][cover]': 'true',
+				'populate[cover]': 'true',
+			},
+			site
+		)}`,
 	});
 }
-export function getBigboardsWithTeasers(): Promise<
+export function getBigboardsWithTeasers(site?: SiteDomain): Promise<
 	ArticlesResponse<
 		Document<
 			Bigboard<Document<Article>> & {
@@ -125,14 +195,25 @@ export function getBigboardsWithTeasers(): Promise<
 	>
 > {
 	return fetchJson({
-		url: `${getStrapiBaseUrl()}/api/bigboards?populate[background]=true&populate[cover]=true&populate[article][populate][cover]=true`,
+		url: `${getStrapiBaseUrl()}/api/bigboards${withSiteFilter(
+			{
+				'populate[background]': 'true',
+				'populate[cover]': 'true',
+				'populate[article][populate][cover]': 'true',
+			},
+			site
+		)}`,
 	});
 }
-export function getArticleWithWidgetOrder(): Promise<
+export function getArticleWithWidgetOrder(site?: SiteDomain): Promise<
 	ArticlesResponse<Document<Widget>[]>
 > {
 	return fetchJson({
-		url: `${getStrapiBaseUrl()}/api/widgets?populate[article][populate][cover]=true&populate[article][populate][coverPreview]=true`,
+		url: `${getStrapiBaseUrl()}/api/widgets${buildQuery({
+			'populate[article][populate][cover]': 'true',
+			'populate[article][populate][coverPreview]': 'true',
+			'filters[article][site][$eq]': site,
+		})}`,
 	});
 }
 

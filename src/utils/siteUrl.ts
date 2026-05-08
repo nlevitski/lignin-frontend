@@ -1,4 +1,8 @@
 const DEFAULT_SITE_URL = 'http://localhost:3000';
+const DEFAULT_SITE_DOMAIN = 'ligninsorbent.ru';
+const SUPPORTED_SITE_DOMAINS = ['lignin.by', 'ligninsorbent.ru'] as const;
+
+export type SiteDomain = (typeof SUPPORTED_SITE_DOMAINS)[number];
 
 function normalizeBaseUrl(url: string): string {
 	return url.replace(/\/+$/, '');
@@ -20,6 +24,14 @@ export function getSiteDomain(): string {
 	} catch {
 		return 'localhost';
 	}
+}
+
+export function getCurrentSite(): SiteDomain {
+	const domain = getSiteDomain();
+
+	return SUPPORTED_SITE_DOMAINS.includes(domain as SiteDomain)
+		? (domain as SiteDomain)
+		: DEFAULT_SITE_DOMAIN;
 }
 
 export function toAbsoluteUrl(pathOrUrl?: string | null): string | undefined {

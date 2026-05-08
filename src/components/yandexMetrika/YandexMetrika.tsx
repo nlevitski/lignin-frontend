@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import ym, { YMInitializer } from 'react-yandex-metrika';
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import ym, { YMInitializer } from "react-yandex-metrika";
 
 type YandexMetrikaProps = {
 	counterId?: string;
@@ -13,7 +13,7 @@ export const YandexMetrika = ({ counterId }: YandexMetrikaProps) => {
 
 	useEffect(() => {
 		if (pathname) {
-			ym('hit', pathname);
+			ym("hit", pathname);
 		}
 	}, [pathname]);
 
@@ -31,7 +31,7 @@ export const YandexMetrika = ({ counterId }: YandexMetrikaProps) => {
 				trackLinks: true,
 				accurateTrackBounce: true,
 			}}
-			version='2'
+			version="2"
 		/>
 	);
 };

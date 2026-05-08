@@ -6,17 +6,13 @@ import { Menu } from "@/components/menu/Menu";
 import { getBigboards } from "@/dal/articles";
 import { Analytics } from "@/components/analytics/Analytics";
 import { AnalyticsHead } from "@/components/analytics/AnalyticsHead";
-import ScrollTopButton from "@/components/scrollToTopButton/ScrollToTopButton";
 import { getMetaTagsByPath } from "@/dal/metaTags";
-import { headers } from "next/headers";
-import { getSiteUrl, toAbsoluteUrl } from "@/utils/siteUrl";
+import { getSiteUrl, getCurrentSite, toAbsoluteUrl } from "@/utils/siteUrl";
 import { getFeedbackFormInfo } from "@/dal/feedbackForm";
 import { getHeroContent } from "@/dal/hero";
 import { getHreflangUrls } from "@/utils/hreflang";
-import {
-	getHostnameFromRequest,
-	resolveTrackingIds,
-} from "@/components/analytics/tracking";
+import { resolveTrackingIds } from "@/components/analytics/tracking";
+import ScrollTopButton from "../components/scrollToTopButton/scrollTopButton";
 // import { getFeedbackFormInfo } from '@/dal/feedbackForm';
 
 // const montserrat = Montserrat({
@@ -121,7 +117,9 @@ export async function generateMetadata() {
 // 	},
 // };
 
-const isProduciton = process.env.NODE_ENV === "production";
+const isAnalyticsEnabled =
+	process.env.NODE_ENV === "production" &&
+	process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === "true";
 
 function cssUrlValue(pathOrUrl?: string | null): string {
 	if (!pathOrUrl) return "none";
@@ -133,17 +131,14 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const requestHeaders = await headers();
-	const hostname = getHostnameFromRequest(
-		requestHeaders.get("x-forwarded-host") || requestHeaders.get("host"),
-	);
-	const { gaId, ymId, gtmId } = resolveTrackingIds(hostname);
+	const site = getCurrentSite();
+	const { gaId, ymId, gtmId } = resolveTrackingIds(site);
 	const {
 		0: { data: bigBoardsData },
 		1: { data: feedbackFormInfoData },
 		2: { data: heroData },
 	} = await Promise.all([
-		getBigboards(),
+		getBigboards(site),
 		getFeedbackFormInfo(),
 		getHeroContent(),
 	]);
@@ -177,7 +172,7 @@ export default async function RootLayout({
 	return (
 		<html lang="ru">
 			<head>
-				<AnalyticsHead enabled={isProduciton} gtmId={gtmId} />
+				<AnalyticsHead enabled={isAnalyticsEnabled} gtmId={gtmId} />
 				{heroPreloadDesktopUrl && (
 					<link
 						rel="preload"
@@ -209,7 +204,7 @@ export default async function RootLayout({
 			</head>
 			<body className={`${tildaSans.variable}`}>
 				<Analytics
-					enabled={isProduciton}
+					enabled={isAnalyticsEnabled}
 					gaId={gaId}
 					ymId={ymId}
 					gtmId={gtmId}

@@ -29,8 +29,8 @@ const menuItems: MenuItem[] = [
 export const Menu = ({ bigboards }: MenuProps) => {
 	const contactInfo = getContactInfo();
 
-	const sortedBigboards = bigboards.sort((a, b) =>
-		a.menuOrder > b.menuOrder ? 1 : -1,
+	const sortedBigboards = [...bigboards].sort(
+		(a, b) => a.menuOrder - b.menuOrder,
 	);
 
 	const menuItemsDynamic = sortedBigboards.map((bigboard) => ({

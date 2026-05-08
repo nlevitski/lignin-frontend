@@ -6,7 +6,7 @@ import {
 import styles from "./articles.module.scss";
 import { Articles } from "./Articles";
 import { getMetaTagsByPath } from "@/dal/metaTags";
-import { getSiteUrl, toAbsoluteUrl } from "@/utils/siteUrl";
+import { getCurrentSite, getSiteUrl, toAbsoluteUrl } from "@/utils/siteUrl";
 import { getHreflangUrls } from "@/utils/hreflang";
 
 export const revalidate = 3600;
@@ -65,12 +65,13 @@ export async function generateMetadata() {
 }
 
 export default async function ArticlesPage() {
+	const site = getCurrentSite();
 	const {
 		0: result,
 		1: excludedArticles,
 		2: articlePageContent,
 	} = await Promise.all([
-		getArticles(),
+		getArticles(site),
 		getExcludedArticles(),
 		getArticlesPageContent(),
 	]);

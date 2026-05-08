@@ -2,7 +2,7 @@ import Link from "next/link";
 import styles from "./sitemap.module.scss";
 import { getArticles } from "@/dal/articles";
 import { getSitemapsByDomain } from "@/dal/sitemaps";
-import { getSiteDomain, toAbsoluteUrl } from "@/utils/siteUrl";
+import { getCurrentSite, getSiteDomain, toAbsoluteUrl } from "@/utils/siteUrl";
 import { getHreflangUrls } from "@/utils/hreflang";
 
 const links = [
@@ -59,10 +59,11 @@ export async function generateMetadata() {
 }
 export default async function SitemapPage() {
 	const domain = getSiteDomain();
+	const site = getCurrentSite();
 	const {
 		0: sitemapRes,
 		1: { data: articles },
-	} = await Promise.all([getSitemapsByDomain(domain), getArticles()]);
+	} = await Promise.all([getSitemapsByDomain(domain), getArticles(site)]);
 	const title = sitemapRes.data?.[0]?.title;
 	const newArticles = articles
 		.filter((a) => a.path !== "hydrolyzedlignin")
