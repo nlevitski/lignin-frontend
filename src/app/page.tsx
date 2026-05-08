@@ -93,7 +93,7 @@ export default async function Home() {
 	const sortedArticleWithWidgetOrder = articlesDataWithWidgetOrder.sort(
 		(a, b) => (a.widgetOrder > b.widgetOrder ? 1 : -1)
 	);
-  
+
 	return (
 		<div id='home'>
 			<Hero data={heroData} />
@@ -151,12 +151,12 @@ export default async function Home() {
 						{sortedArticleWithWidgetOrder.map(({ article, widgetOrder }) => (
 							<li className={styles.widgetItem} key={widgetOrder}>
 								<Widget
-                  id={article.documentId}
+									id={article.documentId}
 									title={article.titleSmall}
 									subtitle={article?.subtitle}
 									summary={article.summary}
 									articleUrl={`/${article.path}`}
-                  cover={article.cover}
+									cover={article.cover}
 								/>
 							</li>
 						))}
