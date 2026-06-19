@@ -33,10 +33,12 @@ export const Menu = ({ bigboards }: MenuProps) => {
 		(a, b) => a.menuOrder - b.menuOrder,
 	);
 
-	const menuItemsDynamic = sortedBigboards.map((bigboard) => ({
+	const menuItemsDynamic = sortedBigboards
+		.filter((bigboard) => !!bigboard.article && typeof bigboard.article.path === "string")
+		.map((bigboard) => ({
 		title: bigboard.menuName,
 		href: `/#${bigboard.article.path}`,
-	}));
+		}));
 
 	const currentMenu = [
 		{ title: "Главная", href: "/#home" },

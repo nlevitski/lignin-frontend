@@ -83,6 +83,29 @@ function compactData<T>(
 	};
 }
 
+type WithNestedArticlePath = {
+	article: {
+		path: string;
+	};
+};
+
+function hasNestedArticlePath<T extends { article?: { path?: unknown } | null }>(
+	item: T | null | undefined
+): item is T & WithNestedArticlePath {
+	return !!item && !!item.article && typeof item.article.path === 'string';
+}
+
+function compactDataWithNestedArticle<T extends { article?: { path?: unknown } | null }>(
+	response: ArticlesResponse<Array<T | null | undefined>>
+): ArticlesResponse<Array<T & WithNestedArticlePath>> {
+	const compacted = compactData(response);
+
+	return {
+		...compacted,
+		data: compacted.data.filter(hasNestedArticlePath),
+	};
+}
+
 function buildQuery(params: Record<string, string | undefined>): string {
 	const searchParams = new URLSearchParams();
 
@@ -194,7 +217,7 @@ export function getBigboards(site?: SiteDomain): Promise<
 			},
 			site
 		)}`,
-	}).then(compactData);
+	}).then(compactDataWithNestedArticle);
 }
 export function getBigboardsWithTeasers(site?: SiteDomain): Promise<
 	ArticlesResponse<
@@ -228,7 +251,7 @@ export function getBigboardsWithTeasers(site?: SiteDomain): Promise<
 			},
 			site
 		)}`,
-	}).then(compactData);
+	}).then(compactDataWithNestedArticle);
 }
 export function getArticleWithWidgetOrder(site?: SiteDomain): Promise<
 	ArticlesResponse<Document<Widget>[]>
@@ -239,7 +262,7 @@ export function getArticleWithWidgetOrder(site?: SiteDomain): Promise<
 			'populate[article][populate][coverPreview]': 'true',
 			'filters[article][site]': site,
 		})}`,
-	}).then(compactData);
+	}).then(compactDataWithNestedArticle);
 }
 
 export function getAboutUsContent(): Promise<{
