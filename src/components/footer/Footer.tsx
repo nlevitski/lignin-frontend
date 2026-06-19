@@ -11,11 +11,13 @@ export const Footer = () => {
 		<footer className={styles.footer} id="footer-section">
 			<div className={styles.container}>
 				<h2 className={styles.title}>Связаться с нами:</h2>
-				<h3 className={styles.entity}>ИП Alex Volk</h3>
+				<h3 className={styles.entity}>ЧП "Функе-Бел"</h3>
 				<dl className={styles.contacts}>
 					<dt>Телефон / WhatsApp:</dt>
 					<dd>
-						{contactInfo.country} <br />
+						{contactInfo.country === "Беларусь" &&
+							contactInfo.country}{" "}
+						<br />
 						<span className={styles.phone}>
 							{contactInfo.phoneFormatted}
 						</span>

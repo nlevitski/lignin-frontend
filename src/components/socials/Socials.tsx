@@ -1,36 +1,36 @@
-import styles from './socials.module.scss';
+import styles from "./socials.module.scss";
 import {
 	Telegram,
 	Whatsup,
 	Instagram,
 	Phone,
 	Mail,
-} from '@/components/icons/Socials';
-import { LinkIcon } from '../linkIcon/LinkIcon';
+} from "@/components/icons/Socials";
+import { LinkIcon } from "../linkIcon/LinkIcon";
 const icons = [
 	{
-		title: 'Telegram',
-		href: 'https://t.me/ligninby',
+		title: "Telegram",
+		href: "https://t.me/ligninby",
 		icon: <Telegram />,
 	},
 	{
-		title: 'Whatsup',
-		href: 'https://wa.me/375297290243',
+		title: "Whatsup",
+		href: "https://wa.me/375297290243",
 		icon: <Whatsup />,
 	},
 	{
-		title: 'Instagram',
-		href: 'https://instagram.com/lignin.by?igshid=YmMyMTA2M2Y=',
+		title: "Instagram",
+		href: "https://instagram.com/lignin.by",
 		icon: <Instagram />,
 	},
 	{
-		title: 'Phone',
-		href: 'tel:+375297290243',
+		title: "Phone",
+		href: "tel:+375297290243",
 		icon: <Phone />,
 	},
 	{
-		title: 'Mail',
-		href: 'mailto:alex.bizby@gmail.com',
+		title: "Mail",
+		href: "mailto:alex.bizby@gmail.com",
 		icon: <Mail />,
 	},
 ];
