@@ -65,13 +65,19 @@ export default async function SitemapPage() {
 		1: { data: articles },
 	} = await Promise.all([getSitemapsByDomain(domain), getArticles(site)]);
 	const title = sitemapRes.data?.[0]?.title;
-	const newArticles = articles
-		.filter((a) => a.path !== "hydrolyzedlignin")
-		.map((article) => ({
-			title: article.title,
-			description: article.metaDescription,
-			href: `/${article.path}`,
-		}));
+	const newArticles = articles.flatMap((article) => {
+		if (!article || typeof article.path !== "string" || article.path === "hydrolyzedlignin") {
+			return [];
+		}
+
+		return [
+			{
+				title: article.title,
+				description: article.metaDescription,
+				href: `/${article.path}`,
+			},
+		];
+	});
 	const currentLinks = [...links, ...newArticles];
 	return (
 		<div className={styles.container}>

@@ -7,10 +7,14 @@ export async function generateStaticParams() {
 	const site = getCurrentSite();
 	const { data } = await getArticles(site);
 
-	return data
-		.map(({ path }) => path)
-		.filter((path) => typeof path === "string" && path.trim().length > 0)
-		.map((path) => ({ path }));
+	return data.flatMap((article) => {
+		if (!article || typeof article.path !== "string") {
+			return [];
+		}
+
+		const path = article.path.trim();
+		return path ? [{ path }] : [];
+	});
 }
 
 export async function generateMetadata({

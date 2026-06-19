@@ -33,10 +33,22 @@ export async function GET() {
 			url: `${baseUrl}/articles`,
 			lastmod: new Date().toISOString(),
 		},
-		...articles.map((article) => ({
-			url: `${baseUrl}/${article.path}`,
-			lastmod: new Date(article.updatedAt).toISOString(),
-		})),
+		...articles.flatMap((article) => {
+			if (
+				!article ||
+				typeof article.path !== "string" ||
+				typeof article.updatedAt !== "string"
+			) {
+				return [];
+			}
+
+			return [
+				{
+					url: `${baseUrl}/${article.path}`,
+					lastmod: new Date(article.updatedAt).toISOString(),
+				},
+			];
+		}),
 	]);
 
 	return new Response(sitemap, {

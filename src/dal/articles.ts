@@ -74,6 +74,15 @@ export type AboutUs = {
 	content: StrapiRichTextBlock[];
 };
 
+function compactData<T>(
+	response: ArticlesResponse<Array<T | null | undefined>>
+): ArticlesResponse<T[]> {
+	return {
+		...response,
+		data: response.data.filter((item): item is T => item != null),
+	};
+}
+
 function buildQuery(params: Record<string, string | undefined>): string {
 	const searchParams = new URLSearchParams();
 
@@ -106,7 +115,7 @@ export function getArticlesPageContent(): Promise<ArticlesResponse<Document<{tit
 export function getArticles(site?: SiteDomain): Promise<
 	ArticlesResponse<Document<ArticleItem>[]>
 > {
-	return fetchJson({
+	return fetchJson<ArticlesResponse<Array<Document<ArticleItem> | null | undefined>>>({
 		url: `${getStrapiBaseUrl()}/api/articles${withSiteFilter(
 			{
 				populate: 'cover',
@@ -114,7 +123,7 @@ export function getArticles(site?: SiteDomain): Promise<
 			},
 			site
 		)}`,
-	});
+	}).then(compactData);
 }
 
 export function getExcludedArticles(): Promise<
@@ -175,7 +184,9 @@ async function getSingleArticle({
 export function getBigboards(site?: SiteDomain): Promise<
 	ArticlesResponse<Document<Bigboard<Document<ArticleShort>>>[]>
 > {
-	return fetchJson({
+	return fetchJson<
+		ArticlesResponse<Array<Document<Bigboard<Document<ArticleShort>>> | null | undefined>>
+	>({
 		url: `${getStrapiBaseUrl()}/api/bigboards${withSiteFilter(
 			{
 				'populate[article][populate][cover]': 'true',
@@ -183,7 +194,7 @@ export function getBigboards(site?: SiteDomain): Promise<
 			},
 			site
 		)}`,
-	});
+	}).then(compactData);
 }
 export function getBigboardsWithTeasers(site?: SiteDomain): Promise<
 	ArticlesResponse<
@@ -195,7 +206,20 @@ export function getBigboardsWithTeasers(site?: SiteDomain): Promise<
 		>[]
 	>
 > {
-	return fetchJson({
+	return fetchJson<
+		ArticlesResponse<
+			Array<
+				| (Document<
+						Bigboard<Document<Article>> & {
+							background: SingleMedia;
+							cover: SingleMedia;
+						}
+					>)
+				| null
+				| undefined
+			>
+		>
+	>({
 		url: `${getStrapiBaseUrl()}/api/bigboards${withSiteFilter(
 			{
 				'populate[background]': 'true',
@@ -204,18 +228,18 @@ export function getBigboardsWithTeasers(site?: SiteDomain): Promise<
 			},
 			site
 		)}`,
-	});
+	}).then(compactData);
 }
 export function getArticleWithWidgetOrder(site?: SiteDomain): Promise<
 	ArticlesResponse<Document<Widget>[]>
 > {
-	return fetchJson({
+	return fetchJson<ArticlesResponse<Array<Document<Widget> | null | undefined>>>({
 		url: `${getStrapiBaseUrl()}/api/widgets${buildQuery({
 			'populate[article][populate][cover]': 'true',
 			'populate[article][populate][coverPreview]': 'true',
 			'filters[article][site]': site,
 		})}`,
-	});
+	}).then(compactData);
 }
 
 export function getAboutUsContent(): Promise<{
